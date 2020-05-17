@@ -1,0 +1,158 @@
+hr{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#registerWrapper{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    height: 80%;
+    padding-top: 7%;
+}
+
+#regDiv{
+    width: 59.5%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-left: 1px solid #cac8c8;
+    float: left;
+}
+
+#regLeft{
+    float: left;
+    width: 40%;
+    height: 100%;
+}
+
+#registerTop {
+    width: 100%;
+    height: 80%;
+    float: left;
+    margin-bottom: 5%;
+}
+
+#registerTop input, select {
+    width: 65%;
+    height: 2.1vw;
+    border-radius: 4px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding-left: 2%;
+    color: #848484;
+    border: none;
+    margin-top: 4%;
+    font-size: 1.1vw;
+    background-color: #e6e2e2;
+}
+
+.regGreeting{
+    line-height: 1.5vw;
+    width: 93%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#regGreetingMain{
+    font-size: 2vw;
+    margin-top: 9%;
+    color: #ffffff;
+}
+
+#registerBottom{
+    width: 100%;
+    height: 20%;
+    float: left;
+}
+
+#registerBottom button {
+    width: 68%;
+    height: 3vw;
+    border: none;
+    border-radius: 6px;
+    color: #eae1e1;
+    font-size: 1.2vw;
+    cursor: pointer;
+}
+
+#registerButton{
+    background-color: #00b548;
+}
+
+#regParentDiv{
+    width: 70%;
+    height: 35vw;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    border: 1px solid #cac8c8;
+}
+
+#regLeftTop {
+    position: relative;
+    width: 100%;
+    height: 5vw;
+    margin-top: 17%;
+    text-align: center;
+    float: left;
+}
+
+#regLeftTop p {
+    color:#ffffff;
+    font-size: 1.7vw;
+
+}
+
+#regLeftTop span {
+    font-size: 1.3vw;
+    color: #eae1e1;
+    line-height: 2.5vw;
+}
+
+#regLeftMiddle{
+    float: left;
+    width: 100%;
+    margin-top: 2vw;
+    height: 12vw;
+}
+
+#regLeftMiddle p{
+    font-size: 1.1vw;
+    color: #eae1e1;
+    text-align: justify;
+    padding: 2% 5% 2% 5%;
+}
+
+#regLeftBottom{
+    float: left;
+    width: 100%;
+    position: relative;
+    top: 4.8vw;
+    height: 6vw;
+}
+
+#regLeftBottom p{
+    padding-bottom: 1vw;
+    color: #eae1e1;
+    font-size: 1.2vw;
+}
+
+#regLeftBottom button {
+    width: 52%;
+    height: 2.5vw;
+    border: none;
+    border-radius: 6px;
+    color: #eae1e1;
+    font-size: 1.2vw;
+    cursor: pointer;
+    background-color: #c37b00;
+}
+
+#regUserType{
+    width: 67%;
+    padding-left: 1%;
+}

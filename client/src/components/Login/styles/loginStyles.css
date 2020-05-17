@@ -1,0 +1,94 @@
+#loginWrapper{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    height: 80%;
+    padding-top: 8%;
+}
+
+#loginDiv{
+    width: 37%;
+    height: 84%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    border: 1px solid #cac8c8;
+}
+
+#loginTop{
+    width: 100%;
+    height: 65%;
+    float: left;
+}
+
+#loginBottom{
+    width: 100%;
+    height: 35%;
+    float: left;
+}
+
+#loginTop input {
+    width: 65%;
+    height: 3vw;
+    border-radius: 4px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding-left: 2%;
+    color: #848484;
+    border: none;
+    margin-top: 4%;
+    font-size: 1.1vw;
+    background-color: #e6e2e2;
+}
+
+#loginBottom button {
+    width: 68%;
+    height: 3vw;
+    border: none;
+    border-radius: 6px;
+    color: #eae1e1;
+    font-size: 1.2vw;
+    cursor: pointer;
+}
+
+#regButton{
+    background-color: #c37b00;
+}
+
+#loginButton{
+    background-color: #00b548;
+}
+
+/*#loginButton :hover{*/
+    /*!*background-color: #00772f;*!*/
+/*}*/
+
+.loginGreeting{
+
+    line-height: 1.5vw;
+    width: 93%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#loginGreetingMain{
+    font-size: 2vw;
+    margin-top: 9%;
+    color: #ffffff;
+}
+
+#loginGreetingSub{
+    font-size: 1.2vw;
+    margin-top: 4%;
+    margin-bottom: 3%;
+    color: #eae1e1;
+}
+
+#regRequester{
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    color: #f7e6e6;
+    font-size: 1vw;
+}
