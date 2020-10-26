@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import {connect } from 'react-redux';
-import './styles/authStyles.css';
+import './authStyles.css';
 import Login from '../Login/login';
-import Register from '../Register/Register';
+import Register from '../Register/regProvider';
 
 class Auth extends Component {
 
@@ -17,7 +17,7 @@ class Auth extends Component {
                         :
                         <Login/>
                 }
-                {/**/}
+              
 
             </div>
         );

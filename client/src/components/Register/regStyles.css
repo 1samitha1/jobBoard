@@ -4,6 +4,13 @@ hr{
     margin-right: auto;
 }
 
+#regWrapper{
+    width: 100%;
+    height: 46.5vw;
+    background-color:#016aa4;
+
+}
+
 #registerWrapper{
     width: 80%;
     margin-left: auto;

@@ -13,7 +13,6 @@ import {fetchObj} from './fetchConfig'
     // })
 
 async function login(data) {
-    console.log('xxxxx fetchReq login')
     const apiObject = fetchObj.fetchRequest('/login',{
         method: 'POST',
         headers: {

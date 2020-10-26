@@ -1,5 +1,4 @@
 export const OPEN_REGISTER_COMPONENT = 'OPEN_REGISTER_COMPONENT';
-export const BACK_TO_LOGIN = 'BACK_TO_LOGIN';
 
 const openRegisterComponent = () => {
     return {
@@ -7,11 +6,6 @@ const openRegisterComponent = () => {
     }
 };
 
-const backToLogin = () => {
-    return {
-        type : BACK_TO_LOGIN
-    }
-};
 
 
 
@@ -19,5 +13,4 @@ const backToLogin = () => {
 
 export  {
     openRegisterComponent,
-    backToLogin
 }

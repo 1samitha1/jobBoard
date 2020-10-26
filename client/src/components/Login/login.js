@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import {connect } from 'react-redux';
-import {openRegisterComponent} from '../../actions/register'
-import './styles/loginStyles.css';
-import {userLogin} from '../../actions/login'
+import {openRegisterComponent} from '../../actions/register';
+import './loginStyles.css';
+import {userLogin} from '../../actions/login';
+import {Link} from 'react-router-dom';
 
 class Login extends Component {
+
+    constructor(props) {
+        super(props);
+       this.state = {
+           email : "",
+           password : ""
+       }
+    }
 
     openRegisterComponent(){
         this.props.openRegisterComponent()
@@ -26,6 +35,21 @@ class Login extends Component {
         this.props.userLogin()
     }
 
+    inputOnChange(evt){
+        if(evt){
+            if(evt.target.id === "email"){
+                this.setState({
+                    email : evt.target.value
+                })
+            }else {
+                this.setState({
+                    password : evt.target.value
+                })
+            }
+        }
+
+    }
+
     render() {
         return (
             <div id="loginWrapper">
@@ -33,19 +57,23 @@ class Login extends Component {
                     <div id="loginTop">
                         <p className="loginGreeting" id="loginGreetingMain">Hello!</p>
                         <p className="loginGreeting" id="loginGreetingSub">Please enter your registered
-                            username and password to login</p>
+                            email and password to login</p>
                         <div>
-                            <input type="text" placeholder="User Name"/>
+                            <input onChange={this.inputOnChange.bind(this)} id="email"
+                                   value={this.state.email} type="text" placeholder="Email"/>
                         </div>
                         <div>
-                            <input type="password" placeholder="Password"/>
+                            <input onChange={this.inputOnChange.bind(this)} id="password"
+                                   value={this.state.password} type="password" placeholder="Password"/>
                         </div>
                     </div>
 
                     <div id="loginBottom">
                         <button onClick={this.login.bind(this)} id="loginButton">Login</button>
                         <p id="regRequester">Don't have an account? </p>
-                        <button onClick={this.openRegisterComponent.bind(this)} id="regButton">Register Now</button>
+                        <Link to="/register">
+                            <button onClick={this.openRegisterComponent.bind(this)} id="regButton">Register Now</button>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -64,11 +92,11 @@ const mapStateToProps = (state) => ({
 });
 
 const dispatchToProps = (dispatch) => ({
-    openRegisterComponent : () => {
+    openRegisterComponent: () => {
         dispatch(openRegisterComponent())
     },
 
-    userLogin : () => {
+    userLogin: (data) => {
         dispatch(userLogin())
     }
 });
