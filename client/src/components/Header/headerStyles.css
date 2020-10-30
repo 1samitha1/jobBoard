@@ -1,0 +1,48 @@
+#headerWrapper{
+    width: 100%;
+    
+    height: 100%;
+    position: relative;
+    border-bottom: 1px solid black;
+}
+
+#headerLeft{
+    position: relative;
+    float: left;
+    width: 75%;
+    height: 100%;
+}
+
+#headerRight{
+    position: relative;
+    float: left;
+    width: 25%;
+    height: 100%;
+   
+}
+
+.headerActionBtns{
+    width: 55%;
+    height: 100%;
+    float: right;
+}
+
+#headerIcons{
+    width: 29%;
+    float: right;
+    height: 100%;
+}
+
+.headerIconRight{
+    width: 37%;
+    float: left;
+    margin-right: 3%;
+    transform: translateY(10%);
+    margin-left: 2%;
+}
+
+.iconHeader{
+    width: 100%;
+    cursor:pointer;
+}
+

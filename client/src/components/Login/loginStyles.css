@@ -1,25 +1,32 @@
 #loginWrapper{
-    width: 80%;
+    width: 100%;
+    height: 100%;
+    background-color:#016aa4;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    height: 80%;
-    padding-top: 8%;
+    float: left;
 }
 
 #loginDiv{
-    width: 37%;
+    width: 30%;
     height: 84%;
     margin-left: auto;
     margin-right: auto;
     border-radius: 10px;
     border: 1px solid #cac8c8;
+    margin-top: 52px;
 }
 
 #loginTop{
     width: 100%;
     height: 65%;
     float: left;
+}
+
+#loginTopText{
+    width: 100%;
+    height: 30%;
 }
 
 #loginBottom{

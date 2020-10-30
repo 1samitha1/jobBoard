@@ -55,9 +55,11 @@ class Login extends Component {
             <div id="loginWrapper">
                 <div id="loginDiv">
                     <div id="loginTop">
-                        <p className="loginGreeting" id="loginGreetingMain">Hello!</p>
-                        <p className="loginGreeting" id="loginGreetingSub">Please enter your registered
-                            email and password to login</p>
+                        <div id="loginTopText">
+                            <p className="loginGreeting" id="loginGreetingMain">Hello!</p>
+                            <p className="loginGreeting" id="loginGreetingSub">Please enter your registered
+                                email and password to login</p>
+                        </div>    
                         <div>
                             <input onChange={this.inputOnChange.bind(this)} id="email"
                                    value={this.state.email} type="text" placeholder="Email"/>
