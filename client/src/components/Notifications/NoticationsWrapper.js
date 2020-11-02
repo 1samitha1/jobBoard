@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect } from 'react-redux';
 import './notificationsStyles.css';
 import '../commons/commonStyles.css'
-import allNotifications from './allNotifications'
+import AllNotifications from './allNotifications'
 
 
 
@@ -15,7 +15,7 @@ class NotificationsWrapper extends Component {
         return (
             <div id="notificationsWrapper">
                 
-                {allNotifications}
+                <AllNotifications />
 
             </div>
         );

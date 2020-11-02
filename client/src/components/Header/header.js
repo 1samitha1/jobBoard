@@ -11,7 +11,8 @@ import dropDownIcon from '../../../src/img/dropDown.png';
 class Header extends Component {
 
     showNotificationWrapper(){
-        this.props.showNotificationWrapper()
+        console.log('xxxx 1 showNotificationWrapper')
+        this.props.showNotificationWrapper();
     }
 
     render() {
@@ -19,7 +20,7 @@ class Header extends Component {
         return (
             <div id="headerWrapper">
                 <div id="headerLeft">
-                    <p>Welcome back Samitha!</p>
+                    <p className="greetingsText">Welcome back Samitha!</p>
                 </div>
                 <div id="headerRight">
                     {/* <div className="headerActionBtns">
@@ -30,7 +31,7 @@ class Header extends Component {
                    
                     <div id="headerIcons">
                         <div class="headerIconRight">
-                            <img onClick={showNotificationWrapper} className="iconHeader" src={notificationIcon}></img>
+                            <img onClick={this.showNotificationWrapper.bind(this)} className="iconHeader" src={notificationIcon}></img>
                         </div>
                         <div class="headerIconRight">
                             <img className="iconHeader" src={dropDownIcon}></img>
@@ -55,7 +56,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     showNotificationWrapper : () => {
-        showNotificationWrapper()
+        dispatch(showNotificationWrapper());
     }
 });
 

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import {connect } from 'react-redux';
 import './notificationsStyles.css';
 import '../commons/commonStyles.css'
+import {closeNotificationWrapper} from '../../actions/notifications.js';
+import closeIcon from '../../../src/img/close.png';
 
 class allNotifications extends Component {
 
@@ -10,15 +12,20 @@ class allNotifications extends Component {
        
         return (
             <div id="allNotificationsWrapper">
-                
-
+                <div id="allNotifiHeader">
+                    <p>Notifications</p>
+                    <img onClick={this.props.closeNotificationWrapper} className="closeWindow" src={closeIcon}></img>
+                </div>
+                <div id="allNotifications">
+                    
+                </div>
             </div>
         );
     }
 }
 
 const propTypes = {
-   
+    closeNotificationWrapper: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -27,7 +34,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
+    closeNotificationWrapper: () => {
+        dispatch(closeNotificationWrapper())
+    }
 });
 
 export default connect(

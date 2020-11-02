@@ -8,13 +8,13 @@
 
 #homeHeader{
     width: 100%;
-    height: 8%;
+    height: 10%;
     float: left;
 }
 
 #homeArea{
     width: 100%;
-    height: 92%;
+    height: 90%;
     float: left;
     
 }
@@ -23,24 +23,161 @@
     float: left;
     width: 25%;
     height: 100%;
-    border-right: 1px solid black;
+    box-shadow: 0 6px 4px 4px #e8e3e3;
 }
 
 #homeDisplay{
     float: left;
-    width: 74%;
+    width: 75%;
     height: 100%;
-    background-color: aquamarine;
+    
 }
 
 #homeDisplayTop{
     width:100%;
     height:8%;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #e6e6e6;
 }
 
 .resultCount{
     float: right;
     margin-right: 2%;
-    transform: translateY(60%);
+    transform: translateY(84%);
+}
+
+.curruntDate{
+    float: right;
+    margin-left: 2%;
+    -webkit-transform: translateY(60%);
+    -ms-transform: translateY(60%);
+    transform: translateY(84%);
+    float: left;
+}
+
+#profileImg{
+    width: 66%;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    height: 14vw;
+    margin-top: 12%;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(46, 50, 50, 0.89);
+    -moz-box-shadow:    0px 0px 5px 0px rgba(46, 50, 50, 0.89);
+    box-shadow:         0px 0px 5px 0px rgba(46, 50, 50, 0.89);
+}
+
+#IndustryTrendings{
+    width: 76%;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15%;
+    margin-bottom: 10%;
+}
+
+#IndustryTrendings p{
+    text-align: center;
+    margin-top: 8%;
+    margin-bottom: 2%;
+    font-family: sans-serif;
+    cursor: pointer;
+    border: 1px solid #b9afaf;
+    padding: 2%;
+    border-radius: 8px;
+}
+
+#IndustryTrendings p:hover{
+    color:#1488a2
+}
+
+.userImgInHome{
+    width:100%;
+    height: 100%;
+    margin-bottom: 7%;
+}
+
+#profileImg p{
+    text-align: center;
+    margin-top: 8%;
+    margin-bottom: 2%;
+    font-family: sans-serif;
+    cursor: pointer;
+    border: 1px solid #b9afaf;
+    padding: 2%;
+    border-radius: 8px;
+}
+
+#profileImg p:hover{
+    color:#1488a2
+}
+
+.logoutLink:hover{
+    color:#C80404 !important;
+}
+
+#searchCriteria{
+    width:100%;
+    height:18%;
+    float: left;
+    position: relative;
+    box-shadow: 0 6px 5px -2px #e8e3e3;
+}
+
+.searchInput{
+    font-size: 16px;
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 24%;
+    float: left;
+    margin: 3%;
+}
+
+.jobType{
+    width: 13%;
+    height: 3vw;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    margin-top: 3%;
+    margin-right: 2%;
+    font-size: 16px;
+    border-radius: 6px;
+}
+
+.industry{
+    width: 25%;
+    height: 3vw;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    margin-top: 3%;
+    margin-right: 2%;
+    font-size: 16px;
+    border-radius: 6px;
+}
+
+#searchJobsBtn{
+    width: 13%;
+    height: 3vw;
+    background-color: #00b548;
+    border: 1px solid #ffffff;
+    margin-top: 3%;
+    margin-right: 2%;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor:pointer;
+    color:#ffffff;
+}
+
+#searchResultsWrapper{
+    float: left;
+    position: relative;
+    width: 95%;
+    height: 66%;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translate(3%, 6%);
+    overflow-y: scroll;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
 }

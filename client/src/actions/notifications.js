@@ -1,8 +1,16 @@
- export const SHOW_NOTIFICATIONS_WRAPPER = 'SHOW_NOTIFICATIONS_WRAPPER';
+ export const SHOW_HIDE_NOTIFICATIONS_WRAPPER = 'SHOW_NOTIFICATIONS_WRAPPER';
+
+
 
 const showNotificationWrapper = () => {
     return {
-        type : SHOW_NOTIFICATIONS_WRAPPER
+        type : SHOW_HIDE_NOTIFICATIONS_WRAPPER
+    }
+};
+
+const closeNotificationWrapper = () => {
+    return {
+        type : SHOW_HIDE_NOTIFICATIONS_WRAPPER
     }
 };
 
@@ -10,4 +18,5 @@ const showNotificationWrapper = () => {
 
 export  {
     showNotificationWrapper,
+    closeNotificationWrapper
 }
