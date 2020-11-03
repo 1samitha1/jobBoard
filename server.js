@@ -2,24 +2,26 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const Router = require('./routes/router');
+const Users = require('./routes/users');
 const passport = require('passport');
 const mongoose = require('mongoose');
 
-// mongoose.connect('mongodb://127.0.0.1:27017/jobBoard', {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true
-// });
+mongoose.connect('mongodb://127.0.0.1:27017/jobBoard', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
-// let db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'Mongodb connection error:'));
-// db.once('open', () => {
-//     console.log('Mongodb connection successful for jobBoard ');
-// });
+let db = mongoose.connection;
+db.on('error', console.error.bind(console, 'Mongodb connection error:'));
+db.once('open', () => {
+    console.log('Mongodb connection successful for jobBoard ');
+});
 
 
 app.use(bodyParser.json());
- // app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 app.use('/', Router);
+app.use('/users', Users);
 app.use(passport.initialize());
 app.use(passport.session());
 

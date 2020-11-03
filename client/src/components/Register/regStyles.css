@@ -1,17 +1,83 @@
-hr{
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-}
 
 #regWrapper{
     width: 100%;
-    height: 46.5vw;
-    background-color:#016aa4;
+    height: 100%;
+    background-image: url('../../img/bgOfficeBlur.jpg');
+    /* background-image: url('../../img/bgWork.jpg'); */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: right;
+    float: left;
 
 }
 
-#registerWrapper{
+
+#regDiv{
+    width: 57%;
+    height: 77%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #ffffff;
+    background-color: #00000052;
+    border-radius: 9px;
+    margin-top: 5%;
+}
+
+#regDiv h2{
+    margin-left: auto;
+    margin-right: auto;
+    color:#ffffff; 
+    text-align: center;
+    font-size: 25px;
+    margin-top: 2%;;
+}
+
+#regDiv input {
+    width: 41%;
+    height: 3vw;
+    border-radius: 4px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding-left: 2%;
+    color: #848484;
+    border: none;
+    margin: 3% 3% 3% 5%;
+    font-size: 1.1vw;
+    background-color: #e6e2e2;
+    float: left;
+}
+
+#regDiv select{
+    margin-top: 3%;
+    margin-left: 5%;
+    width: 41%;
+    height: 3vw;
+    border-radius: 4px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding-left: 2%;
+    color: #848484;
+    border: none;
+    margin: 3% 3% 3% 5%;
+    font-size: 1.1vw;
+    background-color: #e6e2e2;
+    float: left;
+}
+
+.regFormRow{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 14%;
+    /* display: list-item; */
+}
+
+.regFormRow button{
+    margin-top: 8%;
+    padding-top: 3%;
+}
+
+/* #registerWrapper{
     width: 80%;
     margin-left: auto;
     margin-right: auto;
@@ -162,4 +228,4 @@ hr{
 #regUserType{
     width: 67%;
     padding-left: 1%;
-}
+} */
