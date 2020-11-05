@@ -11,7 +11,7 @@ class Login extends Component {
     constructor(props) {
         super(props);
        this.state = {
-           email : "",
+           userName : "",
            password : ""
        }
     }
@@ -21,25 +21,19 @@ class Login extends Component {
     }
 
     login(){
-        // const response = fetch('/login', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Accept': 'application/json'
-        //     },
-        //     body: JSON.stringify({name : "some thing"})
-        // }).then((res) => res.json())
-        //     .then((data) => console.log("vvvvvv response : ", data))
-        //     .catch((err) => console.log(err))
-
-        this.props.userLogin()
+        if(this.state.userName !== '' && this.state.password !== ''){
+            this.props.userLogin({
+                userName : this.state.userName,
+                password : this.state.password
+            })
+        }
     }
 
     inputOnChange(evt){
         if(evt){
-            if(evt.target.id === "email"){
+            if(evt.target.id === "userName"){
                 this.setState({
-                    email : evt.target.value
+                    userName : evt.target.value
                 })
             }else {
                 this.setState({
@@ -58,11 +52,11 @@ class Login extends Component {
                         <div id="loginTopText">
                             <p className="loginGreeting" id="loginGreetingMain">Hello!</p>
                             <p className="loginGreeting" id="loginGreetingSub">Please enter your registered
-                                email and password to login</p>
+                            user name and password to login</p>
                         </div>    
                         <div>
-                            <input onChange={this.inputOnChange.bind(this)} id="email"
-                                   value={this.state.email} type="text" placeholder="Email"/>
+                            <input onChange={this.inputOnChange.bind(this)} id="userName"
+                                   value={this.state.userName} type="text" placeholder="User name"/>
                         </div>
                         <div>
                             <input onChange={this.inputOnChange.bind(this)} id="password"
@@ -99,7 +93,7 @@ const dispatchToProps = (dispatch) => ({
     },
 
     userLogin: (data) => {
-        dispatch(userLogin())
+        dispatch(userLogin(data))
     }
 });
 

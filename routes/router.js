@@ -11,4 +11,10 @@ router.post('/login', (req, res) => {
     res.send({res: "app Login called"})
 });
 
+router.post('/test', (req, res) => {
+    console.log('vvv test route called ');
+    console.log('vvv test route called body : ',req.body);
+    res.send({res: "app Login called"})
+});
+
 module.exports = router;

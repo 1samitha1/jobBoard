@@ -6,6 +6,8 @@ import RegProvider from './components/Register/regProvider';
 import NotFound from './components/Errors/notFound';
 import Login from './components/Login/login';
 import {Route, Switch, BrowserRouter} from 'react-router-dom';
+// import axios from 'axios';
+// axios.defaults.baseURL = 'http://localhost:5000/'
 
 class App extends Component {
 
