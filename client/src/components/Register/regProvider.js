@@ -26,7 +26,6 @@ class RegProvider extends Component {
     handleFieldChange(evt){
         if(evt && evt.target.id) {
             this.setState({ [evt.target.id]: evt.target.value });
-            
         }
     }
 
@@ -36,8 +35,12 @@ class RegProvider extends Component {
             if(data.companyName !=="" || data.companyEmail !==""){
                 if(data.password === data.passwordConf){
                     this.props.registerNewUser(data)
+                }else{
+                    // password confirmation should match
                 }
                 
+            }else{
+                // required
             }
         }
     }

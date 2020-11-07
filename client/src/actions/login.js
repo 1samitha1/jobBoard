@@ -1,29 +1,46 @@
 import fetchRequests from '../routes/fetchServer';
+//import axios from 'axios';
+import Toastr from 'toastr';
+Toastr.options.closeButton = true;
+Toastr.options.preventDuplicates = true;
+
 // export const REMINDER_LIST_FOR_COMPANY = "REMINDER_LIST_FOR_COMPANY";
 
 const userLogin = (data) => {
+    return () => {
+        // axios({
+        //     method: "POST",
+        //     data: data,
+        //     withCredentials: true,
+        //     credentials: "same-origin",
+        //     url:'/user/login',
+            
+        // }).then((res) => {
+        //     console.log('xxxx --- response.authenticatedUser : ', res)
+        // })
 
-    fetch('/user/login',{
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8'
-        },
-        body: JSON.stringify(data)
-
-     }).then(
-        response => response.json(), 
-        error => console.log('An error occurred while fetching : ', error)
-      ).then((res) => {
-        console.log('xxxxxxx result : ', res)
-        
-      });
-    
-        return {
-            type : "test"
-        }
-  
-
+        fetch('/user/login',{
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+                
+            },
+            body: JSON.stringify(data)
+            
+         }).then(
+            response => response.json(), 
+            error => console.log('An error occurred while fetching for login : ', error)
+          ).then((res) => {
+                if(res && res.success){
+                    delete res.authenticatedUser.password;
+                    Toastr.success(res.msg);
+                    localStorage.setItem('authenticatedUser', JSON.stringify(res.authenticatedUser))
+                    // window.location.href = "http://localhost:3000/";
+                }
+          });
+    }
 };
 
 export {

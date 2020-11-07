@@ -56,7 +56,7 @@ class Login extends Component {
                         </div>    
                         <div>
                             <input onChange={this.inputOnChange.bind(this)} id="userName"
-                                   value={this.state.userName} type="text" placeholder="User name"/>
+                                   value={this.state.userName} type="text" placeholder="User Name"/>
                         </div>
                         <div>
                             <input onChange={this.inputOnChange.bind(this)} id="password"

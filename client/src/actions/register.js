@@ -1,6 +1,9 @@
 import fetchRequests from '../routes/fetchServer';
 import axios from 'axios';
 export const OPEN_REGISTER_COMPONENT = 'OPEN_REGISTER_COMPONENT';
+// import Toastr from 'toastr';
+// Toastr.options.closeButton = true;
+// Toastr.options.preventDuplicates = true;
 
 const openRegisterComponent = () => {
     return {
@@ -34,9 +37,15 @@ const registerNewUser = (userData) => {
     
          }).then(
             response => response.json(), 
-            error => console.log('An error occurred while fetching : ', error)
+            error => console.log('An error occurred while fetching for register : ', error)
           ).then((res) => {
             console.log('xxxxxxx result : ', res)
+            if(res.success){
+                //Toastr.success(res.msg);
+                this.history.pushState(null, '/login');
+            }else{
+                //Toastr.fail(res.error);
+            }
             
           });
     }
