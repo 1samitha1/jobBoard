@@ -4,13 +4,19 @@
     position: relative;
     margin-left: auto;
     margin-right: auto;
+    background-image: url('../../img/bgOfficeBlur.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-color: #00000052;
 }
 
 #homeHeader{
     width: 100%;
     height: 10%;
     float: left;
-    background-color: #097dbd;
+    background-color: #10232d59;
+    color: #ffffff;
 }
 
 #homeArea{
@@ -24,20 +30,31 @@
     float: left;
     width: 25%;
     height: 100%;
-    box-shadow: 0 6px 4px 4px #e8e3e3;
+    box-shadow: 0 6px 3px 1px #e8e3e3;
+    background-color: #00000052;
+    border: 1px solid #ffffff;
+    padding-bottom: 2.2%;
 }
 
 #homeDisplay{
     float: left;
     width: 75%;
     height: 100%;
-    
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    border-bottom: 0;
+    /* background-color: #00000052; */
+}
+
+#resultWrapperTop{
+    float: left;
+    width: 100%;
+    height: 30%;
 }
 
 #homeDisplayTop{
     width:100%;
-    height:8%;
-    border-bottom: 1px solid #e6e6e6;
+    height:30%;
 }
 
 .resultCount{
@@ -60,11 +77,11 @@
     position: relative;
     margin-left: auto;
     margin-right: auto;
-    height: 14vw;
+    height: 100%;
     margin-top: 12%;
-    -webkit-box-shadow: 0px 0px 5px 0px rgba(46, 50, 50, 0.89);
+    /* -webkit-box-shadow: 0px 0px 5px 0px rgba(46, 50, 50, 0.89);
     -moz-box-shadow:    0px 0px 5px 0px rgba(46, 50, 50, 0.89);
-    box-shadow:         0px 0px 5px 0px rgba(46, 50, 50, 0.89);
+    box-shadow:         0px 0px 5px 0px rgba(46, 50, 50, 0.89); */
 }
 
 #IndustryTrendings{
@@ -73,7 +90,14 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 15%;
-    margin-bottom: 10%;
+    margin-bottom: 13%;
+    height: 100%;
+}
+
+#IndustryTrendings h2{
+    color: #ffffff;
+    font-size: 22px;
+    text-align: center;
 }
 
 #IndustryTrendings p{
@@ -82,9 +106,10 @@
     margin-bottom: 2%;
     font-family: sans-serif;
     cursor: pointer;
-    border: 1px solid #b9afaf;
+    border: 1px solid #f7f3f3;
     padding: 2%;
     border-radius: 8px;
+    color: #ffffff;
 }
 
 #IndustryTrendings p:hover{
@@ -92,12 +117,20 @@
 }
 
 .userImgInHome{
-    width:100%;
+    width: 100%;
     height: 100%;
-    margin-bottom: 7%;
+    margin-bottom: 4%;
+    border: 1px solid #ffffff;
+    border-radius: 7px;
+    padding: 3% 3% 3% 3%;
 }
 
-#profileImg p{
+#user_name{
+    color:#ffffff;
+    text-align: center; 
+}
+
+.actions{
     text-align: center;
     margin-top: 8%;
     margin-bottom: 2%;
@@ -106,9 +139,11 @@
     border: 1px solid #b9afaf;
     padding: 2%;
     border-radius: 8px;
+    color:#ffffff;
+    font-size: 18px;
 }
 
-#profileImg p:hover{
+.actions:hover{
     color:#1488a2
 }
 
@@ -118,7 +153,7 @@
 
 #searchCriteria{
     width:100%;
-    height:18%;
+    height:69%;
     float: left;
     position: relative;
     box-shadow: 0 6px 5px -2px #e8e3e3;
@@ -173,12 +208,23 @@
 #searchResultsWrapper{
     float: left;
     position: relative;
-    width: 95%;
-    height: 66%;
+    width: 100%;
+    height: 69%;
     margin-left: auto;
     margin-right: auto;
-    transform: translate(3%, 6%);
-    overflow-y: scroll;
-    border: 1px solid #e6e6e6;
     border-radius: 4px;
+}
+
+#searchresultsDiv{
+    width: 95%;
+    height: 27vw;
+    background-color: red;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3%;
+    overflow-y: scroll;
+    margin-bottom: 2%;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    background-color: #00000052;
 }

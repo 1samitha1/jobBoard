@@ -1,17 +1,15 @@
 const LocalStrategy = require('passport-local').Strategy;
-const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 //User schema model
 const User = require('../schemas/user');
 
 module.exports = function(passport){
-    passport.use(
-        new LocalStrategy({userNameField: 'userName'}, (userName, password, done)=>{
+    passport.use(new LocalStrategy({usernameField: 'userName'}, (userName, password, done)=>{
+            
             User.findOne({userName : userName})
-            .then((user) => {
-                if (err) { return done(err); }
-
+            .then(user => {
+            
                 if (!user) {
                     return done(null, false, { message: 'Username is Inccorrect' });
                 }
@@ -31,13 +29,15 @@ module.exports = function(passport){
             }).catch(err => console.log("error in passport config : ",err));
         })
     );
-
+    
     passport.serializeUser((user, done) => {
         done(null, user.id);
       });
       
       passport.deserializeUser((id, done) => {
         User.findById(id, (err, user) => {
+            // delete user.password;
+            console.log(' deserializeUser nnnn user : ', user)
           done(err, user);
         });
       });

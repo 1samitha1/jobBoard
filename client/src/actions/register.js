@@ -14,42 +14,22 @@ const openRegisterComponent = () => {
 const registerNewUser = (userData) => {
     return () => {
         let industries = [];
-        industries.push(userData.industry)
-        let userObj = {
-            companyName : userData.companyName,
-            userName : userData.userName,
-            email : userData.email,
-            phone : userData.phone,
-            password : userData.password,
-            industries : industries,
-            website: userData.website,
-            userType: userData.userType
-        }
-        // axios.post('/user/register', userData)
-    
-        fetch('/user/register',{
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json;charset=UTF-8'
-            },
-            body: JSON.stringify(userObj)
-    
-         }).then(
-            response => response.json(), 
-            error => console.log('An error occurred while fetching for register : ', error)
-          ).then((res) => {
-            console.log('xxxxxxx result : ', res)
-            if(res.success){
-                //Toastr.success(res.msg);
-                this.history.pushState(null, '/login');
-            }else{
-                //Toastr.fail(res.error);
+        industries.push(userData.industry);
+        delete userData.industry
+        userData.industries = industries;
+        let userObj = userData;
+        
+        axios.post('/user/register',
+            userObj, {
+            withCredentials: true,
+            credentials: "same-origin", 
+        }).then((res) => {
+            if(res && res.data && res.data.success){
+                console.log('xxxx --- response.logoutUser : ', res.data)
+                window.location.href = "http://localhost:3000/login";
             }
-            
-          });
+        })
     }
-    
 };
 
 

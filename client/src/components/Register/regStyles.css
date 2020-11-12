@@ -77,6 +77,46 @@
     padding-top: 3%;
 }
 
+#actions{
+    float: left;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 7%;
+    cursor: pointer;
+}
+
+.btnAction1 {
+    margin: 0% 4% 4% 24%;
+    float: right;
+    padding: 7px;
+    background-color: #00b548d9;
+    border-radius: 9px;
+    border: 0;
+    color:#ffffff
+}
+
+.btnAction2 {
+    margin: 0% 16% 1% 4%;
+    float: right;
+    padding: 7px;
+    background-color: #af7006fa;
+    border-radius: 9px;
+    border: 0;
+    color:#ffffff
+}
+
+.btnAction1:hover {
+    background-color: #00b5484f;
+    border: 1px solid #eae1e1;
+}
+
+.btnAction2:hover {
+    background-color: #c37b0057;
+    border: 1px solid #eae1e1;
+}
+
 /* #registerWrapper{
     width: 80%;
     margin-left: auto;

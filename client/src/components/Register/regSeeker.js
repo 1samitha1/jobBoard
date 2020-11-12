@@ -11,40 +11,28 @@ class RegProvider extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            companyName : "",
-            website : "",
+            firstName : "",
+            lastName : "",
             userName : "",
-            companyEmail : "",
+            email : "",
             password : "",
             passwordConf : "",
-            primaryIndustry: "",
-            companyPhone: ""
+            industry: "",
+            phone: ""
 
         }
     }
 
     handleFieldChange(evt){
         if(evt && evt.target.id) {
-            //this.validateData(evt.target);
             this.setState({ [evt.target.id]: evt.target.value });
         }
     }
 
-    validateData(data){
-        if(data.id === "email"){
-            let emailRegex = "/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i"
-            if(data.value){
-                if(data.value.match(emailRegex)){
-                    
-                }
-            }
-        } 
-    }
-
     registerNewUser(data) {
         if(data){
-            data.userType = "provider";
-            if(data.companyName !=="" || data.companyEmail !==""){
+            data.userType = "seeker";
+            if(data.firstName !=="" || data.userName !=="" || data.enail !==""){
                 if(data.password === data.passwordConf){
                     this.props.registerNewUser(data)
                 }else{
@@ -62,18 +50,18 @@ class RegProvider extends Component {
         return (
             <div id="regWrapper">
                 <div id="regDiv">
-                    <h2>Register as a Job Provider</h2>
-                <form>   
+                    <h2>Register as a Job Seeker</h2>
+                 <form> 
                     <div className="regFormRow">
-                        <input id="companyName" type="text"
+                        <input id="firstName" type="text"
                             onChange={this.handleFieldChange.bind(this)}
-                            value={this.state.companyName}
-                            placeholder="Company Name" required/>
+                            value={this.state.firstName}
+                            placeholder="First Name" required/>
 
-                        <input id="website" type="text"
+                        <input id="lastName" type="text"
                             onChange={this.handleFieldChange.bind(this)}
-                            value={this.state.website}
-                            placeholder="Website"/>                   
+                            value={this.state.lastName}
+                            placeholder="Last Name"/>                   
                     </div>
 
                     <div className="regFormRow">
@@ -82,10 +70,10 @@ class RegProvider extends Component {
                             value={this.state.userName}
                             placeholder="User Name" required/>
 
-                        <input id="companyEmail" type="email"
+                        <input id="email" type="text"
                             onChange={this.handleFieldChange.bind(this)}
-                            value={this.state.companyEmail}
-                            placeholder="Company E-mail"/>                   
+                            value={this.state.email}
+                            placeholder="E-mail"/>                   
                     </div>
 
                     <div className="regFormRow">
@@ -101,15 +89,15 @@ class RegProvider extends Component {
                     </div>
 
                     <div className="regFormRow">
-                        <input id="companyPhone" type="text"
+                        <input id="phone" type="text"
                             onChange={this.handleFieldChange.bind(this)}
-                            value={this.state.companyPhone}
-                            placeholder="Company Phone" required/>
+                            value={this.state.phone}
+                            placeholder="Phone No:" required/>
 
-                        <select id="primaryIndustry" type="text"
-                            value={this.state.primaryIndustry} required
+                        <select id="industry" type="text"
+                            value={this.state.industry} required
                             onChange={this.handleFieldChange.bind(this)}>
-                                <option value=""> Select Primary Industry</option>
+                                <option value=""> Select Industry</option>
                                 <option value="accounting"> Accounting</option>
                                 <option value="ITComputing"> IT & computing</option>
                         </select>              
@@ -117,17 +105,17 @@ class RegProvider extends Component {
 
                     <div id="actions" >
                     <submit className="btnAction2" onClick={() => this.registerNewUser({
-                            companyName : this.state.companyName,
-                            website : this.state.website,
+                            firstName : this.state.firstName,
+                            lastName : this.state.lastName,
                             userName : this.state.userName,
-                            email : this.state.companyEmail,
-                            phone : this.state.companyPhone,
-                            industry : this.state.primaryIndustry,
+                            email : this.state.email,
+                            phone : this.state.phone,
+                            industry : this.state.industry,
                             password : this.state.password,
                             passwordConf : this.state.passwordConf,
                         })}
                             id="registerButton"> Register Now </submit>
-                            
+
                         <Link to="/login">
                             <button className="btnAction1">
                                 Back to Login
@@ -136,8 +124,9 @@ class RegProvider extends Component {
 
                         
                     </div>
-                </form> 
+                </form>  
                 </div>
+                
             </div>
         );
     }

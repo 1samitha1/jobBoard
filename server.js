@@ -7,12 +7,10 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
 
-// cross origin request support
-app.use(cors())
 
-// passport config
-require('./configs/passport')(passport);
 
 // DB connection
 mongoose.connect('mongodb://127.0.0.1:27017/jobBoard', {
@@ -27,27 +25,37 @@ db.once('open', () => {
 });
 
 // Support for JSON data
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// cross origin request support
+app.use(cors({
+    origin : "http://localhost:3000", // for the React app in client side
+    credentials: true
+}))
 
 // express session
 app.use(session({
-    secret: 'keyboard cat',
+    secret: 'secret',
     resave: true,
     saveUninitialized: true
   }));
+
+// cookie-parser
+app.use(cookieParser("secret"));  
 
 // passport auth
 app.use(passport.initialize());
 app.use(passport.session()); 
 
+// passport config
+require('./configs/passport')(passport);
+
+app.use(flash());
+
 // system routes
 app.use('/', Router);
 app.use('/user', User);
-
-
-
-
 
 const port = 5000;
 

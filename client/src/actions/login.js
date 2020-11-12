@@ -1,5 +1,5 @@
 import fetchRequests from '../routes/fetchServer';
-//import axios from 'axios';
+import axios from 'axios';
 import Toastr from 'toastr';
 Toastr.options.closeButton = true;
 Toastr.options.preventDuplicates = true;
@@ -37,12 +37,28 @@ const userLogin = (data) => {
                     delete res.authenticatedUser.password;
                     Toastr.success(res.msg);
                     localStorage.setItem('authenticatedUser', JSON.stringify(res.authenticatedUser))
-                    // window.location.href = "http://localhost:3000/";
+                    window.location.href = "http://localhost:3000/";
                 }
           });
     }
 };
 
+const logoutUser = () => {
+    console.log('xxxxxxx action logoutUser')
+    return () => {
+        axios({
+            method: "POST",
+            withCredentials: true,
+            credentials: "same-origin",
+            url:'/user/logout',
+            
+        }).then((res) => {
+            console.log('xxxx --- response.logoutUser : ', res)
+        })
+    }
+}
+
 export {
-    userLogin
+    userLogin,
+    logoutUser
 }
