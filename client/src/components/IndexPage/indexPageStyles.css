@@ -1,0 +1,84 @@
+#wrapper{
+    width: 100%;
+    height: 100%;
+    background-image: url('../../img/bgWork.jpg');
+    background-color: #00000052;
+    text-align: center;
+    float: left;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: left;
+}
+
+#indexHeader{
+    width: 100%;
+    height: 10%;
+    float: left;
+    position: relative;
+}
+
+#indexHeader button{
+    width: 6%;
+    float: right;
+    margin: 9px 12px 8px 9px;
+    border: 1px solid #ffffff;
+    background-color: #3333335c;
+    border-radius: 5px;
+    color: #f1ecec;
+}
+
+#indexMiddle{
+    width: 100%;
+    height: 40%;
+    float: left;
+    position: relative;
+}
+
+#indexBottom{
+    width: 100%;
+    height: 50%;
+    float: left;
+    position: relative;
+}
+
+#bigSearchBarWrapper{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 80%;
+}
+
+#doSearch{
+    width: 60%;
+    height: 20%;
+    border-radius: 7px;
+    border: 1px solid #ffffff;
+    background-color: #ffffff33;
+    color: #f5f2f2;
+    margin: 8px 8px 8px 8px;
+    padding-left: 1%;
+    margin-top: 3%;
+}
+
+::placeholder {
+    color: #f5f2f2;
+    opacity: 0.7;
+  }
+
+#searchBtn{
+    width: 8%;
+    height: 20%;
+    margin: 9px 8px 8px 9px;
+    border: 1px solid #ffffff;
+    background-color: #3333335c;
+    border-radius: 5px;
+    color: #f1ecec;
+}
+
+#searchBtn :hover{
+    background-color: #00b5484f;
+}
+
+#indexMiddle h2{
+    color:#ffffff;
+}

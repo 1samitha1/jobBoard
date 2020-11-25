@@ -6,6 +6,7 @@ import RegProvider from './components/Register/regProvider';
 import RegSeeker from './components/Register/regSeeker';
 import NotFound from './components/Errors/notFound';
 import Login from './components/Login/login';
+import IndexPage from './components/IndexPage/indexPage'
 import {Route, Switch, BrowserRouter} from 'react-router-dom';
 // import { withRouter } from 'react-router-dom'
 // axios.defaults.baseURL = 'http://localhost:5000/'
@@ -18,7 +19,8 @@ class App extends Component {
           <div className="app">
           <BrowserRouter>
               <Switch>
-                <Route exact path="/" component={Home} />
+                <Route exact path="/" component={IndexPage} />
+                <Route exact path="/home" component={Home} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
                 <Route path="/provider_registration" component={RegProvider} />

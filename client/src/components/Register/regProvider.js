@@ -116,7 +116,7 @@ class RegProvider extends Component {
                     </div>
 
                     <div id="actions" >
-                    <submit className="btnAction2" onClick={() => this.registerNewUser({
+                        <button className="btnAction2" onClick={() => this.registerNewUser({
                             companyName : this.state.companyName,
                             website : this.state.website,
                             userName : this.state.userName,
@@ -126,7 +126,7 @@ class RegProvider extends Component {
                             password : this.state.password,
                             passwordConf : this.state.passwordConf,
                         })}
-                            id="registerButton"> Register Now </submit>
+                            id="registerButton"> Register Now </button>
                             
                         <Link to="/login">
                             <button className="btnAction1">
