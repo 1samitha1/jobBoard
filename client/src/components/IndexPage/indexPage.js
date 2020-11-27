@@ -3,8 +3,13 @@ import PropTypes from 'prop-types'
 import {connect } from 'react-redux';
 import './indexPageStyles.css';
 import '../commons/commonStyles.css'
-
+import { logoutUser } from '../../actions/login';
+import {setSearchCriteria} from '../../actions/search';
 import {Link, Redirect} from 'react-router-dom';
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+toast.configure();
 
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
 
@@ -12,7 +17,8 @@ class indexPage extends Component {
     constructor(props) {
         super(props);
        this.state = {
-           searchText : ""
+           searchText : "",
+           searchActivated : false
        }
     }
 
@@ -22,28 +28,81 @@ class indexPage extends Component {
     
     }
 
-    handleSearch(){
-       // <Redirect to='/home'/>
+    searchInputChange(evt){
+        console.log("calll searchInputChange : ", evt.target.value)
+        if(evt && evt.target.value){
+            this.setState({
+                searchText : evt.target.value
+            });
+        }
     }
 
+    handleSearch(){
+        if(this.state.searchText !== "" ){
+            this.setState({
+                searchActivated:true
+            });
+
+            this.props.setSearchCriteria({
+                keyword : this.state.searchText
+            })
+        }else{
+            toast.error('You must enter your keyword before searching!',
+            {autoClose:2800, hideProgressBar: true})
+        }
+       
+    }
+
+    logoutUser(){
+        this.props.logoutUser();
+        localStorage.removeItem("authenticatedUser");
+        window.location.href = "http://localhost:3000/login";
+ 
+     }
+
     render() {
-        let welcomeName = "";
+        let loggedUser = "";
         if(authUser){
-            welcomeName = authUser.userType === "provider" ? 
+            loggedUser = authUser.userType === "provider" ? 
             authUser.companyName : authUser.firstName
         }
        
         return (
             <div id="wrapper">
+                {
+                    this.state.searchActivated ? 
+                    <Redirect to='/home'/>
+                    :
+                    null
+                }
                 <div id="indexHeader">
-                    <Link to="/register"><button>Register</button></Link>
-                    <Link to="/login"><button>Login</button></Link>
+                    {
+                        loggedUser && loggedUser !== "" ?
+                            <div>
+                                <p onClick={this.logoutUser.bind(this)} id="logout">Logout?</p>
+                                <p id="greetUser">Hi {loggedUser}!</p>
+                            </div> 
+                    :
+                    <div>
+                        <Link to="/register"><button>Register</button></Link>
+                        <Link to="/login"><button>Login</button></Link>
+                    </div>
+                    }
+                    
                 </div>
 
                 <div id="indexMiddle">
+                    {
+                        loggedUser && loggedUser !== "" ?
+                        <p id="greet">Welcome back {loggedUser}!</p>
+                        :
+                        null
+                    }
                     <h2>What are you looking for?</h2>
                     <div id="bigSearchBarWrapper">
-                        <input id="doSearch" type="text" placeholder="Type Job Title, Keywords"></input>
+                        <input onChange={this.searchInputChange.bind(this)} 
+                            id="doSearch" type="text" placeholder="Type a Job Title or a Keyword..."
+                            value={this.state.searchText}></input>
                         <button onClick={this.handleSearch.bind(this)} id="searchBtn">Search</button>
                     </div>
                 </div>
@@ -58,7 +117,8 @@ class indexPage extends Component {
 }
 
 const propTypes = {
-   
+    logoutUser:PropTypes.func.isRequired,
+    setSearchCriteria: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -67,7 +127,12 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-   
+    logoutUser: () => {
+        dispatch(logoutUser());
+    },
+    setSearchCriteria: (values) => {
+        dispatch(setSearchCriteria(values))
+    }
 });
 
 export default connect(

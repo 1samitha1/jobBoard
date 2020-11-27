@@ -5,6 +5,10 @@ import {openRegisterComponent} from '../../actions/register';
 import './loginStyles.css';
 import {userLogin} from '../../actions/login';
 import {Link} from 'react-router-dom';
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+toast.configure();
 
 class Login extends Component {
 
@@ -26,6 +30,8 @@ class Login extends Component {
                 userName : this.state.userName,
                 password : this.state.password
             })
+        }else{
+            toast.error('User name and password is required!',{autoClose:2500, hideProgressBar: true})
         }
     }
 

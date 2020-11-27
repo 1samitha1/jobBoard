@@ -10,7 +10,7 @@ import defaultCompany from '../../img/defaults/defaultCompany.png';
 import logoutIconBlack from '../../img/icons/logoutBlack.png';
 import { Container,Row, Col } from 'react-bootstrap';
 import { logoutUser } from '../../actions/login'
-//import history from '../../configs/history';
+import Jobs from '../Job/jobPost';
 
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
 
@@ -18,6 +18,7 @@ class Home extends Component {
     constructor(props) {
         super(props);
        this.state = {
+           keyword : this.props.searchKeyword
            
        }
     }
@@ -128,7 +129,7 @@ class Home extends Component {
                                     <p className="resultCount fontNormal">No of results : 10</p>
                                 </div>
                                 <div id="searchCriteria">
-                                    <input className="searchInput" type="text" placeholder="Search keyword" />
+                                    <input value={this.state.keyword} className="searchInput" type="text" placeholder="Search keyword" />
 
                                     <select className="jobType">
                                         <option value="fullTime">Full Time</option>
@@ -155,7 +156,7 @@ class Home extends Component {
                             </div>
                             <div id="searchResultsWrapper">
                                 <div id="searchresultsDiv">
-
+                                    <Jobs/>
                                 </div>
                             </div>
 
@@ -171,12 +172,13 @@ class Home extends Component {
 
 const propTypes = {
     displayNotificationWrapper: PropTypes.bool.isRequired,
-    logoutUser: PropTypes.func.isRequired
+    logoutUser: PropTypes.func.isRequired,
+    searchKeyword: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
-
-    displayNotificationWrapper: state.notification.displayNotificationWrapper
+    displayNotificationWrapper: state.notification.displayNotificationWrapper,
+    searchKeyword: state.search.keyword
 
 });
 

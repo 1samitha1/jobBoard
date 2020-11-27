@@ -7,7 +7,7 @@
     float: left;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-position: left;
+    background-position: bottom;
 }
 
 #indexHeader{
@@ -25,6 +25,29 @@
     background-color: #3333335c;
     border-radius: 5px;
     color: #f1ecec;
+}
+
+#greetUser{
+    color: #f1ecec;
+    float: right;
+    margin: 8px 8px 8px 8px;
+}
+
+#logout{
+    color: #f1ecec;
+    float: right;
+    margin: 8px 8px 8px 8px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#logout:hover{
+    color: #dc3545;
+}
+
+#greet{
+    color: #ffffff;
+    margin: 0;
 }
 
 #indexMiddle{

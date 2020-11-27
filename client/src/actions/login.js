@@ -1,8 +1,9 @@
 import fetchRequests from '../routes/fetchServer';
 import axios from 'axios';
-import Toastr from 'toastr';
-Toastr.options.closeButton = true;
-Toastr.options.preventDuplicates = true;
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+toast.configure();
 
 // export const REMINDER_LIST_FOR_COMPANY = "REMINDER_LIST_FOR_COMPANY";
 
@@ -24,8 +25,7 @@ const userLogin = (data) => {
             credentials: 'include',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json;charset=UTF-8',
-                
+                'Content-Type': 'application/json;charset=UTF-8',  
             },
             body: JSON.stringify(data)
             
@@ -35,16 +35,17 @@ const userLogin = (data) => {
           ).then((res) => {
                 if(res && res.success){
                     delete res.authenticatedUser.password;
-                    Toastr.success(res.msg);
                     localStorage.setItem('authenticatedUser', JSON.stringify(res.authenticatedUser))
                     window.location.href = "http://localhost:3000/";
+                }else{
+                    toast.error('Invalid username or password!',
+                    {autoClose:2500, hideProgressBar: true})
                 }
           });
     }
 };
 
 const logoutUser = () => {
-    console.log('xxxxxxx action logoutUser')
     return () => {
         axios({
             method: "POST",
@@ -53,7 +54,7 @@ const logoutUser = () => {
             url:'/user/logout',
             
         }).then((res) => {
-            console.log('xxxx --- response.logoutUser : ', res)
+            console.log('Logout success : ', res)
         })
     }
 }

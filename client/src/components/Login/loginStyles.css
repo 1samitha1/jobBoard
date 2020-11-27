@@ -12,6 +12,7 @@
     background-position: left;
 }
 
+
 #loginDiv{
     width: 30%;
     height: 84%;
@@ -47,11 +48,12 @@
     -webkit-box-shadow: none;
     box-shadow: none;
     padding-left: 2%;
-    color: #383535;
+    color: #ffffff;
     border: none;
     margin-top: 4%;
     font-size: 1.1vw;
-    background-color: #e6e2e2;
+    background-color: #928c8c78;
+    border:1px solid #ffffff;
 }
 
 #loginBottom button {
