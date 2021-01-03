@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import {connect } from 'react-redux';
 import {Link} from 'react-router-dom'
-import {registerNewUser} from '../../actions/register'
+import {registerNewUser} from '../../actions/register';
+import toast from '../../configs/toast';
 
 import './regStyles.css';
 
@@ -48,11 +49,13 @@ class RegProvider extends Component {
                 if(data.password === data.passwordConf){
                     this.props.registerNewUser(data)
                 }else{
-                    // password confirmation should match
+                    toast.error('Password confirmation should match!',
+                    {autoClose:2500, hideProgressBar: true})
                 }
                 
             }else{
-                // required
+                toast.error('Company name and Company email is required!',
+                {autoClose:2500, hideProgressBar: true})
             }
         }
     }

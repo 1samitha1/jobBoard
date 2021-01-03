@@ -49,9 +49,9 @@
     float: left;
     text-align: center;
     margin-top: 2%;
-    margin-left: 12%;
     font-size: 14px;
     font-weight: 600;
+    width: 100%;
 }
 
 .jobRight{
@@ -100,4 +100,85 @@
 
 .topAttribute{
     margin-top: 1%;
+}
+
+
+/* job posts */
+
+#createJobsWrapper{
+    width: 100%;
+    height: 100%;
+    background-image: url('../../img/bgOfficeBlur.jpg');
+    /* background-image: url('../../img/bgWork.jpg'); */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    float: left;
+}
+
+#createJobsDiv{
+    width: 60%;
+    height: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #ffffff;
+    background-color: #00000052;
+    border-radius: 9px;
+    margin-top: 3%;
+}
+
+#createJobsDiv h2{
+    margin-left: auto;
+    margin-right: auto;
+    color:#ffffff; 
+    text-align: center;
+    font-size: 25px;
+    margin-top: 2%;;
+}
+
+#createJobDiv input{
+    width: 41%;
+    height: 3vw;
+    border-radius: 4px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding-left: 2%;
+    color: #383535;
+    border: none;
+    margin: 3% 3% 3% 5%;
+    font-size: 1.1vw;
+    background-color: #e6e2e2;
+    float: left;
+}
+
+.jobFormRow span{
+    color: #ffffff;
+    margin-right: 1%;
+    float: left;
+}
+
+.jobFormRow{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 14%;
+    /* display: list-item; */
+}
+
+.jobRowSingle{
+    width: 100%;
+    float: left;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.jobRowDouble{
+    width: 49%;
+    float: left;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+#jobDescription{
+    width: 83%;
 }

@@ -6,10 +6,14 @@ import RegProvider from './components/Register/regProvider';
 import RegSeeker from './components/Register/regSeeker';
 import NotFound from './components/Errors/notFound';
 import Login from './components/Login/login';
-import IndexPage from './components/IndexPage/indexPage'
+import IndexPage from './components/IndexPage/indexPage';
+import CreateJobs from './components/Job/createJobPosts';
 import {Route, Switch, BrowserRouter} from 'react-router-dom';
-// import { withRouter } from 'react-router-dom'
-// axios.defaults.baseURL = 'http://localhost:5000/'
+
+// Error pages
+import OnlyForProviders from './components/Errors/onlyForProviders'
+
+const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
 
 class App extends Component {
 
@@ -25,6 +29,13 @@ class App extends Component {
                 <Route path="/register" component={Register} />
                 <Route path="/provider_registration" component={RegProvider} />
                 <Route path="/seeker_registration" component={RegSeeker} />
+
+                {(authUser && authUser.userType === 'provider') ?
+                 <Route path="/create_a_job_post" component={CreateJobs} />
+                 :
+                 <Route path="/create_a_job_post" component={OnlyForProviders} />
+                }
+                
                 
                 <Route component={NotFound} />
 

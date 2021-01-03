@@ -47,6 +47,10 @@
     float: left;
 }
 
+#jobTitle{
+    width: 83%;
+}
+
 #regDiv select{
     margin-top: 3%;
     margin-left: 5%;

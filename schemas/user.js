@@ -5,8 +5,6 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     companyName: {
         type: String,
-       
-        
     },
     email: {
         type: String,

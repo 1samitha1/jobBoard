@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const Router = require('./routes/router');
 const User = require('./routes/user');
+const Job = require('./routes/job');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -56,6 +57,7 @@ app.use(flash());
 // system routes
 app.use('/', Router);
 app.use('/user', User);
+app.use('/job', Job);
 
 const port = 5000;
 
