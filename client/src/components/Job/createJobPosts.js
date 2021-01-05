@@ -20,7 +20,8 @@ class CreateJobs extends Component {
       applicants : 0,
       comapnyId : "",
       companyName : "",
-      comapnyImg : ""
+      comapnyImg : "",
+      jobType : "Full Time"
     };
   }
 
@@ -41,9 +42,11 @@ class CreateJobs extends Component {
       expireDate :data.expireDate,
       expireTimestamp : data.expireTimestamp,
       applicants : 0,
+      type : data.jobType,
       companyName :  authUser.companyName,
       companyImg :  authUser.photo ? authUser.photo : "",
-      expired : false
+      expired : false,
+      textIndex : data.jobTitle + " " + data.jobPosition + " " + data.jobIndustry + " " + authUser.companyName
     };
    
     this.props.createJob(job);
@@ -162,7 +165,7 @@ class CreateJobs extends Component {
               
             </div>
             <div className="jobFormRow">
-             <div className="jobRowSingle">
+             <div className="jobRowDouble">
              <span>Industry :</span>
                 <select id="jobIndustry" type="text"
                     value={this.state.jobIndustry} required
@@ -170,6 +173,17 @@ class CreateJobs extends Component {
                         <option value=""> Select Primary Industry</option>
                         <option value="accounting"> Accounting</option>
                         <option value="ITComputing"> IT & computing</option>
+                    </select>
+
+             </div>
+
+             <div className="jobRowDouble">
+             <span>Industry :</span>
+                <select id="jobType" type="text"
+                    value={this.state.jobIndustry} required
+                    onChange={this.handleFieldChange.bind(this)}>
+                        <option value="Full Time"> Full time</option>
+                        <option value="Part Time"> Part Time</option>
                     </select>
 
              </div>

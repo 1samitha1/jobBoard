@@ -162,12 +162,18 @@
 .searchInput{
     font-size: 16px;
     padding: 10px 14px;
-    background: #fff;
+    background: #fffffffa;
     border: 1px solid #ccc;
     border-radius: 6px;
     width: 24%;
     float: left;
     margin: 3%;
+    height: 20%;
+}
+
+::placeholder {
+    color:#333333;
+    opacity: 1;
 }
 
 .jobType{

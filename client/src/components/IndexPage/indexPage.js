@@ -60,6 +60,12 @@ class indexPage extends Component {
  
      }
 
+     onKeyDownHandler = e => {
+        if (e.keyCode === 13) {
+          this.handleSearch();
+        }
+      }
+
     render() {
         let loggedUser = "";
         if(authUser){
@@ -68,7 +74,7 @@ class indexPage extends Component {
         }
        
         return (
-            <div id="wrapper">
+            <div id="wrapper" onKeyDown={this.onKeyDownHandler.bind(this)}>
                 {
                     this.state.searchActivated ? 
                     <Redirect to='/home'/>
@@ -103,7 +109,7 @@ class indexPage extends Component {
                         <input onChange={this.searchInputChange.bind(this)} 
                             id="doSearch" type="text" placeholder="Type a Job Title or a Keyword..."
                             value={this.state.searchText}></input>
-                        <button onClick={this.handleSearch.bind(this)} id="searchBtn">Search</button>
+                        <button  onClick={this.handleSearch.bind(this)} id="searchBtn">Search</button>
                     </div>
                 </div>
 

@@ -43,7 +43,7 @@ class Header extends Component {
                     {
                         authUser && authUser.userType ?
                             <div id="headerIcons">
-                                <div class="headerIconRight">
+                                <div className="headerIconRight">
                                     <img onClick={this.showNotificationWrapper.bind(this)} className="iconHeader" src={notificationIcon}></img>
                                 </div>
                                 <div className="headerIconRight">

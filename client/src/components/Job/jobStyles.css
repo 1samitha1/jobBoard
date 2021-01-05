@@ -72,9 +72,9 @@
 }
 
 .jobTitle{
-    width: 65%;
+    width: 72%;
     font-weight: bold;
-    font-size: 22px;
+    font-size: 21px;
     padding-left: 2%;
     float: left;
 }
@@ -83,6 +83,7 @@
     padding-left: 2%;
     padding-right: 2%;
     float: left;
+    font-size: 16px;
 }
 
 .jobAtributes{

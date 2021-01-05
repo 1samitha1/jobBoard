@@ -11,6 +11,7 @@ import logoutIconBlack from '../../img/icons/logoutBlack.png';
 import { Container,Row, Col } from 'react-bootstrap';
 import { logoutUser } from '../../actions/login'
 import Jobs from '../Job/jobPost';
+import {searchJobs} from '../../actions/jobs';
 
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
 
@@ -18,21 +19,62 @@ class Home extends Component {
     constructor(props) {
         super(props);
        this.state = {
-           keyword : this.props.searchKeyword
+           keyword : this.props.searchKeyword,
+           jobType: "",
+           industry: ""
            
        }
     }
+   
+    componentDidMount(){
+        this.props.searchJobs({});
+    }
 
-   logoutUser(){
+    logoutUser(){
        this.props.logoutUser();
        localStorage.removeItem("authenticatedUser");
     //    this.props.history.push('/login');
-    window.location.href = "http://localhost:3000/login";
+        window.location.href = "http://localhost:3000/login";
 
     }
 
+    setKeyword(evt){
+        this.setState({
+            keyword : evt.target.value
+        })
+    }
+
+    setSearchCriteria(evt){ 
+        this.setState({
+            [evt.target.id] : evt.target.value,
+        })
+    }
+
+    searchForJobs(){
+        console.log('xxxxx searchJobs called ')
+
+        let criteria = {};
+        if(this.state.keyword !== ''){
+            criteria.title = this.state.keyword
+        }
+
+        if(this.state.jobType !== ''){
+            criteria.type = this.state.jobType
+        }
+
+        if(this.state.industry !== ''){
+            criteria.industry = this.state.industry
+        }
+
+        console.log('xxxxx searchJobs cri ', criteria)
+        this.props.searchJobs(criteria);
+    }
+
+   
+
     render() {
         const {displayNotificationWrapper} = this.props
+
         
          let userImg = defaultUser;
          let curruntTimestamp = new Date();
@@ -42,7 +84,10 @@ class Home extends Component {
          if(curruntDate < 10){
             curruntDate = "0"+curruntDate
          }
-         let CurrunFullDate = curruntYear + "/" + curruntMonth + "/" + curruntDate;
+         if(curruntMonth < 10){
+            curruntMonth = "0"+curruntMonth
+         }
+         let CurrunFullDate = curruntDate + "-" + curruntMonth + "-" + curruntYear;
          let user_name = "";
          if(authUser) {
             user_name = authUser.userType === "seeker" ? 
@@ -101,7 +146,7 @@ class Home extends Component {
                                                     <p className="actions">Profile</p>
                                                     <p className="actions">Job Applications</p>
                                                     <p className="actions">Job Posts</p>
-                                                    <p className="actions">Test Portal</p>
+                                                    <p className="actions">Tests Portal</p>
                                                     <p onClick={this.logoutUser.bind(this)} className="actions logoutLink">Logout</p>
                                                 </div>
                                         }
@@ -122,24 +167,26 @@ class Home extends Component {
                             }
                                     
                         </div>
+
                         <div id="homeDisplay">
                             <div id="resultWrapperTop">
                                 <div id="homeDisplayTop">
                                     <p className="curruntDate fontNormal">Today : {CurrunFullDate}</p>
-                                    <p className="resultCount fontNormal">No of results : 10</p>
+                                    <p className="resultCount fontNormal">No of Jobs : {this.props.jobCount}</p>
                                 </div>
                                 <div id="searchCriteria">
-                                    <input value={this.state.keyword} className="searchInput" type="text" placeholder="Search keyword" />
+                                    <input id="keyword" value={this.state.keyword} onChange={this.setSearchCriteria.bind(this)} className="searchInput" type="text" placeholder="Search keyword" />
 
-                                    <select className="jobType">
-                                        <option value="fullTime">Full Time</option>
-                                        <option value="partTime">Part Time</option>
+                                    <select  id="jobType" onChange={this.setSearchCriteria.bind(this)} className="jobType">
+                                        <option value="">Select type</option>
+                                        <option value="Full Time">Full Time</option>
+                                        <option value="Part Time">Part Time</option>
                                     </select>
 
-                                    <select className="industry">
+                                    <select id="industry" onChange={this.setSearchCriteria.bind(this)} className="industry">
                                         <option value="">Select Industry</option>
                                         <option value="IT">IT & Computing</option>
-                                        <option value="accunting">Accounting</option>
+                                        <option value="accounting">Accounting</option>
                                         <option value="banking">Banking</option>
                                         <option value="marketing">Marketing</option>
                                         <option value="education">Education</option>
@@ -150,7 +197,7 @@ class Home extends Component {
                                     
                                     </select>
 
-                                    <button id="searchJobsBtn"> Search </button>
+                                    <button onClick={this.searchForJobs.bind(this)} id="searchJobsBtn"> Search </button>
                                 </div>
                             
                             </div>
@@ -173,18 +220,25 @@ class Home extends Component {
 const propTypes = {
     displayNotificationWrapper: PropTypes.bool.isRequired,
     logoutUser: PropTypes.func.isRequired,
-    searchKeyword: PropTypes.string.isRequired
+    searchKeyword: PropTypes.string.isRequired,
+    searchJobs: PropTypes.func.isRequired,
+    jobCount: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => ({
     displayNotificationWrapper: state.notification.displayNotificationWrapper,
-    searchKeyword: state.search.keyword
+    searchKeyword: state.search.keyword,
+    jobCount : state.jobs.jobCount
 
 });
 
 const dispatchToProps = (dispatch) => ({
     logoutUser : () => {
         dispatch(logoutUser())
+    },
+
+    searchJobs : (criteria) => {
+        dispatch(searchJobs(criteria))
     }
 });
 

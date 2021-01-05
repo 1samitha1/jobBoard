@@ -16,6 +16,22 @@ const createNewJob = (data) => {
   });
 };
 
+const searchJobs = (criteria) => {
+  return new Promise((resolve, reject) => {
+    console.log("xxx searchJobs : ", criteria)
+    Job.find(criteria, (err, result) => {
+      if (err) {
+        reject({success: false, error: err})
+      } else {
+        if (result) {
+          resolve({success: true, data: result})
+        }
+      }
+    })
+  });
+};
+
 module.exports = {
     createNewJob,
+    searchJobs
 };

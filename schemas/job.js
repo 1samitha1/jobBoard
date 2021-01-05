@@ -41,6 +41,12 @@ const jobSchema = new Schema({
     },
     companyId: {
         type: String,
+    },
+    type: {
+        type: String,
+    },
+    textIndex : {
+        type: String,
     }
     
 },{

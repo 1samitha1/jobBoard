@@ -5,9 +5,9 @@ import {
 } from '../actions/search';
 
 const search = ( state = {
-    keyword : "",
-    industry : "",
-    jobType : ""
+        keyword : "",
+        industry : "",
+        jobType : ""
 
 }, action) => {
     switch (action.type) {
@@ -16,7 +16,6 @@ const search = ( state = {
                 keyword : action.values.keyword
             });
 
-          
 
         default:
             return state;

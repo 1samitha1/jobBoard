@@ -10,4 +10,12 @@ router.post('/create', (req, res) => {
     
 });
 
+router.post('/search', (req, res) => {
+    Job.searchJobs(req.body)
+        .then((result) => {
+            res.send(result);
+        })
+    
+});
+
 module.exports = router;

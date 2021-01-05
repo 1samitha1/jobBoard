@@ -21,39 +21,40 @@ class JobPost extends Component {
 
     generateJobPosts(){
 
-        let employerLogo = defaultCompany;
-        
-      return  (
-            <div className="jobPostDiv">
-               <div className="jobLeft">
-                    <div className="employerlogoDiv">
-                        <img className="employerLogo" src={employerLogo}></img>
-                        <p className="employerName">Test Company</p>
-                    </div>
-               </div>
-               <div className="jobRight">
-                   <div className="jobRightTop">
-                        <div>
-                            <p className="jobTitle">Software Engineer</p>
-                            <p className="jobAtributes topAttribute"><span className="jobAttribute">Applications :</span> 10</p>
-                            <div>
+    let employerLogo = defaultCompany;
+    let jobPosts = [];
+    this.props.jobs.map((jobItem, i) => {
 
-                            </div>
-                        </div>
-                        <p className="jobDescription">Contrary to popular belief, Lorem Ipsum is not simply 
-                        random text. It has roots in a piece of classical Latin literature from 45 BC, making 
-                        it over 2000 years old. classical Latin literature from 45 BC</p>
-                   </div>
-                   <div className="jobRightBottom">
-                        <p className="jobAtributes"><span className="jobAttribute">Type :</span> Full time</p>
-                        <p className="jobAtributes"><span className="jobAttribute">Salary :</span> Negociable</p>
-                        <p className="jobAtributes"><span className="jobAttribute">Posted :</span> 27-11-2020</p>
-                        <p className="jobAtributes"><span className="jobAttribute">Expires :</span> 01-01-2021</p>
-                   </div>
-                   
-               </div>
+        jobPosts.push(<div key={i} className="jobPostDiv">
+            <div className="jobLeft">
+                 <div className="employerlogoDiv">
+                     <img className="employerLogo" src={employerLogo}></img>
+                     <p className="employerName">{jobItem.companyName}</p>
+                 </div>
             </div>
-        )
+            <div className="jobRight">
+                <div className="jobRightTop">
+                     <div>
+                         <p className="jobTitle">{jobItem.title}</p>
+                         <p className="jobAtributes topAttribute">
+                             <span className="jobAttribute">Applicants :</span> {jobItem.applicants}</p>
+                         <div>
+
+                         </div>
+                     </div>
+                     <p className="jobDescription">{jobItem.description}</p>
+                </div>
+                <div className="jobRightBottom">
+                     <p className="jobAtributes"><span className="jobAttribute">Type : </span>{jobItem.type ? jobItem.type : "Full Time"}</p>
+                     <p className="jobAtributes"><span className="jobAttribute">Salary : </span>{jobItem.salary}</p>
+                     <p className="jobAtributes"><span className="jobAttribute">Posted : </span>{jobItem.startDate}</p>
+                     <p className="jobAtributes"><span className="jobAttribute">Expires : </span>{jobItem.expireDate}</p>
+                </div>
+                
+            </div>
+         </div>)
+    })
+        return jobPosts;
     }
 
 
@@ -61,54 +62,22 @@ class JobPost extends Component {
         return (
             <div id="jobWrapper">
                {this.generateJobPosts()}
-
-               {/* 2 */}
-
-               <div className="jobPostDiv">
-               <div className="jobLeft">
-                    <div className="employerlogoDiv">
-                        <img className="employerLogo"></img>
-                        <p className="employerName"></p>
-                    </div>
-               </div>
-               <div className="jobRight">
-                   <div className="jobRightTop">
-                        <div>
-                            <p className="jobTitle">QA Engineer</p>
-                            <p className="jobAtributes"><span className="jobAttribute">Applications :</span> 10</p>
-                            <div>
-
-                            </div>
-                        </div>
-                        <p className="jobDescription">Contrary to popular belief, Lorem Ipsum is not simply 
-                        random text. It has roots in a piece of classical Latin literature from 45 BC, making 
-                        it over 2000 years old. classical Latin literature from 45 BC</p>
-                   </div>
-                   <div className="jobRightBottom">
-                        <p className="jobAtributes"><span className="jobAttribute">Type :</span> Full time</p>
-                        <p className="jobAtributes"><span className="jobAttribute">Salary :</span> Negociable</p>
-                        <p className="jobAtributes"><span className="jobAttribute">Posted :</span> 27-11-2020</p>
-                        <p className="jobAtributes"><span className="jobAttribute">Expires :</span> 01-01-2021</p>
-                   </div>
-                   
-               </div>
-            </div>
             </div>
         );
     }
 }
 
 const propTypes = {
-  
+    jobs: PropTypes.array.isRequired
 };
 
 const mapStateToProps = (state) => ({
-
+    jobs: state.jobs.jobArray
 
 });
 
 const dispatchToProps = (dispatch) => ({
-   
+    
 });
 
 export default connect(
