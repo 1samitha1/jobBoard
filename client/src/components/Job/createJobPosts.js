@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {createJob} from "../../actions/jobs";
 import "./jobStyles.css";
+import {industries} from '../../constants/industries';
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
 
 class CreateJobs extends Component {
@@ -65,6 +66,16 @@ class CreateJobs extends Component {
     });
   }
 
+  generateIndustries(){
+    if(industries){
+        let industryList = [];
+         industries.map((ind, i) => {
+            industryList.push(<option value={ind.value}>{ind.name}</option>)
+        });
+        return industryList;
+    }  
+  }
+
   render() {
         let todayTimestamp = new Date().getTime();
         let year = new Date(todayTimestamp).getFullYear();
@@ -108,6 +119,7 @@ class CreateJobs extends Component {
                   value={this.state.jobTitle}
                   placeholder="Job Title"
                   required
+                  maxlength="56"
                 />
               </div>
             </div>
@@ -135,20 +147,7 @@ class CreateJobs extends Component {
                 />
               </div>
             </div>
-            {/* <div className="jobFormRow">
-             <div className="jobRowSingle">
-                <span>Job requirements :</span>
-                <textarea
-                    id="jobRequirements"
-                    type="text"
-                    onChange={this.handleFieldChange.bind(this)}
-                    value={this.state.companyName}
-                    placeholder="Job requirements"
-                    required
-                />
-             </div>   
-             
-            </div> */}
+
             <div className="jobFormRow">
              <div className="jobRowSingle">
              <span>description :</span>
@@ -170,17 +169,16 @@ class CreateJobs extends Component {
                 <select id="jobIndustry" type="text"
                     value={this.state.jobIndustry} required
                     onChange={this.handleFieldChange.bind(this)}>
-                        <option value=""> Select Primary Industry</option>
-                        <option value="accounting"> Accounting</option>
-                        <option value="ITComputing"> IT & computing</option>
+                        <option value=""> Select Industry</option>
+                        {this.generateIndustries()}
                     </select>
 
              </div>
 
              <div className="jobRowDouble">
-             <span>Industry :</span>
+             <span>Job Type :</span>
                 <select id="jobType" type="text"
-                    value={this.state.jobIndustry} required
+                    value={this.state.jobType} required
                     onChange={this.handleFieldChange.bind(this)}>
                         <option value="Full Time"> Full time</option>
                         <option value="Part Time"> Part Time</option>
@@ -212,7 +210,8 @@ class CreateJobs extends Component {
                    expireDate : expireDate,
                    expireTimestamp : expireTimestamp,
                    applicants : 0,
-                   views: 0
+                   views: 0,
+                   jobType : this.state.jobType
                 })}>Create</button>
              </div>
              <div className="jobRowDouble">

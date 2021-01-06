@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 import defaultCompany from '../../img/defaults/defaultCompany.png';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
 
 toast.configure();
 let jobPost = ""
@@ -23,8 +24,15 @@ class JobPost extends Component {
 
     let employerLogo = defaultCompany;
     let jobPosts = [];
+    
     this.props.jobs.map((jobItem, i) => {
 
+        let content = jobItem.description;
+        console.log('xxxxxxx content : ', content.length)
+        if(content.length > 153){
+            content = content.substring(0,153)+"...";
+        }
+        
         jobPosts.push(<div key={i} className="jobPostDiv">
             <div className="jobLeft">
                  <div className="employerlogoDiv">
@@ -38,11 +46,19 @@ class JobPost extends Component {
                          <p className="jobTitle">{jobItem.title}</p>
                          <p className="jobAtributes topAttribute">
                              <span className="jobAttribute">Applicants :</span> {jobItem.applicants}</p>
+                             <button>Apply</button>
+                             {/* {
+                                authUser.userType === "seeker" ?
+                                <button>Apply</button>
+                                :
+                                null
+                             } */}
+                             
                          <div>
 
                          </div>
                      </div>
-                     <p className="jobDescription">{jobItem.description}</p>
+                     <p className="jobDescription">{content}</p>
                 </div>
                 <div className="jobRightBottom">
                      <p className="jobAtributes"><span className="jobAttribute">Type : </span>{jobItem.type ? jobItem.type : "Full Time"}</p>

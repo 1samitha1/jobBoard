@@ -18,6 +18,9 @@ const createNewJob = (data) => {
 
 const searchJobs = (criteria) => {
   return new Promise((resolve, reject) => {
+    if(criteria.textIndex){
+      criteria.textIndex = {"$regex": criteria.textIndex, "$options": "i"}
+    }
     console.log("xxx searchJobs : ", criteria)
     Job.find(criteria, (err, result) => {
       if (err) {

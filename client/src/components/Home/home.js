@@ -12,6 +12,7 @@ import { Container,Row, Col } from 'react-bootstrap';
 import { logoutUser } from '../../actions/login'
 import Jobs from '../Job/jobPost';
 import {searchJobs} from '../../actions/jobs';
+import {industries} from '../../constants/industries';
 
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
 
@@ -44,6 +45,18 @@ class Home extends Component {
         })
     }
 
+    generateIndustries(){
+        if(industries){
+            let industryList = [];
+             industries.map((ind, i) => {
+                industryList.push(<option value={ind.value}>{ind.name}</option>)
+            });
+
+            return industryList;
+        }
+       
+    }
+
     setSearchCriteria(evt){ 
         this.setState({
             [evt.target.id] : evt.target.value,
@@ -55,7 +68,7 @@ class Home extends Component {
 
         let criteria = {};
         if(this.state.keyword !== ''){
-            criteria.title = this.state.keyword
+            criteria.textIndex = this.state.keyword
         }
 
         if(this.state.jobType !== ''){
@@ -66,16 +79,12 @@ class Home extends Component {
             criteria.industry = this.state.industry
         }
 
-        console.log('xxxxx searchJobs cri ', criteria)
         this.props.searchJobs(criteria);
     }
-
-   
 
     render() {
         const {displayNotificationWrapper} = this.props
 
-        
          let userImg = defaultUser;
          let curruntTimestamp = new Date();
          let curruntYear = curruntTimestamp.getFullYear();
@@ -94,7 +103,6 @@ class Home extends Component {
             authUser.firstName + " " + authUser.lastName : authUser.companyName;
          }
         
-
          if(authUser && authUser.photo){
             userImg = authUser.photo
          }else{
@@ -104,8 +112,8 @@ class Home extends Component {
                 userImg = defaultCompany
              }
          }
-         
 
+         
         return (
             <Container fluid>
                  <Row style={{height:'100%'}}>
@@ -185,7 +193,7 @@ class Home extends Component {
 
                                     <select id="industry" onChange={this.setSearchCriteria.bind(this)} className="industry">
                                         <option value="">Select Industry</option>
-                                        <option value="IT">IT & Computing</option>
+                                        {this.generateIndustries()}                                        {/* <option value="IT">IT & Computing</option>
                                         <option value="accounting">Accounting</option>
                                         <option value="banking">Banking</option>
                                         <option value="marketing">Marketing</option>
@@ -193,7 +201,7 @@ class Home extends Component {
                                         <option value="engineering">Engineering</option>
                                         <option value="hotel">Hotel & Hospitality</option>
                                         <option value="health">Health</option>
-                                        <option value="insuarance">Insuarance</option>
+                                        <option value="insuarance">Insuarance</option> */}
                                     
                                     </select>
 
