@@ -22,7 +22,6 @@ const registerNewUser = (data) => {
               newUser.password = hash;
               newUser.save()
                     .then((savedUser) => {
-                      console.log('xxxxx registerNewUser savedUser : ', savedUser)
                      resolve({success: true, msg : "Registration Successful!"});
                 });
             });

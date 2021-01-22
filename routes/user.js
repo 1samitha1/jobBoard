@@ -6,10 +6,8 @@ const {registerNewUser} = require('../controllers/user')
 
 router.post('/register', (req, res) => {
   if(req.body.userType === "provider" || req.body.userType === "seeker"){
-    console.log('xxxxxx reg route called : ', req.body)
     return registerNewUser(req.body)
         .then(data => {
-            console.log('xxxxxx res.send : ', data)
             res.send(data);
         }).catch(err => {
             res.send({success: false, error: "something went wrong", error: err });

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import {connect } from 'react-redux';
 import {Link} from 'react-router-dom';
 import {industries} from '../../constants/industries';
-import {registerNewUser} from '../../actions/register'
+import {registerNewUser} from '../../actions/register';
+import toast from '../../configs/toast';
 
 import './regStyles.css';
 
@@ -33,16 +34,18 @@ class RegProvider extends Component {
     registerNewUser(data) {
         if(data){
             data.userType = "seeker";
-            if(data.firstName !=="" || data.userName !=="" || data.enail !==""){
+            if(data.firstName !=="" && data.userName !=="" && data.email !=="" && data.industry !==""){
                 if(data.password === data.passwordConf){
                     data.textContent = data.firstName + " " + data.lastName + " " + data.email + " " + data.userName
                     this.props.registerNewUser(data)
                 }else{
-                    // password confirmation should match
+                    toast.error('Passowrd confirmation is not matching!',
+                    {autoClose:3000, hideProgressBar: true})
                 }
                 
             }else{
-                // required
+                    toast.error('Please fill out required fields ( First name, User Name & email)',
+                    {autoClose:3500, hideProgressBar: true})
             }
         }
     }
