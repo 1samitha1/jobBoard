@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {connect } from 'react-redux';
 import {Link} from 'react-router-dom'
 import {registerNewUser} from '../../actions/register';
+import {industries} from '../../constants/industries';
 import toast from '../../configs/toast';
 
 import './regStyles.css';
@@ -47,6 +48,7 @@ class RegProvider extends Component {
             data.userType = "provider";
             if(data.companyName !=="" || data.companyEmail !==""){
                 if(data.password === data.passwordConf){
+                    data.textContent = data.companyName + " " + data.companyEmail + " " + data.website;
                     this.props.registerNewUser(data)
                 }else{
                     toast.error('Password confirmation should match!',
@@ -59,6 +61,16 @@ class RegProvider extends Component {
             }
         }
     }
+
+    generateIndustries(){
+        if(industries){
+            let industryList = [];
+             industries.map((ind, i) => {
+                industryList.push(<option value={ind.value}>{ind.name}</option>)
+            });
+            return industryList;
+        }  
+      }
 
     render() {
 
@@ -112,9 +124,8 @@ class RegProvider extends Component {
                         <select id="primaryIndustry" type="text"
                             value={this.state.primaryIndustry} required
                             onChange={this.handleFieldChange.bind(this)}>
-                                <option value=""> Select Primary Industry</option>
-                                <option value="accounting"> Accounting</option>
-                                <option value="ITComputing"> IT & computing</option>
+                               <option value=""> Select Industry</option>
+                               {this.generateIndustries()}
                         </select>              
                     </div>
 

@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 import defaultCompany from '../../img/defaults/defaultCompany.png';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {openJobPost, closeJobPost} from '../../actions/jobs';
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
 
 toast.configure();
@@ -28,7 +29,6 @@ class JobPost extends Component {
     this.props.jobs.map((jobItem, i) => {
 
         let content = jobItem.description;
-        console.log('xxxxxxx content : ', content.length)
         if(content.length > 153){
             content = content.substring(0,153)+"...";
         }
@@ -43,10 +43,9 @@ class JobPost extends Component {
             <div className="jobRight">
                 <div className="jobRightTop">
                      <div>
-                         <p className="jobTitle">{jobItem.title}</p>
+                         <p onClick={() => this.openJobPost(jobItem)} className="jobTitle jobToOpen">{jobItem.title}</p>
                          <p className="jobAtributes topAttribute">
                              <span className="jobAttribute">Applicants :</span> {jobItem.applicants}</p>
-                             <button>Apply</button>
                              {/* {
                                 authUser.userType === "seeker" ?
                                 <button>Apply</button>
@@ -73,6 +72,10 @@ class JobPost extends Component {
         return jobPosts;
     }
 
+    openJobPost(jobData){
+        this.props.openJobPost(jobData)
+    }
+
 
     render() {
         return (
@@ -84,7 +87,9 @@ class JobPost extends Component {
 }
 
 const propTypes = {
-    jobs: PropTypes.array.isRequired
+    jobs: PropTypes.array.isRequired,
+    openJobPost: PropTypes.func.isRequired,
+    
 };
 
 const mapStateToProps = (state) => ({
@@ -93,6 +98,10 @@ const mapStateToProps = (state) => ({
 });
 
 const dispatchToProps = (dispatch) => ({
+    openJobPost : (jobData) => {
+        dispatch(openJobPost(jobData))
+    },
+
     
 });
 

@@ -234,3 +234,81 @@
     border-radius: 5px;
     background-color: #00000052;
 }
+
+#viewJobPostWrapper{
+    float: left;
+    width: 75%;
+    height: 100%;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    border-bottom: 0;
+}
+
+#closeJobPost{
+    width: 3%;
+    float: right;
+    margin-right: 1%;
+    margin-top: 1%;
+    cursor: pointer;
+}
+
+#postTitle{
+    position: relative;
+    font-size: 27px;
+    text-align: center;
+    margin-top: 3%;
+    font-weight: 600;
+}
+
+.jobDataItem{
+    font-size: 14px;
+}
+
+#jobData{
+    width: 95%;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2%;
+}
+
+#jobDiscriptionWrapper{
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 350px;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: #33333361;
+    overflow-y: scroll;
+}
+
+#jobDiscription{
+    padding: 2%;
+}
+
+#jobPostActions{
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+}
+
+.jobActionItem{
+    margin-left: 5%;
+    margin-right: 5%;
+    float: left;
+    margin-top: 2%;
+}
+
+#applyJob{
+    width: 15%;
+    border-radius: 7px;
+    border: 0;
+}
+
+#goBack{
+    width: 15%;
+    border-radius: 7px;
+    border: 0;
+}

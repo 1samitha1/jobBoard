@@ -46,6 +46,7 @@ class indexPage extends Component {
             this.props.setSearchCriteria({
                 keyword : this.state.searchText
             })
+
         }else{
             toast.error('You must enter your keyword before searching!',
             {autoClose:2800, hideProgressBar: true})
@@ -100,14 +101,14 @@ class indexPage extends Component {
                 <div id="indexMiddle">
                     {
                         loggedUser && loggedUser !== "" ?
-                        <p id="greet">Welcome back {loggedUser}!</p>
+                        <p id="greet">Welcome back <strong>{loggedUser}!</strong></p>
                         :
                         null
                     }
                     <h2>What are you looking for?</h2>
                     <div id="bigSearchBarWrapper">
                         <input onChange={this.searchInputChange.bind(this)} 
-                            id="doSearch" type="text" placeholder="Type a Job Title or a Keyword..."
+                            id="doSearch" type="text" placeholder="Type and hit the search button..."
                             value={this.state.searchText}></input>
                         <button  onClick={this.handleSearch.bind(this)} id="searchBtn">Search</button>
                     </div>
@@ -136,9 +137,11 @@ const mapDispatchToProps = (dispatch) => ({
     logoutUser: () => {
         dispatch(logoutUser());
     },
+
     setSearchCriteria: (values) => {
         dispatch(setSearchCriteria(values))
-    }
+    },
+
 });
 
 export default connect(

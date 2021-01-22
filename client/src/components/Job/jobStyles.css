@@ -183,3 +183,53 @@
 #jobDescription{
     width: 83%;
 }
+
+.jobToOpen{
+    cursor: pointer;
+}
+
+/* Apply jobs */
+
+#applyJobWrapper{
+    width: 100%;
+    height: 100%;
+    background-image: url('../../img/bgOfficeBlur.jpg');
+    /* background-image: url('../../img/bgWork.jpg'); */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    float: left;
+    color: #ffffff;
+    position: relative;
+}
+
+#applyFormArea {
+    width: 35%;
+    min-width: 300px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #ffffff;
+    background-color: #00000052;
+    border-radius: 9px;
+    margin-top: 3%;
+}
+
+#jobApplyForm{
+    width: 80%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+#applyJobTitile{
+    text-align: center;
+}
+
+.actionBtns{
+    text-align: center;
+    width:80%;
+    margin-left: auto;
+    margin-right: auto;
+}

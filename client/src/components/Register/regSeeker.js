@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import {connect } from 'react-redux';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import {industries} from '../../constants/industries';
 import {registerNewUser} from '../../actions/register'
 
 import './regStyles.css';
@@ -34,6 +35,7 @@ class RegProvider extends Component {
             data.userType = "seeker";
             if(data.firstName !=="" || data.userName !=="" || data.enail !==""){
                 if(data.password === data.passwordConf){
+                    data.textContent = data.firstName + " " + data.lastName + " " + data.email + " " + data.userName
                     this.props.registerNewUser(data)
                 }else{
                     // password confirmation should match
@@ -44,6 +46,16 @@ class RegProvider extends Component {
             }
         }
     }
+
+    generateIndustries(){
+        if(industries){
+            let industryList = [];
+             industries.map((ind, i) => {
+                industryList.push(<option value={ind.value}>{ind.name}</option>)
+            });
+            return industryList;
+        }  
+      }
 
     render() {
 
@@ -98,8 +110,7 @@ class RegProvider extends Component {
                             value={this.state.industry} required
                             onChange={this.handleFieldChange.bind(this)}>
                                 <option value=""> Select Industry</option>
-                                <option value="accounting"> Accounting</option>
-                                <option value="ITComputing"> IT & computing</option>
+                                {this.generateIndustries()}
                         </select>              
                     </div>
 

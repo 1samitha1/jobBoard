@@ -87,8 +87,13 @@
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    margin-top: 7%;
+    margin-top: 2%;
     cursor: pointer;
+}
+
+#regDiv input::placeholder {
+    color:#333333;
+    opacity: 1;
 }
 
 .btnAction1 {

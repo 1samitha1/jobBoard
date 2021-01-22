@@ -6,12 +6,13 @@ const {registerNewUser} = require('../controllers/user')
 
 router.post('/register', (req, res) => {
   if(req.body.userType === "provider" || req.body.userType === "seeker"){
-      console.log('xxxxxx reg req recived : ', req.body)
+    console.log('xxxxxx reg route called : ', req.body)
     return registerNewUser(req.body)
         .then(data => {
+            console.log('xxxxxx res.send : ', data)
             res.send(data);
         }).catch(err => {
-            res.send({success: false, msg: "something went wrong", error: err });
+            res.send({success: false, error: "something went wrong", error: err });
         }) 
     }
   });
@@ -19,20 +20,18 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', (err, user, info) =>{
         if(err) {
-            res.send({success:false, msg : "Something went wrong", error : err})
+            res.send({success:false, error : "Something went wrong", error : err})
             throw  err;
         } 
 
         if(!user){
-            res.send({success:false, msg : "Wrong username of password!"})
+            res.send({success:false, error : "Wrong username of password!"})
         }else{
             req.logIn(user, err => {
                 if(err){
-                    res.send({success:false, msg : "Something went wrong", error : err})
+                    res.send({success:false, error : "Something went wrong", error : err})
                     throw  err
                 }
-                console.log('vvvvvvv req session : ', req.session)
-                console.log('vvvvvvv req user : ', req.user)
                 res.send({success:true, authenticatedUser : req.user})
             });
         }

@@ -8,6 +8,7 @@ import NotFound from './components/Errors/notFound';
 import Login from './components/Login/login';
 import IndexPage from './components/IndexPage/indexPage';
 import CreateJobs from './components/Job/createJobPosts';
+import ApplyJob from './components/Job/applyJob';
 import {Route, Switch, BrowserRouter} from 'react-router-dom';
 
 // Error pages
@@ -29,6 +30,7 @@ class App extends Component {
                 <Route path="/register" component={Register} />
                 <Route path="/provider_registration" component={RegProvider} />
                 <Route path="/seeker_registration" component={RegSeeker} />
+                <Route path="/apply_job" component={ApplyJob} />
 
                 {(authUser && authUser.userType === 'provider') ?
                  <Route path="/create_a_job_post" component={CreateJobs} />

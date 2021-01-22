@@ -1,5 +1,5 @@
-import fetchRequests from '../routes/fetchServer';
 import axios from 'axios';
+import toast from '../configs/toast'; 
 export const OPEN_REGISTER_COMPONENT = 'OPEN_REGISTER_COMPONENT';
 
 const openRegisterComponent = () => {
@@ -21,17 +21,18 @@ const registerNewUser = (userData) => {
             withCredentials: true,
             credentials: "same-origin", 
         }).then((res) => {
-            if(res && res.data && res.data.success){
-                console.log('xxxx --- response.logoutUser : ', res.data)
-                window.location.href = "http://localhost:3000/login";
+            if(res && res.data){
+                if(res.data.success){
+                    window.location.href = "http://localhost:3000/login";
+                }else{
+                    toast.error(res.data.error.error,
+                    {autoClose:3000, hideProgressBar: true})
+                }
+                
             }
         })
     }
 };
-
-
-
-
 
 
 export  {

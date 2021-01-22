@@ -1,6 +1,8 @@
 import axios from 'axios';
 import toast from '../configs/toast';
 export const SET_JOB_DATA = 'SET_JOB_DATA';
+export const OPEN_JOB_POST = 'OPEN_JOB_POST';
+export const CLOSE_JOB_POST = 'CLOSE_JOB_POST';
 
 const createJob = (jobData) => {
     return () => {
@@ -21,9 +23,10 @@ const createJob = (jobData) => {
     }
 };
 
-const getJobs = (data) => {
-    return (dispatch) => {
-
+const openJobPost = (jobData) => {
+    return {
+        type: OPEN_JOB_POST,
+        jobPost: jobData
     }
     
 };
@@ -35,7 +38,6 @@ const searchJobs = (criteria) => {
             withCredentials: true,
             credentials: "same-origin",
         }).then((res) => {
-            console.log("xxx search results : ", res.data.data)
            dispatch({
                type: SET_JOB_DATA,
                data : res.data.data
@@ -44,9 +46,16 @@ const searchJobs = (criteria) => {
     }
 };
 
+const closeJobPost = () => {
+    return {
+        type: CLOSE_JOB_POST
+    }
+}
+
 
 export  {
     createJob,
-    getJobs,
-    searchJobs
+    openJobPost,
+    searchJobs,
+    closeJobPost
 }

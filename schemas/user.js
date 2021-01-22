@@ -42,6 +42,9 @@ const userSchema = new Schema({
     },
     lastName : {
         type: String,
+    },
+    textContent : {
+        type: String,
     }
 },{
     collection: 'users'
