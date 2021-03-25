@@ -14,8 +14,9 @@ const registerNewUser = (userData) => {
         industries.push(userData.industry);
         delete userData.industry
         userData.industries = industries;
+        userData.userName = userData.userName.toLowerCase();
         let userObj = userData;
-        
+
         axios.post('/user/register',
             userObj, {
             withCredentials: true,

@@ -6,17 +6,7 @@ import toast from '../configs/toast';
 
 const userLogin = (data) => {
     return () => {
-        // axios({
-        //     method: "POST",
-        //     data: data,
-        //     withCredentials: true,
-        //     credentials: "same-origin",
-        //     url:'/user/login',
-            
-        // }).then((res) => {
-        //     console.log('xxxx --- response.authenticatedUser : ', res)
-        // })
-
+        data.userName =  data.userName.toLowerCase();
         fetch('/user/login',{
             method: 'POST',
             credentials: 'include',

@@ -5,7 +5,9 @@ const {registerNewUser} = require('../controllers/user')
 // const {ensureAuthenticated} = require('../configs/auth');
 
 router.post('/register', (req, res) => {
+    console.log("xxxxx reg route1 : ", req.body)
   if(req.body.userType === "provider" || req.body.userType === "seeker"){
+    console.log("xxxxx reg route 2")
     return registerNewUser(req.body)
         .then(data => {
             res.send(data);

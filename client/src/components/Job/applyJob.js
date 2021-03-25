@@ -36,7 +36,12 @@ class ApplyJob extends Component {
     }
 
     sendJobApplication(data){
- console.log('sendJobApplication : ', data)
+        console.log('sendJobApplication 1 : ', data)
+        if(data && data.name !== '' && data.email !== '' && 
+        data.applicantId !== ''){
+            console.log('sendJobApplication 2 : ', data)
+        }
+        
     }
 
    
@@ -80,7 +85,7 @@ class ApplyJob extends Component {
                         </Form.Group>
 
                         <Form.Group controlId="actionBtns" as={Row} className="actionBtns mt-2">
-                            <Col sm={6} xs={6}>np
+                            <Col sm={6} xs={6}>
                                 <Button size="sm" 
                                     onClick={() => this.sendJobApplication({
                                         name : this.state.name,

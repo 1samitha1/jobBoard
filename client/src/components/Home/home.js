@@ -229,8 +229,9 @@ class Home extends Component {
                                             <option value="">Select Industry</option>
                                             {this.generateIndustries()}                                       
                                         </select>
-                                        </div>
                                         <button onClick={this.searchForJobs.bind(this)} id="searchJobsBtn"> Search </button>
+                                        </div>
+                                        
                                     </div>
                                 
                                 </div>

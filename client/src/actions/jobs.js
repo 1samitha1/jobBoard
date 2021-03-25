@@ -52,10 +52,26 @@ const closeJobPost = () => {
     }
 }
 
+const sendJobApplication = (data) => {
+    return (dispatch) => {
+        axios.post('/job/sendJobApplication',
+            data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+        //    dispatch({
+        //        type: SET_JOB_DATA,
+        //        data : res.data.data
+        //    })
+        });
+    }
+}
+
 
 export  {
     createJob,
     openJobPost,
     searchJobs,
-    closeJobPost
+    closeJobPost,
+    sendJobApplication
 }
