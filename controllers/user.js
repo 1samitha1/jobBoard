@@ -12,7 +12,6 @@ const registerNewUser = (data) => {
             reject({success : false, error : "User Name is already exists ! Please add a different User Name"})
           }
         } else {
-            console.log('xxxxx data : ', data)
             let newUser = new User(data);
             bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(newUser.password, salt, (err, hash) => {

@@ -12,11 +12,18 @@ const registerNewUser = (userData) => {
     return () => {
         let industries = [];
         industries.push(userData.industry);
+
+        // let date =  new Date().getDate() < 10 ? "0" + new Date().getDate() : new Date().getDate();
+        // let month =  new Date().getMonth() < 10 ? "0" + new Date().getMonth() : new Date().getMonth();
+        // let year = new Date().getFullYear();
+       
+        // userData.registered = date + "-" + month + "-" + year;
+
+
         delete userData.industry
         userData.industries = industries;
         userData.userName = userData.userName.toLowerCase();
         let userObj = userData;
-
         axios.post('/user/register',
             userObj, {
             withCredentials: true,

@@ -21,7 +21,6 @@ const searchJobs = (criteria) => {
     if(criteria.textIndex){
       criteria.textIndex = {"$regex": criteria.textIndex, "$options": "i"}
     }
-    console.log("xxx searchJobs : ", criteria)
     Job.find(criteria, (err, result) => {
       if (err) {
         reject({success: false, error: err})
@@ -34,7 +33,24 @@ const searchJobs = (criteria) => {
   });
 };
 
+const getJobs = (data) => {
+  return new Promise((resolve, reject) => {
+    Job.find({createdBy : data.createdBy}, (err, result) => {
+      if (err) {
+        reject({success: false, error: err})
+      } else {
+        if (result) {
+          resolve({success: true, data: result})
+        }
+      }
+    })
+  });
+};
+
+
+
 module.exports = {
     createNewJob,
-    searchJobs
+    searchJobs,
+    getJobs
 };

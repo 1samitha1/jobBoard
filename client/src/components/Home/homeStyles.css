@@ -171,8 +171,8 @@
     height: 20%;
 }
 
-::placeholder {
-    color:#333333;
+#keyword::placeholder {
+    color:#0c0c0c;
     opacity: 1;
 }
 

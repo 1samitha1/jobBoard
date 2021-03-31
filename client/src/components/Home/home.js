@@ -14,7 +14,12 @@ import closeIconWhite from '../../img/icons/closeWhite.png';
 import { Container,Row, Col } from 'react-bootstrap';
 import { logoutUser } from '../../actions/login'
 import Jobs from '../Job/jobPost';
+import CreatedJobs from '../Job/createdJobs';
+import Candidates from '../Candidates/candidateResult'
+import ProviderProfile from '../Profile/profileProvider'
 import {searchJobs, closeJobPost} from '../../actions/jobs';
+import {searchCandidates} from '../../actions/seeker'
+import {setDisplay} from '../../actions/general';
 import {industries} from '../../constants/industries';
 
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
@@ -30,13 +35,23 @@ class Home extends Component {
     }
    
     componentDidMount(){
+        let userType = authUser.userType;
+        console.log('xxxxx userType : ', userType)
         if(this.state.keyword === ""){
-            this.props.searchJobs({});
+            if(userType === "seeker"){
+                this.props.searchJobs({});
+            }else if(userType === "provider"){
+                this.props.searchCandidates({});
+            }
+            // this.props.searchJobs({});
         }else{
-            this.props.searchJobs({textIndex : this.state.keyword});
-        }
-        
-         
+            if(userType === "seeker"){
+                this.props.searchJobs({textIndex : this.state.keyword});
+            }else if(userType === "provider"){
+                this.props.searchCandidates({textIndex : this.state.keyword}); 
+            }
+            // this.props.searchJobs({textIndex : this.state.keyword});
+        }    
     }
 
     logoutUser(){
@@ -68,7 +83,7 @@ class Home extends Component {
         })
     }
 
-    searchForJobs(){
+    startSearch(userType){
 
         let criteria = {};
         if(this.state.keyword !== ''){
@@ -83,11 +98,21 @@ class Home extends Component {
             criteria.industry = this.state.industry
         }
 
-        this.props.searchJobs(criteria);
+        if(userType === "seeker"){
+            this.props.searchJobs(criteria);
+        }else{
+            this.props.searchCandidates(criteria); 
+        }
+        
+        // this.props.searchJobs(criteria);
     }
 
     closeJobPost(){
-        this.props.closeJobPost()
+        this.props.closeJobPost();
+    }
+
+    setDisplayElm(val){
+        this.props.setDisplay(val);
     }
 
     render() {
@@ -108,11 +133,16 @@ class Home extends Component {
          }
          let CurrunFullDate = curruntDate + "-" + curruntMonth + "-" + curruntYear;
          let user_name = "";
+         let  user = authUser.userName; 
          if(authUser) {
             user_name = authUser.userType === "seeker" ? 
             authUser.firstName + " " + authUser.lastName : authUser.companyName;
          }
-        
+         let userId = user._id;
+         let userType = authUser.userType;
+
+         console.log('vvvv user ', user)
+
          if(authUser && authUser.photo){
             userImg = authUser.photo
          }else{
@@ -153,18 +183,18 @@ class Home extends Component {
                                         {
                                             authUser.type === 'seeker' ? 
                                                 <div>
-                                                    <p className="actions">Profile</p>
-                                                    <p className="actions">Resume Center</p>
-                                                    <p className="actions">Applied Jobs</p>
-                                                    <p className="actions">Skill Tests</p>
+                                                    <p onClick={() => this.setDisplayElm('seeker_profile')} className="actions">Profile</p>
+                                                    <p onClick={() => this.setDisplayElm('resume_center')} className="actions">Resume Center</p>
+                                                    <p onClick={() => this.setDisplayElm('applied_jobs')} className="actions">Applied Jobs</p>
+                                                    <p onClick={() => this.setDisplayElm('skill_tests')} className="actions">Skill Tests</p>
                                                     <p onClick={this.logoutUser.bind(this)} className="actions logoutLink">Logout</p>
                                                 </div>
                                                 :
                                                 <div>
-                                                    <p className="actions">Profile</p>
-                                                    <p className="actions">Job Applications</p>
-                                                    <p className="actions">Job Posts</p>
-                                                    <p className="actions">Tests Portal</p>
+                                                    <p onClick={() => this.setDisplayElm('provider_profile')} className="actions">Profile</p>
+                                                    <p onClick={() => this.setDisplayElm('job_applications')} className="actions">Job Applications</p>
+                                                    <p onClick={() => this.setDisplayElm('job_posts')} className="actions">Job Posts</p>
+                                                    <p onClick={() => this.setDisplayElm('tests_portal')} className="actions">Tests Portal</p>
                                                     <p onClick={this.logoutUser.bind(this)} className="actions logoutLink">Logout</p>
                                                 </div>
                                         }
@@ -210,40 +240,106 @@ class Home extends Component {
                                 :
 
                                 <div id="homeDisplay">
-                                <div id="resultWrapperTop">
-                                    <div id="homeDisplayTop">
-                                        <p className="curruntDate fontNormal">Today : {CurrunFullDate}</p>
-                                        <p className="resultCount fontNormal">No of Jobs : {this.props.jobCount}</p>
-                                    </div>
-                                    <div id="searchCriteria">
+                                    {
+                                        this.props.displayElm === "provider_profile" &&
                                         <div>
-                                        <input id="keyword" value={this.state.keyword} onChange={this.setSearchCriteria.bind(this)} className="searchInput" type="text" placeholder="Search keyword" />
-    
-                                        <select  id="jobType" onChange={this.setSearchCriteria.bind(this)} className="jobType">
-                                            <option value="">Select type</option>
-                                            <option value="Full Time">Full Time</option>
-                                            <option value="Part Time">Part Time</option>
-                                        </select>
-    
-                                        <select id="industry" onChange={this.setSearchCriteria.bind(this)} className="industry">
-                                            <option value="">Select Industry</option>
-                                            {this.generateIndustries()}                                       
-                                        </select>
-                                        <button onClick={this.searchForJobs.bind(this)} id="searchJobsBtn"> Search </button>
+                                            <ProviderProfile 
+                                                companyName={user_name} 
+                                                user={user} 
+                                                img={userImg}
+                                                userId={userId} 
+                                            />
                                         </div>
                                         
-                                    </div>
-                                
-                                </div>
-                                <div id="searchResultsWrapper">
-                                    <div id="searchresultsDiv">
-                                        <Jobs/>
-                                    </div>
-                                </div>
-    
-                            </div>
+                                    }
 
+                                    {
+                                         this.props.displayElm === "seeker_profile" &&
+                                         <div>
+                                             <p>Seeker Profile</p>
+                                         </div>
+                                    }
+
+                                    {
+                                         this.props.displayElm === "job_applications" &&
+                                         <div>
+                                             <p>job applications</p>
+                                         </div>
+                                    }
+
+                                    {
+                                       this.props.displayElm === "job_posts" &&
+                                       <div>
+                                           <CreatedJobs userId={authUser._id} />
+                                       </div> 
+                                    }
+
+                                    {
+                                        this.props.displayElm === "tests_portal" &&
+                                        <div>
+                                            <p>test_portal</p>
+                                        </div>
+                                    }
+
+                                    {
+                                       this.props.displayElm  === "home" && 
+                                        <div>
+                                            <div id="resultWrapperTop">
+                                                <div id="homeDisplayTop">
+                                                    <p className="curruntDate fontNormal">Today : {CurrunFullDate}</p>
+                                                    {
+                                                        userType === "provider" &&
+                                                        <p className="resultCount fontNormal">No of seekers : {this.props.candidateCount}</p>
+                                                    }
+
+                                                     {
+                                                        userType === "seeker" &&
+                                                        <p className="resultCount fontNormal">No of Jobs : {this.props.jobCount}</p>
+                                                    }
+                                                   
+                                                </div>
+                                                <div id="searchCriteria">
+                                                    <div>
+                                                    <input id="keyword" value={this.state.keyword} onChange={this.setSearchCriteria.bind(this)} 
+                                                    className="searchInput" type="text" placeholder="Search keyword" />
+                
+                                                    <select  id="jobType" onChange={this.setSearchCriteria.bind(this)} className="jobType">
+                                                        <option value="">Select type</option>
+                                                        <option value="Full Time">Full Time</option>
+                                                        <option value="Part Time">Part Time</option>
+                                                    </select>
+                
+                                                    <select id="industry" onChange={this.setSearchCriteria.bind(this)} className="industry">
+                                                        <option value="">Select Industry</option>
+                                                        {this.generateIndustries()}                                       
+                                                    </select>
+                                                    <button onClick={() => this.startSearch(userType)} id="searchJobsBtn"> Search </button>
+                                                    </div>
+                                                    
+                                                </div>
+                                
+                                        </div>
+                                            <div id="searchResultsWrapper">
+                                                <div id="searchresultsDiv">
+                                                    {
+                                                        userType === "provider" &&
+                                                        <Candidates />
+                                                        
+                                                    }
+                                                    {
+                                                        userType === "seeker" &&
+                                                        <Jobs/>
+                                                    }
+                                                    
+                                                </div>
+                                            </div>
+                                    </div>
                             }
+
+                                
+    
+                        </div>
+                    }
  
                     </div>
                 </div>
@@ -261,7 +357,12 @@ const propTypes = {
     jobCount: PropTypes.number.isRequired,
     openJobPost: PropTypes.bool.isRequired,
     closeJobPost: PropTypes.func.isRequired,
-    jobToOpen: PropTypes.object.isRequired
+    jobToOpen: PropTypes.object.isRequired,
+    setDisplay: PropTypes.func.isRequired,
+    displayElm: PropTypes.string.isRequired,
+    searchCandidates: PropTypes.func.isRequired,
+    candidateCount: PropTypes.number.isRequired,
+    
 };
 
 const mapStateToProps = (state) => ({
@@ -269,7 +370,9 @@ const mapStateToProps = (state) => ({
     searchKeyword: state.search.keyword,
     jobCount : state.jobs.jobCount,
     openJobPost : state.jobs.openJobPost,
-    jobToOpen : state.jobs.jobToOpen
+    jobToOpen : state.jobs.jobToOpen,
+    displayElm: state.general.displayElm,
+    candidateCount: state.seeker.candidateCount
 
 });
 
@@ -284,6 +387,14 @@ const dispatchToProps = (dispatch) => ({
 
     closeJobPost : () => {
         dispatch(closeJobPost())
+    },
+
+    setDisplay: (val) => {
+        dispatch(setDisplay(val))
+    },
+
+    searchCandidates: (criteria) => {
+        dispatch(searchCandidates(criteria))
     }
 });
 

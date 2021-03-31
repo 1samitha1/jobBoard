@@ -1,8 +1,8 @@
-import { object } from 'prop-types';
 import {
     SET_JOB_DATA,
     OPEN_JOB_POST,
-    CLOSE_JOB_POST
+    CLOSE_JOB_POST,
+    CREATED_JOBS
 
 } from '../actions/jobs';
 
@@ -10,7 +10,8 @@ const jobs = ( state = {
     jobArray : [],
     jobCount : 0,
     jobToOpen : {},
-    openJobPost : false
+    openJobPost : false,
+    createdJobs : []
 
 }, action) => {
     switch (action.type) {
@@ -30,7 +31,12 @@ const jobs = ( state = {
             return Object.assign({}, state, {
                 openJobPost : false,
                 jobToOpen : {}
-            });     
+            });  
+            
+        case CREATED_JOBS :  
+            return Object.assign({}, state, {
+                createdJobs : action.createdJobs
+            });    
 
         default:
             return state;

@@ -43,7 +43,10 @@ const userSchema = new Schema({
     lastName : {
         type: String,
     },
-    textContent : {
+    textIndex : {
+        type: String,
+    },
+    registered : {
         type: String,
     }
 },{

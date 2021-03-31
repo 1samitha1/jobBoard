@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const Router = require('./routes/router');
 const User = require('./routes/user');
 const Job = require('./routes/job');
+const Seeker = require('./routes/seeker');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -58,6 +59,7 @@ app.use(flash());
 app.use('/', Router);
 app.use('/user', User);
 app.use('/job', Job);
+app.use('/candidate', Seeker)
 
 const port = 5000;
 

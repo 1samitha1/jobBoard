@@ -36,7 +36,7 @@ class RegProvider extends Component {
             data.userType = "seeker";
             if(data.firstName !=="" && data.userName !=="" && data.email !=="" && data.industry !==""){
                 if(data.password === data.passwordConf){
-                    data.textContent = data.firstName + " " + data.lastName + " " + data.email + " " + data.userName
+                    data.textIndex = `${data.firstName} ${data.lastName} ${data.industry} ${data.email} ${data.phone} ${data.userName}`
                     this.props.registerNewUser(data)
                 }else{
                     toast.error('Passowrd confirmation is not matching!',

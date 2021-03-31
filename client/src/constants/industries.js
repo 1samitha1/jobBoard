@@ -5,7 +5,7 @@ let industries = [
     },
     {
         name : "IT & Computing",
-        value: "IT"
+        value: "IT-Computing"
     },
     {
         name : "Banking",
@@ -16,12 +16,20 @@ let industries = [
         value: "marketing"
     },
     {
+        name : "Management",
+        value: "management"
+    },
+    {
+        name : "Medical",
+        value: "medical"
+    },
+    {
         name : "Education",
-        value: "edu"
+        value: "education"
     },
     {
         name : "Engineering",
-        value: "eng"
+        value: "engineering"
     },
     {
         name : "Hotel & Hospital",
@@ -33,15 +41,19 @@ let industries = [
     },
     {
         name : "Insurance",
-        value: "insu"
+        value: "insurance"
     },
     {
         name : "Business Administration",
         value: "BA"
     },
     {
-        name : "Hardware & Networking",
-        value: "H&N"
+        name : "Hardware",
+        value: "hardware"
+    },
+    {
+        name : "Networking",
+        value: "networking"
     },
     {
         name : "Telecommiunication",
@@ -53,8 +65,13 @@ let industries = [
     },
     {
         name : "Security",
-        value: "sec"
-    }
+        value: "security"
+    },
+    {
+        name : "Sales",
+        value: "sales"
+    },
+   
 ];
 
 

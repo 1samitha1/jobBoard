@@ -47,6 +47,9 @@ const jobSchema = new Schema({
     },
     textIndex : {
         type: String,
+    },
+    createdBy: {
+        type: String,
     }
     
 },{

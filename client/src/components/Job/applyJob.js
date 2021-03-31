@@ -44,9 +44,6 @@ class ApplyJob extends Component {
         
     }
 
-   
-       
-
     render() {
         
         return (

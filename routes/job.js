@@ -18,4 +18,12 @@ router.post('/search', (req, res) => {
     
 });
 
+router.post('/get', (req, res) => {
+    Job.getJobs(req.body)
+        .then((result) => {
+            res.send(result);
+        })
+    
+});
+
 module.exports = router;

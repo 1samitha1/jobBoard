@@ -3,12 +3,16 @@ import loginReducer from './login';
 import registerReducer from './register';
 import notification from './notification';
 import search from './search';
-import jobs from './jobs'
+import jobs from './jobs';
+import general from './general';
+import seeker from './seeker';
 
 export default combineReducers({
     login: loginReducer,
     register: registerReducer,
     notification: notification,
     search : search,
-    jobs : jobs
+    jobs : jobs,
+    general : general,
+    seeker : seeker
 })

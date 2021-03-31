@@ -4,7 +4,10 @@ import { connect } from "react-redux";
 import {createJob} from "../../actions/jobs";
 import "./jobStyles.css";
 import {industries} from '../../constants/industries';
+import {Form} from 'react-bootstrap'
+import {Link} from 'react-router-dom';
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
+
 
 class CreateJobs extends Component {
   constructor(props) {
@@ -47,7 +50,8 @@ class CreateJobs extends Component {
       companyName :  authUser.companyName,
       companyImg :  authUser.photo ? authUser.photo : "",
       expired : false,
-      textIndex : data.jobTitle + " " + data.jobPosition + " " + data.jobIndustry + " " + authUser.companyName
+      textIndex : data.jobTitle + " " + data.jobPosition + " " + data.jobIndustry + " " + authUser.companyName,
+      createdBy : authUser._id
     };
    
     this.props.createJob(job);
@@ -108,6 +112,18 @@ class CreateJobs extends Component {
       <div id="createJobsWrapper">
         <div id="createJobsDiv">
           <h2>Create a new job post</h2>
+
+          {/* <Form id="createJobForm">
+             <Form.Group controlId="job_title" className="formField mt-4" >
+              <Form.Label>Job title :</Form.Label>
+              <Form.Control type="text" 
+                placeholder="Job Title" 
+                onChange={this.handleFieldChange.bind(this)}
+                value={this.state.jobTitle}
+                maxlength="56" />
+              </Form.Group>
+          </Form>               */}
+
           {/* <form> */}
             <div className="jobFormRow">
               <div className="jobRowSingle">
@@ -119,7 +135,7 @@ class CreateJobs extends Component {
                   value={this.state.jobTitle}
                   placeholder="Job Title"
                   required
-                  maxlength="56"
+                  maxLength="56"
                 />
               </div>
             </div>
@@ -198,8 +214,7 @@ class CreateJobs extends Component {
              </div>
             </div>
 
-            <div className="jobFormRow">
-             <div className="jobRowDouble">
+            <div className="jobFormRowBtns">
                 <button onClick={() => this.createJob({
                    jobTitle: this.state.jobTitle,
                    jobPosition: this.state.jobPosition,
@@ -213,10 +228,8 @@ class CreateJobs extends Component {
                    views: 0,
                    jobType : this.state.jobType
                 })}>Create</button>
-             </div>
-             <div className="jobRowDouble">
-                  <button>Cancel</button>
-             </div>
+
+                <Link to="/home"><button>Back</button></Link>
             </div>
 
           {/* </form> */}
