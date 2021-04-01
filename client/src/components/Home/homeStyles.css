@@ -23,7 +23,7 @@
     width: 100%;
     height: 90%;
     float: left;
-    
+    overflow-x: hidden;
 }
 
 #homeSelections{

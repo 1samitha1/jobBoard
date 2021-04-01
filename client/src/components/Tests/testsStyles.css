@@ -1,0 +1,107 @@
+#testsWrapper{
+    width: 100%;
+    height: 100%;
+    color:#333333;
+}
+
+.testsDiv{
+    width: 85%;
+    height: 62vh;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border: 1px solid #fff;
+    overflow-y: scroll;
+    margin-top: 3%;
+    background-color: #00000052;
+}
+
+.testsItem{
+    width: 95%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    background-color: #d0cccc1c;
+}
+
+.testCol1{
+    width:65%;
+    height:auto;
+    border-right:1px solid #fff;
+    float: left;
+    position: relative;
+    color: #fff;
+}
+
+.testCol2{
+    width:30%;
+    height:auto;
+    float: left;
+    position: relative;
+    color: #fff;
+}
+
+.col2Items{
+    width:100%;
+}
+
+.testName{
+    font-size: 23px;
+    font-weight: 600;
+}
+
+.testStats{
+    width: 100%;
+    display: inline-flex;
+    font-size: 13px;
+    background-color: #ffffff47;
+    height: 14%;
+    float: left;
+}
+
+.testStats p{
+    margin-right: 4%;
+    margin-left: 2%;
+    float: left;
+    font-weight: 600;
+}
+
+.testStats span{
+    font-weight: normal;
+}
+
+.testActions{
+    height: 18%;
+    float: left;
+    width: 100%;
+    margin-top: 2%;
+}
+
+.testDetails{
+    font-size: 15px;
+    margin-top: 1%;
+}
+
+.testDetails p{
+    font-weight: 600;
+}
+
+.testDetails span{
+    font-weight: normal;
+}
+
+.actionIcons{
+    width: 4%;
+    margin-left: 1%;
+    margin-right: 1%;
+    float:right
+}
+
+.testsButtons{
+    width: 50%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center;
+}

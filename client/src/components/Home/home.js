@@ -12,17 +12,18 @@ import logoutIconBlack from '../../img/icons/logoutBlack.png';
 import closeIconWhite from '../../img/icons/closeWhite.png';
 
 import { Container,Row, Col } from 'react-bootstrap';
-import { logoutUser } from '../../actions/login'
+import { logoutUser } from '../../actions/login';
 import Jobs from '../Job/jobPost';
 import CreatedJobs from '../Job/createdJobs';
-import Candidates from '../Candidates/candidateResult'
-import ProviderProfile from '../Profile/profileProvider'
+import Candidates from '../Candidates/candidateResult';
+import ProviderProfile from '../Profile/profileProvider';
+import TestPortal from '../Tests/testsPortal';
 import {searchJobs, closeJobPost} from '../../actions/jobs';
-import {searchCandidates} from '../../actions/seeker'
+import {searchCandidates} from '../../actions/seeker';
 import {setDisplay} from '../../actions/general';
 import {industries} from '../../constants/industries';
 
-const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
+const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 
 class Home extends Component {
     constructor(props) {
@@ -277,7 +278,7 @@ class Home extends Component {
                                     {
                                         this.props.displayElm === "tests_portal" &&
                                         <div>
-                                            <p>test_portal</p>
+                                            <TestPortal />
                                         </div>
                                     }
 

@@ -44,7 +44,8 @@ class JobPost extends Component {
         <Row className="createdJobDiv">    
         <div key={i} className="jobDiv">
             <Row >
-                <Col md={12}><p className="job_title">{jobItem.title}</p>
+                <Col md={12}>
+                    <p className="job_title">{jobItem.title}</p>
                     <div>
                         <img titile="edit" className="editJobPost" src={editIcon} />
                         <img titile="delete" className="deleteJobPost" src={deleteIcon} />
@@ -89,34 +90,8 @@ class JobPost extends Component {
 
                 </div>
             </Row>
-
-
-            {/* <div className="jobLeft">
-                 
-            </div>
-            <div className="jobRight">
-                <div className="jobRightTop">
-                     <div>
-                         <p onClick={() => this.openJobPost(jobItem)} className="jobTitle jobToOpen">{jobItem.title}</p>
-                         <p className="jobAtributes topAttribute">
-                             <span className="jobAttribute">Applicants :</span> {jobItem.applicants}</p>
-                            
-                             
-                         <div>
-
-                         </div>
-                     </div>
-                     <p className="jobDescription">{content}</p>
-                </div>
-                <div className="jobRightBottom">
-                     <p className="jobAtributes"><span className="jobAttribute">Type : </span>{jobItem.type ? jobItem.type : "Full Time"}</p>
-                     <p className="jobAtributes"><span className="jobAttribute">Salary : </span>{jobItem.salary}</p>
-                     <p className="jobAtributes"><span className="jobAttribute">Posted : </span>{jobItem.startDate}</p>
-                     <p className="jobAtributes"><span className="jobAttribute">Expires : </span>{jobItem.expireDate}</p>
-                </div>
-                
-            </div> */}
-         </div></Row>)
+         </div>
+        </Row>)
     })
         return jobPosts;
     }

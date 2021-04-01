@@ -32,8 +32,8 @@ class profileProvider extends Component {
                     </div> */}
                   <Row> 
                     <h3 className="user">{this.props.user}</h3>
-                    </Row>
-                    <Row>
+                  </Row>
+                  <Row>
                     <h6  className="title">- {this.props.companyName} -</h6>
                   </Row> 
                   <Row>   
