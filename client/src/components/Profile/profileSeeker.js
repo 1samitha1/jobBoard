@@ -6,27 +6,27 @@ import {Container, Row, Col} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {setDisplay} from '../../actions/general';
 
-class profileProvider extends Component {
+class profileSeeker extends Component {
    constructor(props){
     super(props);
     this.state = {
         displyEditPanel : false,
         editing : false,
-        companyName : "", 
+        firstName : "", 
+        lastName : "",
         userName : "",
         email : "",
-        phone : "",
-        website : "", 
+        phone : "", 
     }
    }
 
    componentDidMount(){
     this.setState({
-        companyName : this.props.user.companyName,
+        firstName : this.props.user.firstName,
+        lastName : this.props.user.lastName,
         userName : this.props.user.userName,
         email : this.props.user.email,
-        phone : this.props.user.phone,
-        website : this.props.user.website
+        phone : this.props.user.phone
     })
    }
 
@@ -63,7 +63,7 @@ class profileProvider extends Component {
         return (
             <Container>  
             <div className="profileWrapper">
-               <div className="bottomPart">
+               <div className="bottomPart"> 
                     {/* <div>
                         <img src={this.props.img} />
                     </div> */}
@@ -71,13 +71,13 @@ class profileProvider extends Component {
                     <h3 className="user">{this.props.user.userName}</h3>
                   </Row>
                   <Row>
-                    <h6  className="title">- {this.props.user.companyName} -</h6>
+                    <h6  className="title">- {this.props.user.firstName + " " + this.props.user.lastName} -</h6>
                   </Row> 
                   <Row>   
                     <div className="activities">
                         <Col className="blocks" md={3} xs={6}>
                         <div >
-                            <p>Job Posts : 10</p>
+                            <p>Applied : 10</p>
                         </div>
                         </Col> 
 
@@ -89,7 +89,7 @@ class profileProvider extends Component {
 
                         <Col className="blocks" md={3} xs={6}> 
                         <div>
-                            <p>Tests created : 5</p>
+                            <p>Tests Faced : 5</p>
                         </div>
                         </Col> 
 
@@ -102,9 +102,13 @@ class profileProvider extends Component {
                     </div>
                 </Row> 
                 <Row className="basicDetails">
-                    <Col>
+                    <Col md={6} xs={6}>
                         <div>
-                            <p>Company name : </p>
+                            <p>First Name : </p>
+                        </div>
+
+                        <div>
+                            <p>Last Name : </p>
                         </div>
 
                         <div>
@@ -120,29 +124,39 @@ class profileProvider extends Component {
                         </div>
 
                         <div>
-                            <p>Website : </p>
-                        </div>
-
-                        <div>
                             <p>Industry : </p>
                         </div>
                         
                         <div>
-                            <p>Logo : </p>
+                            <p>Photo : </p>
                         </div>
                     </Col>
                     
-                    <Col>
+                    <Col md={6} xs={6}>
                         <div>
                             
                             {
                                 this.state.editing ?
-                                <input type="text" name="companyName"
+                                <input type="text" name="firstName"
                                     onChange={this.OnfieldChange.bind(this)} 
-                                    value={this.state.companyName}
-                                    id="companyName" className="editInput"></input>
+                                    value={this.state.firstName}
+                                    id="firstName" className="editInput"></input>
                                 :
-                                <p>{this.props.user.companyName}</p>
+                                <p>{this.props.user.firstName}</p>
+                            }
+                            
+                        </div>
+
+                        <div>
+                            
+                            {
+                                this.state.editing ?
+                                <input type="text" name="lastName"
+                                    onChange={this.OnfieldChange.bind(this)} 
+                                    value={this.state.lastName}
+                                    id="lastName" className="editInput"></input>
+                                :
+                                <p>{this.props.user.lastName}</p>
                             }
                             
                         </div>
@@ -191,20 +205,6 @@ class profileProvider extends Component {
                         </div>
 
                         <div>
-                            
-                            {
-                                this.state.editing ? 
-                                <input type="text" name="website"
-                                    onChange={this.OnfieldChange.bind(this)} 
-                                    value={this.state.website} 
-                                    id="website" className="editInput"></input>
-                                :
-                                <p>{this.props.user.website}</p>
-                            }
-                            
-                        </div>
-
-                        <div>
                             <p>{this.props.user.industries[0]}</p>
                         </div>
 
@@ -228,7 +228,7 @@ class profileProvider extends Component {
                        </Col>
 
                        <Col md={4} xs={12}> 
-                       <Link to="/create_a_job_post"><button className="actionButtons">Create Job</button></Link> 
+                       <button className="actionButtons">Bookmarks</button> 
                        </Col>
 
                        <Col md={4} xs={12}> 
@@ -236,9 +236,7 @@ class profileProvider extends Component {
                        </Col>
                    
                 </Row>     
-                    {/* <div className="recentActivities">
-
-                    </div> */}
+                  
                </div>
             </div>
             </Container> 
@@ -247,7 +245,6 @@ class profileProvider extends Component {
 }
 
 const propTypes = {
-    companyName : PropTypes.string.isRequired,
     user: PropTypes.string.isRequired,
     setDisplay: PropTypes.func.isRequired
 };
@@ -266,4 +263,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps)
-(profileProvider);
+(profileSeeker);

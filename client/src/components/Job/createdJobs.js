@@ -8,9 +8,11 @@ import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {getJobs} from '../../actions/jobs';
 import {Container, Row, Col} from 'react-bootstrap';
+import {setDisplay} from '../../actions/general';
 const editIcon = require('../../img/icons/edit-icon-white.png')
 const deleteIcon = require('../../img/icons/delete-icon-white.png')
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
+
 
 toast.configure();
 
@@ -25,6 +27,10 @@ class JobPost extends Component {
 
     componentDidMount(){
         this.props.getJobs(this.props.userId);
+    }
+
+    displaySearch(){
+        this.props.setDisplay("home") 
     }
 
     generateJobPosts(){
@@ -110,6 +116,14 @@ class JobPost extends Component {
                 <Row>
                     <Col className="noOfJobs" md={12}><p>No of Jobs : {this.props.createdJobs.length}</p></Col>
                 </Row>
+                <Row className="jobButtons">
+                    <Col md={6} xs={12}>
+                    <Link to="/create_a_job_post"><button className="jobMainActionBtn">Create Job</button></Link>
+                    </Col>
+                    <Col md={6} xs={12}>
+                        <button onClick={this.displaySearch.bind(this)} className="jobMainActionBtn">Back to search</button>
+                    </Col>
+                </Row>
                {this.generateJobPosts()}
             </div>
         );
@@ -119,7 +133,8 @@ class JobPost extends Component {
 const propTypes = {
     createdJobs: PropTypes.array.isRequired,
     getJobs: PropTypes.func.isRequired,
-    userId: PropTypes.string.isRequired
+    userId: PropTypes.string.isRequired,
+    setDisplay: PropTypes.func.isRequired
     
 };
 
@@ -132,6 +147,10 @@ const dispatchToProps = (dispatch) => ({
     getJobs : (data) => {
         dispatch(getJobs(data))
     },
+
+    setDisplay: (val) => {
+        dispatch(setDisplay(val))
+    }
 
     
 });

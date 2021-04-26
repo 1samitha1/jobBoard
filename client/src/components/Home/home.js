@@ -17,7 +17,10 @@ import Jobs from '../Job/jobPost';
 import CreatedJobs from '../Job/createdJobs';
 import Candidates from '../Candidates/candidateResult';
 import ProviderProfile from '../Profile/profileProvider';
+import ProviderSeeker from '../Profile/profileSeeker';
 import TestPortal from '../Tests/testsPortal';
+import AppliedJobs from '../Job/appliedJobs';
+import SkillTests from '../Tests/skillTests';
 import {searchJobs, closeJobPost} from '../../actions/jobs';
 import {searchCandidates} from '../../actions/seeker';
 import {setDisplay} from '../../actions/general';
@@ -154,7 +157,7 @@ class Home extends Component {
              }
          }
 
-         
+         {console.log('xxxxx authUser.type:', authUser.userType)}
         return (
             <Container fluid>
                  <Row style={{height:'100%'}}>
@@ -181,8 +184,10 @@ class Home extends Component {
                                         <div> 
                                             <p id="user_name">{user_name}</p>
                                         </div>
+                                        
                                         {
-                                            authUser.type === 'seeker' ? 
+                                            
+                                            authUser.userType === 'seeker' ? 
                                                 <div>
                                                     <p onClick={() => this.setDisplayElm('seeker_profile')} className="actions">Profile</p>
                                                     <p onClick={() => this.setDisplayElm('resume_center')} className="actions">Resume Center</p>
@@ -246,7 +251,7 @@ class Home extends Component {
                                         <div>
                                             <ProviderProfile 
                                                 companyName={user_name} 
-                                                user={user} 
+                                                user={authUser} 
                                                 img={userImg}
                                                 userId={userId} 
                                             />
@@ -257,7 +262,7 @@ class Home extends Component {
                                     {
                                          this.props.displayElm === "seeker_profile" &&
                                          <div>
-                                             <p>Seeker Profile</p>
+                                            <ProviderSeeker user={authUser}  />
                                          </div>
                                     }
 
@@ -279,6 +284,20 @@ class Home extends Component {
                                         this.props.displayElm === "tests_portal" &&
                                         <div>
                                             <TestPortal />
+                                        </div>
+                                    }
+
+                                    {
+                                        this.props.displayElm === "applied_jobs" &&
+                                        <div>
+                                            <AppliedJobs />
+                                        </div>
+                                    }
+
+                                    {
+                                        this.props.displayElm === "skill_tests" &&
+                                        <div>
+                                            <SkillTests />
                                         </div>
                                     }
 

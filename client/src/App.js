@@ -9,6 +9,8 @@ import Login from './components/Login/login';
 import IndexPage from './components/IndexPage/indexPage';
 import CreateJobs from './components/Job/createJobPosts';
 import ApplyJob from './components/Job/applyJob';
+import AdminLogin from './components/Admin/adminLogin';
+import AdminDashbord from './components/Admin/dashboard';
 import {Route, Switch, BrowserRouter} from 'react-router-dom';
 
 // Error pages
@@ -31,6 +33,9 @@ class App extends Component {
                 <Route path="/provider_registration" component={RegProvider} />
                 <Route path="/seeker_registration" component={RegSeeker} />
                 <Route path="/apply_job" component={ApplyJob} />
+
+                <Route path="/admin-login" component={AdminLogin} />
+                <Route path="/admin-dashboard" component={AdminDashbord} />
 
                 {(authUser && authUser.userType === 'provider') ?
                  <Route path="/create_a_job_post" component={CreateJobs} />

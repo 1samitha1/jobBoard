@@ -24,6 +24,7 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 2%;
+    border-bottom: 1px solid #fff;
 }
 
 .blocks{
@@ -64,4 +65,16 @@
 
 .actionButtons:hover{
     background-color: #42a1cebf;
+}
+
+.basicDetails{
+    width: 70%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+.editInput{
+    margin-bottom: 0.7rem;
 }

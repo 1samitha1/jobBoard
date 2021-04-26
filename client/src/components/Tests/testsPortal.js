@@ -7,9 +7,11 @@ import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import {} from '../../actions/tests';
 import {Container, Row, Col} from 'react-bootstrap';
+import {setDisplay} from '../../actions/general';
 const editIcon = require('../../img/icons/edit-icon-white.png')
 const deleteIcon = require('../../img/icons/delete-icon-white.png')
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
+
 
 toast.configure();
 
@@ -26,6 +28,10 @@ class TestsPortal extends Component {
         
     }
 
+    displaySearch(){
+        this.props.setDisplay("home") 
+    }
+
     generateTestDivs(){
 
     let Tests = [];
@@ -38,22 +44,22 @@ class TestsPortal extends Component {
         // }
         
         Tests.push(
-<Row className="testsItem">
-                    <Col className="testCol1" md={8} xs={12}>
-                                <Row>
-                                    <Col><p className="testName">JavaScript Basics</p></Col>
-                                </Row>
-                                <p>This test will test the basic JavaScript knowledge of the candidate.</p>
-                                <div className="testStats">
-                                    <p>Questions : <span> 10 </span></p>
-                                    <p>Type : <span> MCQ </span></p>
-                                    <p>Status : <span> Active </span></p>
-                                </div>
+            <Row className="testsItem">
+                <Col className="testCol1" md={8} xs={12}>
+                    <Row>
+                        <Col><p className="testName">Swift Mobile App development</p></Col>
+                    </Row>
+                        <p>This test will test the knowledge of swift development of the candidate.</p>
+                        <div className="testStats">
+                            <p>Questions : <span> 10 </span></p>
+                            <p>Type : <span> MCQ </span></p>
+                            <p>Status : <span> Active </span></p>
+                        </div>
 
-                                <div className="testActions">
-                                    <img src={deleteIcon} className="actionIcons" />
-                                    <img src={editIcon} className="actionIcons" />          
-                                </div>
+                        <div className="testActions">
+                            <img src={deleteIcon} className="actionIcons" />
+                            <img src={editIcon} className="actionIcons" />          
+                        </div>
                     </Col>
                     
                     <Col className="testCol2" md={4} xs={12}>
@@ -95,15 +101,11 @@ class TestsPortal extends Component {
                 </Row>
                 <Row className="testsButtons">
                     <Col md={6} xs={12}>
-                        <div>
-                            <button>Create Test</button>
-                        </div>
+                        <button className="testActionBtns">Create Test</button>
                     </Col>
 
                     <Col md={6} xs={12}>
-                        <div>
-                            <button>Back to search</button>
-                        </div>
+                        <button onClick={this.displaySearch.bind(this)} className="testActionBtns">Back to search</button>
                     </Col>
                 </Row>
 
@@ -146,22 +148,6 @@ class TestsPortal extends Component {
                 {this.generateTestDivs()}
             </div>
 
-                {/* <Row className="testsDiv">
-                   <div className="testsItem">
-                        
-
-                        <div className="testCol2">
-                            <Col  md={4} xs={6}>
-                                <Row><div className="col2Items" >
-                                    <p>Created : 20-10-2021</p>
-                                    <p>Duration : 30 minutes</p>
-                                    <p>Applicants : 10</p>
-                                    <p>Industry : IT Computing</p>
-                                </div> </Row>
-                            </Col>
-                        </div>    
-                    </div>   
-                </Row>  */}
                
             </div>
         );
@@ -169,7 +155,7 @@ class TestsPortal extends Component {
 }
 
 const propTypes = {
-    
+    setDisplay: PropTypes.func.isRequired
     
 };
 
@@ -179,7 +165,9 @@ const mapStateToProps = (state) => ({
 });
 
 const dispatchToProps = (dispatch) => ({
-    
+    setDisplay: (val) => {
+        dispatch(setDisplay(val))
+    }
 
     
 });

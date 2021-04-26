@@ -344,3 +344,116 @@
     margin: 2% 1% 0 0;
     cursor: pointer;
 }
+
+.jobButtons{
+    width: 50%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center;
+    margin-bottom: 3%;
+    margin-top: 2%;
+}
+
+.jobMainActionBtn{
+    width: 55%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    border-radius: 9px;
+    color: #fff;
+    background: #42a1ce45;
+    border: 1px solid;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.jobMainActionBtn:hover{
+    background-color: #42a1cebf;
+}
+
+/*applied jobs */
+
+.appliedJobs{
+    width: 92%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    overflow-y: scroll;
+    border: 1px solid #fff;
+    background-color: #00000052;
+    height:54vh
+}
+
+.appliedJobsCol1{
+    width: 60%;
+    float: left;
+    height: 100%;
+    border-right: 1px solid #fff;
+}
+
+.appliedJobsCol2{
+    width: 40%;
+    float: left;
+    height: 100%;
+}
+
+.colItem{
+    width: 33% !important;;
+    float: left;
+    height: 100%;
+}
+
+.title{
+    font-size: 21px;
+    float:left;
+}
+
+.jobMsg{
+    font-size: 14px;
+    float:left;
+}
+
+.jobCompany{
+    font-size: 14px;
+    float:left;
+}
+
+.jobStatItems{
+    text-align: center;
+    text-decoration: underline;
+    font-weight: 600;
+    font-size: 17px;
+
+}
+
+.JobAppliedBtns{
+    width: 17%;
+    font-size: 12px;
+    margin: 2% 2% 2%;
+    height: 20%;
+}
+
+.appliedJobDiv{
+    width: 89%;
+    /* background-color: #efefef; */
+    background-color: #67626270;
+    margin-left: auto;
+    margin-right: AUTO;
+    margin-top: 2%;
+    height: 50%;
+    border-radius: 5px;
+    color: #ffffff;
+    border: 2px solid rgb(223, 223, 223);
+    margin-bottom: 2%;
+}
+
+.appliedJobMainActionBtn{
+    width: 32%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    border-radius: 9px;
+    color: #fff;
+    background: #42a1ce45;
+    border: 1px solid;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
