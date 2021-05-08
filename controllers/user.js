@@ -1,7 +1,12 @@
 const User = require("../schemas/user");
 const bcrypt = require("bcryptjs");
+const ObjectId = require('mongodb').ObjectID;
 
 const registerNewUser = (data) => {
+  try {
+
+  
+  console.log('vvvvvv registerNewUser : ', data)
   return new Promise((resolve, reject) => {
     User.findOne( { $or: [ { email: data.email }, { userName: data.userName } ] } )
     .then((result) => {
@@ -16,6 +21,7 @@ const registerNewUser = (data) => {
             bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(newUser.password, salt, (err, hash) => {
               newUser.password = hash;
+              console.log('vvvvvv newUser : ', newUser)
               newUser.save()
                     .then((savedUser) => {
                      resolve({success: true, msg : "Registration Successful!"});
@@ -25,8 +31,59 @@ const registerNewUser = (data) => {
          }
     });
   });
+}catch(err){
+   console.log('error while register : ', err) 
+}
 };
+
+const uploadUserImage = (userData) => {
+  return new Promise((resolve, reject) => {
+     User.findOneAndUpdate({_id : ObjectId(userData.id)}, {photo : userData.filePath}, 
+     { new: true}, ((err, doc) => {
+       if(err){
+        reject({success: false, Error: err})
+       }
+
+       resolve({success: true, result : doc})
+     }))
+  })  
+};
+
+const updateProvider = (userData) => {
+  try{
+    return new Promise((resolve, reject) => {
+
+      let query =  { "$set": { 
+        "companyName": userData.companyName,
+        "userName": userData.userName,
+        "email" : userData.email,
+        "website" : userData.website,
+        "industries" : userData.industries,
+        "phone" : userData.phone,
+        "textIndex" : userData.textIndex
+      }
+    }
+      
+      User.findOneAndUpdate({ "_id": userData.id }, query).exec((err, res) => {
+        if(err) {
+            console.log(err);
+            reject({error : err})
+        } else {
+            delete res.password;
+            resolve({success : true, result : res})
+        }
+     });
+    });
+
+  }catch(err){
+    reject({success : false, error : err});
+    console.log('error while updateUser : ', err)
+  }
+ 
+}
 
 module.exports = {
   registerNewUser,
+  uploadUserImage,
+  updateProvider
 };

@@ -108,6 +108,38 @@
     position: relative;
     float:left;
     border-bottom:1px solid #fff ;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.dashboardTopLeft{
+    width: 90%;
+    float: left;
+}
+
+#dashboardTopLeftTxt{
+    margin-top: 1.5%;
+    color: #fff;
+    font-size: 19px;
+}
+
+.dashboardTopRight{
+    width: 10%;
+    float: left;
+}
+
+#dashboardLogout{
+    margin: 14px 12px 8px 34px;
+    border: 1px solid #ffffff;
+    background-color: #3333335c;
+    border-radius: 5px;
+    color: #f1ecec;
+    width: 57%;
+}
+
+#dashboardLogout:hover{
+    color: #e64545;
+    border: 1px solid #e64545;
 }
 
 #dashboardBottom{
@@ -115,4 +147,38 @@
     height: 90%;
     position: relative;
     float:left;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.adminActionRows{
+    width: 92%;
+    float: left;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 2%;
+}
+
+.adminActions{
+    width: 43%;
+    /* height: 58%; */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 8%;
+    border-radius: 9px;
+    text-align: center;
+    border:1px solid #fff;
+    cursor:pointer;
+    padding: 10px;
+    color: #fff;
+    background-color: #016aa436;
+}
+
+.adminActions:hover{
+    background-color: #00b54857
+}
+
+.adminActionTxt{
+    padding: 23% 10% 8% 10%;
+    font-size: 20px;
 }

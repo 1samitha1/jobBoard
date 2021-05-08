@@ -5,7 +5,7 @@ let industries = [
     },
     {
         name : "IT & Computing",
-        value: "IT-Computing"
+        value: "ITComputing"
     },
     {
         name : "Banking",
@@ -33,7 +33,7 @@ let industries = [
     },
     {
         name : "Hotel & Hospital",
-        value: "hotel"
+        value: "hotel hospitality"
     },
     {
         name : "Health",
@@ -45,7 +45,7 @@ let industries = [
     },
     {
         name : "Business Administration",
-        value: "BA"
+        value: "Business Admin"
     },
     {
         name : "Hardware",
@@ -61,7 +61,7 @@ let industries = [
     },
     {
         name : "Office Admin",
-        value: "office"
+        value: "office admin"
     },
     {
         name : "Security",

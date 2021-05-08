@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import loginReducer from './login';
+import userReducer from './user';
 import registerReducer from './register';
 import notification from './notification';
 import search from './search';
@@ -8,7 +8,7 @@ import general from './general';
 import seeker from './seeker';
 
 export default combineReducers({
-    login: loginReducer,
+    user: userReducer,
     register: registerReducer,
     notification: notification,
     search : search,

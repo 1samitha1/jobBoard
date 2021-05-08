@@ -24,8 +24,6 @@ class CandidatePost extends Component {
 
     let candidateImg = defaultUser;
     let candidates = [];
-
-    console.log('vvvvv this.props.candidates : ', this.props.candidates)
     
     this.props.candidates.map((candidate, i) => {
         
@@ -43,6 +41,8 @@ class CandidatePost extends Component {
                          
                              
                          <div>
+                             <button>View</button>
+                             <button>Send offers</button>
 
                          </div>
                      </div>

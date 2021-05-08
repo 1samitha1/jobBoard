@@ -26,4 +26,13 @@ router.post('/get', (req, res) => {
     
 });
 
+router.post('/delete', (req, res) => {
+    console.log('delete route : ', req.body)
+    Job.deleteJob(req.body)
+        .then((result) => {
+            res.send(result);
+        })
+    
+});
+
 module.exports = router;

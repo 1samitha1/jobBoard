@@ -34,12 +34,14 @@ const searchJobs = (criteria) => {
 };
 
 const getJobs = (data) => {
+  console.log('xxxxx getJobs : ', data)
   return new Promise((resolve, reject) => {
     Job.find({createdBy : data.createdBy}, (err, result) => {
       if (err) {
         reject({success: false, error: err})
       } else {
         if (result) {
+          console.log('xxxxx getJobs res : ', result)
           resolve({success: true, data: result})
         }
       }
@@ -47,10 +49,23 @@ const getJobs = (data) => {
   });
 };
 
-
+const deleteJob = (data) => {
+  return new Promise((resolve, reject) => {
+    Job.deleteOne({ _id: data.jobId }).then(() => {
+      getJobs({createdBy : data.createdBy})
+      .then((result) => {
+        resolve(result);
+      })
+    }).catch((error) =>{
+      console.log(error);
+      reject({success: false, error: err})
+    })
+  })
+}
 
 module.exports = {
     createNewJob,
     searchJobs,
-    getJobs
+    getJobs,
+    deleteJob
 };

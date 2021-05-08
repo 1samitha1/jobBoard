@@ -5,7 +5,11 @@ import './profile.css';
 import {Container, Row, Col} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {setDisplay} from '../../actions/general';
+import {uploadImage} from '../../actions/documents';
+import {updateUserInfo} from '../../actions/user';
+import {industries} from '../../constants/industries';
 
+const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 class profileProvider extends Component {
    constructor(props){
     super(props);
@@ -17,8 +21,10 @@ class profileProvider extends Component {
         email : "",
         phone : "",
         website : "", 
+        image : {}
     }
    }
+
 
    componentDidMount(){
     this.setState({
@@ -26,8 +32,10 @@ class profileProvider extends Component {
         userName : this.props.user.userName,
         email : this.props.user.email,
         phone : this.props.user.phone,
-        website : this.props.user.website
+        website : this.props.user.website,
+        industry : this.props.user.industries[0]
     })
+    console.log('bbbb ', industries)
    }
 
    displaySearch(){
@@ -57,6 +65,45 @@ class profileProvider extends Component {
         this.setState({
             editing: false
         })
+    }
+
+    handleFileSelect(evt){
+        this.setState({
+            image: evt.target.files[0]
+        })
+    }
+
+    uploadImage(){
+        this.props.uploadImage(this.state.image, "provider", authUser._id);
+        // this.setState({
+        //     image: evt.target.files[0]
+        // })
+    }
+
+    updateUserInfo(){
+        let dataObj = {
+            companyName : this.state.companyName,
+            userName : this.state.userName,
+            userType : "provider",
+            email : this.state.email,
+            phone : this.state.phone,
+            website : this.state.website,
+            industries : [this.state.industry],
+            textIndex : this.state.companyName + " " + this.state.email + " " + this.state.website,
+            id : authUser._id
+        }
+
+        this.props.updateUserInfo(dataObj);
+    }
+
+    renderIndustries(){
+        if(industries){
+            let industryList = [];
+             industries.map((ind, i) => {
+                industryList.push(<option value={ind.value}>{ind.name}</option>)
+            });
+            return industryList;
+        }
     }
 
     render() {
@@ -205,11 +252,20 @@ class profileProvider extends Component {
                         </div>
 
                         <div>
-                            <p>{this.props.user.industries[0]}</p>
+                        {
+                                this.state.editing ? 
+                                <select>
+                                    {this.renderIndustries()}
+                                </select>
+                                :
+                                <p>{this.props.user.industries[0]}</p>
+                            }
+                           
                         </div>
 
                         <div>
-                           <button>Upload</button>
+                            <input type="file" accept="image/*" name="photo"  onChange={this.handleFileSelect.bind(this)}/>
+                            <button className="profileMainActions" onClick={this.uploadImage.bind(this)} value="upload">Upload</button>
                         </div>
                         
                     </Col>
@@ -228,7 +284,14 @@ class profileProvider extends Component {
                        </Col>
 
                        <Col md={4} xs={12}> 
-                       <Link to="/create_a_job_post"><button className="actionButtons">Create Job</button></Link> 
+                       {
+                           this.state.editing ?
+                            <button onClick={this.updateUserInfo.bind(this)} className="actionButtons">Save</button>
+                                :
+                            <button  className="actionButtonsDisabled" disabled>Save</button>
+
+                       }
+                      
                        </Col>
 
                        <Col md={4} xs={12}> 
@@ -249,7 +312,9 @@ class profileProvider extends Component {
 const propTypes = {
     companyName : PropTypes.string.isRequired,
     user: PropTypes.string.isRequired,
-    setDisplay: PropTypes.func.isRequired
+    setDisplay: PropTypes.func.isRequired,
+    uploadImage: PropTypes.func.isRequired,
+    updateUserInfo: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -260,6 +325,14 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     setDisplay: (val) => {
         dispatch(setDisplay(val))
+    },
+
+    uploadImage: (file, type, id) => {
+        dispatch(uploadImage(file, type, id))
+    },
+
+    updateUserInfo: (data) => {
+        dispatch(updateUserInfo(data))
     }
 });
 

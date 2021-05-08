@@ -74,7 +74,6 @@ const getJobs = (data) => {
             withCredentials: true,
             credentials: "same-origin",
         }).then((res) => {
-            console.log('vvvvv res.data.data : ',res.data.data)
            dispatch({
                type: CREATED_JOBS,
                createdJobs : res.data.data
@@ -83,6 +82,22 @@ const getJobs = (data) => {
     }
 };
 
+const deleteJobById = (data) => {
+    console.log('vvvv deleteJobById : ', deleteJobById)
+    return (dispatch) => {
+        axios.post('/job/delete',
+        data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+           dispatch({
+               type: CREATED_JOBS,
+               createdJobs : res.data.data
+           })
+        });
+    }
+}
+
 
 export  {
     createJob,
@@ -90,5 +105,6 @@ export  {
     searchJobs,
     closeJobPost,
     sendJobApplication,
-    getJobs
+    getJobs,
+    deleteJobById
 }

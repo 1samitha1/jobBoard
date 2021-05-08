@@ -277,6 +277,7 @@
 
 .createdJobDiv{
     width: 92%;
+    height: 30vw;
     margin-left: auto !important;
     margin-right: auto !important;
     overflow-y: scroll;

@@ -8,8 +8,7 @@ const userSchema = new Schema({
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+        //required: true,
     },
     password: {
         type: String,
@@ -35,7 +34,7 @@ const userSchema = new Schema({
         type: [{
             type: String
         }],
-        required: true
+        // required: true
     },
     firstName : {
         type: String,
@@ -47,6 +46,9 @@ const userSchema = new Schema({
         type: String,
     },
     registered : {
+        type: String,
+    },
+    photo : {
         type: String,
     }
 },{

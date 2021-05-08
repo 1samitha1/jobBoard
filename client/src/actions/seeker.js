@@ -10,7 +10,6 @@ const searchCandidates = (criteria) => {
             withCredentials: true,
             credentials: "same-origin",
         }).then((res) => {
-            console.log('vvvvvv seekers ', res.data.data)
            dispatch({
                type: SET_CANDIDATE_DATA,
                data : res.data.data
@@ -18,6 +17,8 @@ const searchCandidates = (criteria) => {
         });
     }
 };
+
+
 
 export  {
     searchCandidates,

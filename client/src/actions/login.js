@@ -1,11 +1,12 @@
 import fetchRequests from '../routes/fetchServer';
 import axios from 'axios';
 import toast from '../configs/toast'; 
+import {setCurrentUser} from './user';
 
 // export const REMINDER_LIST_FOR_COMPANY = "REMINDER_LIST_FOR_COMPANY";
 
 const userLogin = (data) => {
-    return () => {
+    return (dispatch) => {
         data.userName =  data.userName.toLowerCase();
         fetch('/user/login',{
             method: 'POST',
@@ -23,6 +24,7 @@ const userLogin = (data) => {
                 if(res && res.success){
                     delete res.authenticatedUser.password;
                     localStorage.setItem('authenticatedUser', JSON.stringify(res.authenticatedUser))
+                    dispatch(setCurrentUser(res.authenticatedUser))
                     window.location.href = "http://localhost:3000/";
                 }else{
                     toast.error('Invalid username or password!',

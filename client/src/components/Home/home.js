@@ -26,7 +26,7 @@ import {searchCandidates} from '../../actions/seeker';
 import {setDisplay} from '../../actions/general';
 import {industries} from '../../constants/industries';
 
-const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
+let authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 
 class Home extends Component {
     constructor(props) {
@@ -34,28 +34,30 @@ class Home extends Component {
        this.state = {
            keyword : this.props.searchKeyword,
            jobType: "",
-           industry: ""  
+           industry: "",
+           currentUser : {}  
        }
     }
    
     componentDidMount(){
+       
         let userType = authUser.userType;
-        console.log('xxxxx userType : ', userType)
         if(this.state.keyword === ""){
             if(userType === "seeker"){
                 this.props.searchJobs({});
             }else if(userType === "provider"){
                 this.props.searchCandidates({});
             }
-            // this.props.searchJobs({});
+           
         }else{
             if(userType === "seeker"){
                 this.props.searchJobs({textIndex : this.state.keyword});
             }else if(userType === "provider"){
                 this.props.searchCandidates({textIndex : this.state.keyword}); 
             }
-            // this.props.searchJobs({textIndex : this.state.keyword});
-        }    
+            
+        } 
+       
     }
 
     logoutUser(){
@@ -90,17 +92,36 @@ class Home extends Component {
     startSearch(userType){
 
         let criteria = {};
-        if(this.state.keyword !== ''){
-            criteria.textIndex = this.state.keyword
+        if(userType === "seeker"){
+            if(this.state.keyword !== ''){
+                criteria.textIndex = this.state.keyword
+            }
+    
+            if(this.state.jobType !== ''){
+                criteria.type = this.state.jobType
+            }
+    
+            if(this.state.industry !== ''){
+                criteria.industry = this.state.industry
+            }
+            this.props.searchJobs(criteria);
+        }else{
+            if(this.state.keyword !== ''){
+                criteria.textIndex = this.state.keyword
+            }
+    
+            if(this.state.jobType !== ''){
+                criteria.textIndex += " " + this.state.jobType
+            }
+    
+            if(this.state.industry !== ''){
+                criteria.industries = this.state.industry
+            }
+
+            this.props.searchCandidates(criteria); 
         }
 
-        if(this.state.jobType !== ''){
-            criteria.type = this.state.jobType
-        }
-
-        if(this.state.industry !== ''){
-            criteria.industry = this.state.industry
-        }
+       
 
         if(userType === "seeker"){
             this.props.searchJobs(criteria);
@@ -120,9 +141,11 @@ class Home extends Component {
     }
 
     render() {
-        const {displayNotificationWrapper, openJobPost, jobToOpen} = this.props
+        const {displayNotificationWrapper, openJobPost, jobToOpen, currentUser} = this.props
 
-        console.log('xxxx jobToOpen : ', jobToOpen)
+        if(currentUser.userType){
+            authUser = this.props.currentUser;
+        } 
 
          let userImg = defaultUser;
          let curruntTimestamp = new Date();
@@ -145,8 +168,6 @@ class Home extends Component {
          let userId = user._id;
          let userType = authUser.userType;
 
-         console.log('vvvv user ', user)
-
          if(authUser && authUser.photo){
             userImg = authUser.photo
          }else{
@@ -156,8 +177,7 @@ class Home extends Component {
                 userImg = defaultCompany
              }
          }
-
-         {console.log('xxxxx authUser.type:', authUser.userType)}
+         
         return (
             <Container fluid>
                  <Row style={{height:'100%'}}>
@@ -382,6 +402,7 @@ const propTypes = {
     displayElm: PropTypes.string.isRequired,
     searchCandidates: PropTypes.func.isRequired,
     candidateCount: PropTypes.number.isRequired,
+    currentUser: PropTypes.object.isRequired
     
 };
 
@@ -392,7 +413,8 @@ const mapStateToProps = (state) => ({
     openJobPost : state.jobs.openJobPost,
     jobToOpen : state.jobs.jobToOpen,
     displayElm: state.general.displayElm,
-    candidateCount: state.seeker.candidateCount
+    candidateCount: state.seeker.candidateCount,
+    currentUser : state.user.currentUser
 
 });
 

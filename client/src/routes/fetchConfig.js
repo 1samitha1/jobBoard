@@ -1,7 +1,6 @@
 
 const fetchObj = {
     fetchRequest : (endPoint, options) => {
-        console.log('xxxxx fetchRequest')
         fetch(endPoint, options)
         .then(response => response.json())
         .then(json => {

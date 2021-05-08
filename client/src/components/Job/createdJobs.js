@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 import defaultCompany from '../../img/defaults/defaultCompany.png';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {getJobs} from '../../actions/jobs';
+import {getJobs, deleteJobById} from '../../actions/jobs';
 import {Container, Row, Col} from 'react-bootstrap';
 import {setDisplay} from '../../actions/general';
 const editIcon = require('../../img/icons/edit-icon-white.png')
@@ -26,19 +26,24 @@ class JobPost extends Component {
     }
 
     componentDidMount(){
-        this.props.getJobs(this.props.userId);
+        this.props.getJobs({createdBy:this.props.userId});
     }
 
     displaySearch(){
         this.props.setDisplay("home") 
     }
 
+    deleteJobPost(data){
+        this.props.deleteJobById(data)
+    }
+
     generateJobPosts(){
+        console.log('xxxxxxx this.props.createdJobs : ', this.props.createdJobs)
 
     let jobPosts = [];
-    console.log('vvvv this.props.createdJobs : ', this.props.createdJobs)
     
     this.props.createdJobs.map((jobItem, i) => {
+        console.log('vvv jobItem : ', jobItem)
 
         let content = jobItem.description;
         if(content.length > 153){
@@ -46,15 +51,13 @@ class JobPost extends Component {
         }
         
         jobPosts.push(
-        
-        <Row className="createdJobDiv">    
         <div key={i} className="jobDiv">
             <Row >
                 <Col md={12}>
                     <p className="job_title">{jobItem.title}</p>
                     <div>
                         <img titile="edit" className="editJobPost" src={editIcon} />
-                        <img titile="delete" className="deleteJobPost" src={deleteIcon} />
+                        <img onClick={() => this.deleteJobPost({jobId: jobItem._id, createdBy : jobItem.createdBy})} titile="delete" className="deleteJobPost" src={deleteIcon} />
                     </div>
                 </Col>
             </Row>
@@ -97,8 +100,9 @@ class JobPost extends Component {
                 </div>
             </Row>
          </div>
-        </Row>)
+        )
     })
+    
         return jobPosts;
     }
 
@@ -124,7 +128,10 @@ class JobPost extends Component {
                         <button onClick={this.displaySearch.bind(this)} className="jobMainActionBtn">Back to search</button>
                     </Col>
                 </Row>
-               {this.generateJobPosts()}
+                <Row className="createdJobDiv">
+                {this.generateJobPosts()}
+                </Row>
+               
             </div>
         );
     }
@@ -150,7 +157,11 @@ const dispatchToProps = (dispatch) => ({
 
     setDisplay: (val) => {
         dispatch(setDisplay(val))
-    }
+    },
+
+    deleteJobById: (data) => {
+        dispatch(deleteJobById(data))
+    },
 
     
 });
