@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // import {} from '../../actions/tests';
 import {Container, Row, Col} from 'react-bootstrap';
 import {setDisplay} from '../../actions/general';
+import { getTestsByUser} from '../../actions/tests'
 const editIcon = require('../../img/icons/edit-icon-white.png')
 const deleteIcon = require('../../img/icons/delete-icon-white.png')
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
@@ -25,6 +26,11 @@ class TestsPortal extends Component {
     }
 
     componentDidMount(){
+        if(this.props.currentUser){
+            this.props.getTestsByUser({id : this.props.currentUser._id});
+        }else{
+            this.props.getTestsByUser({id : authUser._id});
+        }
         
     }
 
@@ -87,6 +93,11 @@ class TestsPortal extends Component {
         this.props.openJobPost(jobData)
     }
 
+    
+    displayCreateTest(){
+        this.props.setDisplay("create_test") 
+    }
+
 
     render() {
         return (
@@ -101,7 +112,7 @@ class TestsPortal extends Component {
                 </Row>
                 <Row className="testsButtons">
                     <Col md={6} xs={12}>
-                        <button className="testActionBtns">Create Test</button>
+                        <button onClick={this.displayCreateTest.bind(this)} className="testActionBtns">Create Test</button>
                     </Col>
 
                     <Col md={6} xs={12}>
@@ -155,7 +166,8 @@ class TestsPortal extends Component {
 }
 
 const propTypes = {
-    setDisplay: PropTypes.func.isRequired
+    setDisplay: PropTypes.func.isRequired,
+    getTestsByUser : PropTypes.func.isRequired
     
 };
 
@@ -167,8 +179,11 @@ const mapStateToProps = (state) => ({
 const dispatchToProps = (dispatch) => ({
     setDisplay: (val) => {
         dispatch(setDisplay(val))
-    }
+    },
 
+    getTestsByUser : (data) => {
+        dispatch(getTestsByUser(data))
+    }
     
 });
 

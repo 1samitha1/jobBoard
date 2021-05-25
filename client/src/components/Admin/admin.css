@@ -100,6 +100,7 @@
     background-position: right;
     background-color: #00000052;
     border: 1px solid #fff;
+    overflow: hidden;
 }
 
 #dashboardTop{
@@ -107,7 +108,6 @@
     height: 10%;
     position: relative;
     float:left;
-    border-bottom:1px solid #fff ;
     margin-left: auto !important;
     margin-right: auto !important;
 }
@@ -181,4 +181,526 @@
 .adminActionTxt{
     padding: 23% 10% 8% 10%;
     font-size: 20px;
+}
+
+/* overlay */
+
+Row{
+    margin-right: auto; 
+    margin-left: auto;
+}
+
+.overlayWrapper{
+    width:100%;
+    height:100%;
+    overflow-x: hidden;
+}
+
+.overlay{
+    width:100%;
+    height:100%;
+}
+
+#overlay{
+    width:100%;
+    height:100%;
+    margin-right: auto !important; 
+    margin-left: auto !important;
+}
+
+/* ManageUsers */
+
+#manageUsersWrapper{
+    width: 95%;
+    height: 100%;
+    /* background-color: #e64545; */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    
+}
+
+.titile{
+    text-align: center;
+    font-size: 26px;
+    color: #ffffff;
+    float: left;
+    width: 97%;;
+    
+}
+
+.manageUsersBody{
+    width: 93%;
+    height: 38vw;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #ffffff;
+}
+
+.sides{
+    height:100%;
+    float: left;
+}
+
+.leftSide{
+    border-right: 1px solid #fff;
+}
+
+#closeIcon{
+    width:2.5%;
+    float:left;
+    cursor: pointer;
+}
+
+#resultDiv{
+    width:98%;
+    height: 83%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3%;
+    overflow-y: scroll;
+    margin-bottom: 2%;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    background-color: #00000052
+}
+
+.resultCount{
+    margin-bottom: 6%;
+    margin-right: 5%;
+    color: #ffffff;
+    float: right;
+}
+
+.resultItem{
+    width: 95%;
+    height: 30%;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    margin-bottom: 3%;
+    background-color: #a09a9a2e
+}
+
+.itemPart{
+    float: left;
+    height: 100%;
+    text-align: center;
+    color:#ffffff
+}
+
+.borderLeft{
+    border-right: 1px solid #ffffff;
+}
+
+.name_user{
+    font-size: 22px;
+    margin-bottom: 1px;
+    max-width: 99%;
+    text-align: center;
+    margin-top: 3%;
+}
+
+.email_user{
+    font-size:14px
+}
+
+.userActionsBtns{
+    width: 96%;
+    margin-top: 19%;
+    margin-bottom: 1%;
+    box-shadow: none;
+    border: 1px solid;
+    border-radius: 7px;;
+    padding: 1%;
+    background: #42a1ce45;
+    color: #ffffff;
+}
+
+.userActionsBtns:hover{
+    background-color: #42a1cebf
+}
+
+.imageWrapper{
+    width: 100%;
+    height: 85%;
+    margin-top: 7%;
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+}
+
+.imageWrapper img{
+    width:100%;
+    height: 100%;
+}
+
+.searchFilters{
+    width:100%;
+    height:100%;
+    text-align: center;
+}
+
+.searchFilters Col{
+    text-align: center;
+}
+
+.filterHeading{
+    margin-top: 5%;
+    color: #ffffff;
+    font-size: 21px;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.filterItems{
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+.filterInput {
+    width: 93%;
+    border-radius: 8px;
+    box-shadow: none;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 8%;
+    padding: 5px 11px;
+    background: #fffffffa;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.itemSelections{
+    width:85%;
+    height: 100%;
+    padding: 4%;
+    border-radius: 6px;
+    border: 1px solid #ffffff;
+}
+
+.singleSelection{
+    padding: 2%;
+    width: 60%;
+}
+
+.filterSearchBtn{
+    width: 33%;
+    margin-top: 10%;
+    margin-bottom: 1%;
+    box-shadow: none;
+    border: 1px solid;
+    border-radius: 7px;;
+    padding: 1%;
+    background: #42a1ce45;
+    color: #ffffff;
+}
+
+.filterSearchBtn:hover{
+    background-color: #42a1cebf
+}
+
+.overLapMainDiv{
+    width:100%;
+    height:100%;
+}
+
+.filterSemiHeading{
+    color:#ffffff;
+}
+
+/* Manage Jobs */
+
+.jobFilterPanel{
+    width: 100%;
+    height: 60px;
+    border-bottom: 1px solid #ffffff;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.j_filters {
+    width: 100%;
+    padding: 4%;
+    border-radius: 7px;
+    margin-top: 5%;
+    margin-right: 3%;
+    min-width: 80%;
+}
+
+.jobFilterSearchBtn{
+    width: 50%;
+    margin-top: 6%;
+    margin-bottom: 1%;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid;
+    border-radius: 7px;
+    padding: 2%;
+    background: #42a1ce45;
+    color: #ffffff;
+}
+
+#jobResultDiv{
+    width:98%;
+    height: 25vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3%;
+    overflow-y: scroll;
+    margin-bottom: 2%;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    background-color: #00000052
+}
+
+.latestJobs{
+    width:98%;
+    height: 26.5vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3%;
+    overflow-y: scroll;
+    margin-bottom: 2%;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    background-color: #00000052
+}
+
+
+/* Admin Profile */
+
+#adminProfile{
+    width: 100%;
+    height: 46vw;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+#adminWrapper{
+    width:80%;
+    height: 500px;
+    border: 1px solid #ffffff;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    border-radius: 6px;
+}
+
+#profileTop{
+    width:100%;
+    height: 10%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border-bottom: 1px solid #ffffff;
+    background-color: #3333335c;
+}
+
+#profileDetails{
+    width: 100%;
+    height: 90%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+#adminImgHolder{
+    width: 85%;
+    height: 65%;
+    margin-top: 23%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 26%;
+    border: 1px solid #ffffff;
+}
+
+#detailDiv{
+    width: 92%;
+    height: 84%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #ffffff;
+    margin-top: 5%;
+    background-color: #3333335c;
+}
+
+#detailsHeading{
+    font-size: 24px;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.profileDetailItem{
+    width: 95%;
+    height: auto;
+    display: inline-flex;
+    color: #ffffff;
+    margin-left: 5%;
+}
+
+.profileDetailItem p{
+    padding-left: 5%;
+}
+.profileDetailItem label{
+    min-width: 130px;
+}
+
+#profileheading{
+    font-size: 22px;
+    color: #ffffff;
+    padding-top: 10px;
+}
+
+#profileItemsWrapper{
+    width:100%;
+}
+
+/* Manage Admin */
+
+#manageAdminWrapper{
+    width: 95%;
+    height: 35vw;
+    border: 1px solid #ffff;
+    margin-top: 7%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.manageAdminSides{
+    width:100%;
+    height: 100%;
+    text-align: center;
+}
+
+.leftSide{
+    border-right:1px solid #ffffff;
+}
+
+.heading{
+    font-size: 25px;
+    margin-top: 5%;
+    color: #ffffff;
+    margin-bottom: 2%;
+}
+
+.subHeading{
+    font-size: 15px;
+    color: #ece5e5d9;
+    width:95%;
+    margin-bottom: 2rem;
+}
+
+#fieldWrapper{
+    width: 100%;
+    height: 80%;
+}
+
+.createAdminInputs{
+    width: 80%;
+    padding: 5px;
+    border-radius: 6px;
+    box-shadow: none;
+    border: 1px solid #ffffff;
+    margin-bottom: 4%;
+}
+
+#inviteButtonWrapper{
+    width : 100%;
+    height:10%;
+    margin-top:5%;
+    margin-bottom: 5%;
+}
+
+#inviteButton{
+    width: 35%;
+    margin-left: 3%;
+    margin-right: 3%;
+    background: #42a1ce45;
+    color: #ffffff;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 9px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid;
+    padding: 1%;
+    margin-bottom: 2%;
+}
+
+#inviteButton:hover {
+    background-color: #42a1cebf;
+}
+
+#adminList{
+    width:100%;
+    height: 60%;
+    border: 1px solid #ffffff;
+    border-radius: 6px;
+    overflow-y: scroll;
+    background-color: #00000052;
+}
+
+.adminListItem{
+    width: 90%;
+    height: 37%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #ffffff;
+    margin-top: 3%;
+    background-color: #67626270;
+}
+
+.adminItemBlock{
+    width: 70%;
+    height: 100%;
+    float: left;
+    text-align: center;
+    color: #ffffff;
+}
+
+.adminName{
+    font-size: 23px;
+    margin-top: 4%;
+    margin-bottom: 0;
+}
+
+.adminListItemRight{
+    width: 30%;
+    height: 100%;
+    float: left;
+    text-align: center;
+}
+
+.adminEmail{
+    font-size: 15px;
+    color: #e7e4e4d0;
+    margin-bottom: 0;
+}
+
+.adminType{
+    font-size: 13px;
+    color: #e7e4e4d0;
+}
+
+.removeAdmin{
+    width: 85%;
+    height: 39%;
+    margin-top: 23%;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    background: #42a1ce45;
+    color: #ffffff;
+}
+
+.removeAdmin:hover{
+    background: #b1171740;
+}
+
+#closeManageAdmin{
+    float:right;
+    padding-top:2%;
+    width:2.5%;
 }

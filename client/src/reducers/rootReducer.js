@@ -6,6 +6,8 @@ import search from './search';
 import jobs from './jobs';
 import general from './general';
 import seeker from './seeker';
+import tests from './tests';
+import admin from './admin';
 
 export default combineReducers({
     user: userReducer,
@@ -14,5 +16,7 @@ export default combineReducers({
     search : search,
     jobs : jobs,
     general : general,
-    seeker : seeker
+    seeker : seeker,
+    tests : tests,
+    admin : admin
 })

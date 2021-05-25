@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import {connect } from 'react-redux';
 import Header from '../Header/header';
-import NotificationWrapper from '../Notifications/NoticationsWrapper'
 import './homeStyles.css'
 import '../commons/commonStyles.css'
 
@@ -11,8 +10,7 @@ import defaultCompany from '../../img/defaults/defaultCompany.png';
 import logoutIconBlack from '../../img/icons/logoutBlack.png';
 import closeIconWhite from '../../img/icons/closeWhite.png';
 
-import { Container,Row, Col } from 'react-bootstrap';
-import { logoutUser } from '../../actions/login';
+import NotificationWrapper from '../Notifications/NoticationsWrapper'
 import Jobs from '../Job/jobPost';
 import CreatedJobs from '../Job/createdJobs';
 import Candidates from '../Candidates/candidateResult';
@@ -21,9 +19,15 @@ import ProviderSeeker from '../Profile/profileSeeker';
 import TestPortal from '../Tests/testsPortal';
 import AppliedJobs from '../Job/appliedJobs';
 import SkillTests from '../Tests/skillTests';
+import CreateTest from '../Tests/CreateTest';
+import JobApplications from '../Job/JobApplications';
+
+import { Container,Row, Col } from 'react-bootstrap';
 import {searchJobs, closeJobPost} from '../../actions/jobs';
 import {searchCandidates} from '../../actions/seeker';
 import {setDisplay} from '../../actions/general';
+import { logoutUser } from '../../actions/login';
+
 import {industries} from '../../constants/industries';
 
 let authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
@@ -289,7 +293,7 @@ class Home extends Component {
                                     {
                                          this.props.displayElm === "job_applications" &&
                                          <div>
-                                             <p>job applications</p>
+                                            <JobApplications />
                                          </div>
                                     }
 
@@ -318,6 +322,13 @@ class Home extends Component {
                                         this.props.displayElm === "skill_tests" &&
                                         <div>
                                             <SkillTests />
+                                        </div>
+                                    }
+
+                                    {
+                                        this.props.displayElm === "create_test" &&
+                                        <div>
+                                            <CreateTest />
                                         </div>
                                     }
 

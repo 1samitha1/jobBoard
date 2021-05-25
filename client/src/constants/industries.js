@@ -74,8 +74,6 @@ let industries = [
    
 ];
 
-
-
 export {
     industries
 } 
