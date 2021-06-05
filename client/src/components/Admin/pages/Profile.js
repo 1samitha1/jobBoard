@@ -5,7 +5,7 @@ import '../admin.css';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Container, Row, Col} from 'react-bootstrap';
-import {openPopup, closePopup} from '../../../actions/notifications';
+import {setDisplayPage, displayOverlay} from '../../../actions/admin';
 
 let adminImg = require('../../../img/defaults/admin_default.png')
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
@@ -21,16 +21,10 @@ class Profile extends Component {
     }
 
     closeOverlay(){
-        // this.props.setDisplayPage("dashboard");
-        // this.props.displayOverlay();
+        this.props.setDisplayPage("dashboard");
+        this.props.displayOverlay();
     }
 
-    openPopup(){
-        this.props.openPopup()
-    }
-
-
-    
     render() {
 
 
@@ -38,62 +32,51 @@ class Profile extends Component {
         <Container>
             <Row id="adminProfile">
                 <Col md={12} >
-                    <div id="adminWrapper">
-                        <Row id="profileTop">
-                            <Col md={12}>
-                                <p id="profileheading">Admin Profile</p>
-                            </Col>
-                        </Row>
-                        <Row id="profileDetails"> 
-                            <Col md={4} xs={12}>
-                                <div id="adminImgHolder">
-                                    <img src={adminImg} className="adminImg"></img>
+                    <Row id="adminProfileWrapper">
+                        <Col id="profileImgDiv" md={4} sm={12} xs={12}>
+                            <div id="adminImg">
+
+                            </div>
+                            <div id="profileImgUploaderDiv">
+                                <input type="file" accept="image/*" name="photo" />
+                                <button id="adminProfileImgUpload" value="upload">Upload</button>
+                            </div>
+                        </Col>
+
+                        <Col id="profileDetailDiv" md={8} sm={12} xs={12}>
+                            <p id="adminProfileHeading">Admin Profile</p>
+
+                            <div id="adminProfileFields">
+
+                                <div className="profileDetailItem">
+                                    <label>First Name : </label>
+                                    <p>Admin firstName</p>
                                 </div>
-                            </Col>
-                            <Col md={8} xs={12}>
-                                <div id="detailDiv">
-                                    <Row>
-                                        <Col md={12} >
-                                            <p id="detailsHeading">Profile Details</p>
-                                            <div id="profileItemsWrapper">
-                                            <div className="profileDetailItem">
-                                                <label>First Name : </label>
-                                                <p>Admin firstName</p>
-                                            </div>
-                                            <div className="profileDetailItem">
-                                                <label>Last Name : </label>
-                                                <p>Admin lastName</p>
-                                            </div>
 
-                                            <div className="profileDetailItem">
-                                                <label>User email : </label>
-                                                <p>Admin@jobboard.com</p>
-                                            </div>
-
-                                            <div className="profileDetailItem">
-                                                <label>User Type : </label>
-                                                <p>Administrator</p>
-                                            </div>
-
-                                            <div className="profileDetailItem">
-                                                <label>User Photo : </label>
-                                                <input type="file" accept="image/*" name="photo"  />
-                                                
-                                            </div>
-
-                                            <div>
-                                                <button  value="upload">Upload</button>
-                                            </div>
-                                            </div>
-                                            
-                                        </Col>
-                                        
-                                    </Row>
+                                <div className="profileDetailItem">
+                                    <label>Last Name : </label>
+                                    <p>Admin lastName</p>
                                 </div>
-                            </Col>
-                        </Row>
 
-                    </div>
+                                <div className="profileDetailItem">
+                                    <label>User email : </label>
+                                    <p>Admin@jobboard.com</p>
+                                </div>
+
+                                <div className="profileDetailItem">
+                                    <label>User Type : </label>
+                                    <p>Administrator</p>
+                                </div>
+
+                            </div>
+                            <div id="adminProfileBtnWrapper">
+                                <button className="adminprofileButton">Edit</button>
+                                <button className="adminprofileButton">Save</button>
+                                <button onClick={this.closeOverlay.bind(this)} className="adminprofileButton closeProfile">Close</button>
+                            </div>
+
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </Container>
@@ -102,20 +85,24 @@ class Profile extends Component {
 }
 
 const propTypes = {
-    displayPopup : PropTypes.bool.isRequired,
+    setDisplayPage: PropTypes.func.isRequired,
+    displayOverlay: PropTypes.func.isRequired
     
     
 };
 
 const mapStateToProps = (state) => ({
-    displayPopup : state.notification.displayPopup
-
+   
 });
 
 const dispatchToProps = (dispatch) => ({
-    openPopup : () => {
-        dispatch(openPopup())
+    setDisplayPage: (page) => {
+        dispatch(setDisplayPage(page))
     },
+
+    displayOverlay: () => {
+        dispatch(displayOverlay())
+    }
 
    
 

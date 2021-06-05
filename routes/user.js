@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const multer = require('multer');
-const {registerNewUser, uploadUserImage, updateProvider} = require('../controllers/user')
+const {registerNewUser, uploadUserImage, updateProvider, authenticateUserToken} = require('../controllers/user')
+const JWT = require('jsonwebtoken');
 // const {ensureAuthenticated} = require('../configs/auth');
 
 let storage = multer.diskStorage({
@@ -35,7 +36,7 @@ router.post('/login', (req, res, next) => {
         } 
 
         if(!user){
-            res.send({success:false, error : "Wrong username of password!"})
+            res.send({success:false, error : "Wrong username or password!"})
         }else{
             req.logIn(user, err => {
                 if(err){
@@ -46,6 +47,39 @@ router.post('/login', (req, res, next) => {
             });
         }
     })(req, res, next)
+});
+
+router.post('/admin-login', (req, res, next) => {
+    console.log("vvvvvv admin-login called : ",  req.body)
+    passport.authenticate('local', (err, user, info) =>{
+        if(err) {
+            res.send({success:false, error : "Something went wrong", error : err})
+            throw  err;
+        } 
+
+        if(!user){
+            res.send({success:false, error : "Wrong username or password!"})
+        }else{
+            req.logIn(user, err => {
+                if(err){
+                    res.send({success:false, error : "Something went wrong", error : err})
+                    throw  err
+                }else{
+                    let user = {
+                        _id : req.user._id,
+                        firstName: req.user.firstName,
+                        lastName: req.user.lastName,
+                        email: req.user.email,
+                        password: req.user.password,
+                        userType: req.user.userType
+                    };
+                   let accessToken = JWT.sign(user, process.env.ACCESS_TOKEN_SECRET)
+                   res.send({success:true, userAccessToken : accessToken})
+                }  
+            });
+        }
+    })(req, res, next)
+
 });
 
  router.post('/logout', (req, res) => {
@@ -81,9 +115,9 @@ router.put('/update-user', (req, res) => {
     
 });
 
-//  router.get('/isAuthenticated', (req, res) => {
-//     console.log('vvv isAuthenticated route called body : ',this.ensureAuthenticated());
-//     res.send(this.ensureAuthenticated())
+router.post('/test', authenticateUserToken, (req, res, next) => {
+    console.log('testtt  : ', req.user)
+})
 
 
 

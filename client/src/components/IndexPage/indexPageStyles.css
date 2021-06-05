@@ -33,6 +33,10 @@
     margin: 8px 8px 8px 8px;
 }
 
+#greetUser a{
+    color:#ffffff;
+}
+
 #logout{
     color: #f1ecec;
     float: right;
@@ -83,7 +87,7 @@
     margin-top: 3%;
 }
 
-::placeholder {
+#doSearch::placeholder {
     color: #f5f2f2;
     opacity: 0.7;
   }

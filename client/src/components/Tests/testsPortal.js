@@ -62,10 +62,7 @@ class TestsPortal extends Component {
                             <p>Status : <span> Active </span></p>
                         </div>
 
-                        <div className="testActions">
-                            <img src={deleteIcon} className="actionIcons" />
-                            <img src={editIcon} className="actionIcons" />          
-                        </div>
+                        <button className="testActions"> Delete </button>
                     </Col>
                     
                     <Col className="testCol2" md={4} xs={12}>
@@ -134,10 +131,7 @@ class TestsPortal extends Component {
                                     <p>Status : <span> Active </span></p>
                                 </div>
 
-                                <div className="testActions">
-                                    <img src={deleteIcon} className="actionIcons" />
-                                    <img src={editIcon} className="actionIcons" />          
-                                </div>
+                                <button className="testActions"> Delete </button>
                     </Col>
                     
                     <Col className="testCol2" md={4} xs={12}>

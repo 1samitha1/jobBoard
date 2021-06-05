@@ -41,7 +41,7 @@ class ManageAdmin extends Component {
                 <Row id="manageAdminWrapper">
                
                     <Col md={6} sm={12} xs={12} className="manageAdminSides leftSide">
-                        <p className="heading">Add new administrator</p>
+                        <p className="adminHeading">Add new administrator</p>
                         <p className="subHeading">Fill all the field with valid details and click "send invitation" button to invite a new administrator
                             to the system.
                         </p>

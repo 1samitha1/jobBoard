@@ -51,6 +51,10 @@
     margin-right: auto;
 }
 
+.loginInputs::placeholder{
+    color: #ffffff;
+}
+
 #loginButtonDiv{
     width: 100%;
     text-align: center;
@@ -121,6 +125,14 @@
     margin-top: 1.5%;
     color: #fff;
     font-size: 19px;
+    float: left;
+}
+
+#dashboardTopMiddleAdminName{
+    margin-top: 1.5%;
+    color: #fff;
+    font-size: 19px;
+    text-align: center;
 }
 
 .dashboardTopRight{
@@ -474,63 +486,92 @@ Row{
 
 #adminProfile{
     width: 100%;
-    height: 46vw;
+    height: 98vh;
     margin-left: auto !important;
     margin-right: auto !important;
-}
-
-#adminWrapper{
-    width:80%;
-    height: 500px;
-    border: 1px solid #ffffff;
-    margin-left: auto;
-    margin-right: auto;
     margin-top: 5%;
-    border-radius: 6px;
 }
 
-#profileTop{
-    width:100%;
-    height: 10%;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    border-bottom: 1px solid #ffffff;
-    background-color: #3333335c;
-}
-
-#profileDetails{
-    width: 100%;
-    height: 90%;
-    margin-left: auto !important;
-    margin-right: auto !important;
-}
-
-#adminImgHolder{
-    width: 85%;
-    height: 65%;
-    margin-top: 23%;
+#adminProfileWrapper{
+    width: 80%;
+    height: 77%;
+    border: 1px solid #ffffff;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 26%;
+}
+
+#profileImgDiv{
+    width:40%;
+    height:100%;
+    float: left;
+}
+
+#profileDetailDiv{
+    width:60%;
+    height:100%;
+    float: left;
+    margin-bottom: 4%;
     border: 1px solid #ffffff;
 }
 
-#detailDiv{
-    width: 92%;
-    height: 84%;
+#adminImg{
+    border: 1px solid #ffffff;
+    width: 215px;
+    height: 52%;
+    margin-top: 85px;
     margin-left: auto;
     margin-right: auto;
-    border: 1px solid #ffffff;
-    margin-top: 5%;
-    background-color: #3333335c;
 }
 
-#detailsHeading{
-    font-size: 24px;
-    color: #ffffff;
+#adminProfileHeading{
+    font-size: 26px;
     text-align: center;
-    margin-top: 2%;
-    margin-bottom: 2%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+#adminProfileFields{
+    width: 100%;
+    height: 50%;
+    font-size: 17px;
+    margin-top: 47px;
+    text-align: center;
+}
+
+#adminProfileBtnWrapper{
+    width: 100%;
+    height: 20%;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    text-align: center;
+    border-top: 1px solid #ffffff;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.adminprofileButton{
+    width: 16%;
+    padding: 4px;
+    margin-left: 10px;
+    margin-right: 35px;
+    margin-top: 15px;
+    background: #42a1ce45;
+    color: #ffffff;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 6px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid;
+}
+
+.adminprofileButton:hover{
+    background-color: #42a1cebf;
+}
+
+.closeProfile:hover{
+    background-color: #b1171740;
 }
 
 .profileDetailItem{
@@ -538,7 +579,7 @@ Row{
     height: auto;
     display: inline-flex;
     color: #ffffff;
-    margin-left: 5%;
+    margin-left: 55px;
 }
 
 .profileDetailItem p{
@@ -548,15 +589,44 @@ Row{
     min-width: 130px;
 }
 
-#profileheading{
-    font-size: 22px;
+#profileImgUploaderDiv{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 30px;
+    margin-bottom: 16px;
     color: #ffffff;
-    padding-top: 10px;
 }
 
-#profileItemsWrapper{
-    width:100%;
+#profileImgUploaderDiv input{
+  
+    border-radius: 6px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    cursor: pointer;
+    max-width: 100%;
 }
+
+#adminProfileImgUpload{
+    margin-top: 16px;
+    width: 80%;
+    padding: 4px;
+    background: #42a1ce45;
+    color: #ffffff;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 6px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid;
+}
+
+#adminProfileImgUpload:hover{
+    background: #28a74685;
+}
+
 
 /* Manage Admin */
 
@@ -579,7 +649,7 @@ Row{
     border-right:1px solid #ffffff;
 }
 
-.heading{
+.adminHeading{
     font-size: 25px;
     margin-top: 5%;
     color: #ffffff;

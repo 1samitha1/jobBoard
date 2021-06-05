@@ -4,7 +4,7 @@ import {connect } from 'react-redux';
 import './headerStyles.css';
 import '../commons/commonStyles.css'
 import {showNotificationWrapper} from '../../actions/notifications';
-import notificationIcon from '../../../src/img/notificationIcon.png';
+import notificationIcon from '../../../src/img/icons/notification-no.jpg';
 import dropDownIcon from '../../../src/img/dropDown.png';
 import {Link} from 'react-router-dom';
 import Toastr from 'toastr';
@@ -45,10 +45,9 @@ class Header extends Component {
                             <div id="headerIcons">
                                 <div className="headerIconRight">
                                     <img onClick={this.showNotificationWrapper.bind(this)} className="iconHeader" src={notificationIcon}></img>
+                                    <p id="notifyCount">0</p>
                                 </div>
-                                <div className="headerIconRight">
-                                    <img className="iconHeader" src={dropDownIcon}></img>
-                                </div>
+                              
                             </div>
                              :
                             <div className="headerActionBtns">

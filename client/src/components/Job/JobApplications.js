@@ -35,7 +35,6 @@ class JobApplications extends Component {
 
     
     generateJobApplications(){
-        console.log('xxxxxxx this.props.createdJobs : ', this.props.createdJobs)
 
     let jobApplications = [];
     
@@ -92,6 +91,7 @@ class JobApplications extends Component {
                 </Row>
                 <Row>
                     <Col className="noOfJobs" md={12}><p>No of Applications : 5</p></Col>
+                    <button onClick={this.displaySearch.bind(this)} id="backToSearch">Back to Search</button>
                 </Row>
                 {/* <Row className="jobButtons">
                     <Col md={6} xs={12}>
@@ -111,7 +111,7 @@ class JobApplications extends Component {
 }
 
 const propTypes = {
- 
+    setDisplay : PropTypes.func.isRequired
     
 };
 
@@ -121,9 +121,9 @@ const mapStateToProps = (state) => ({
 });
 
 const dispatchToProps = (dispatch) => ({
-    // getJobs : (data) => {
-    //     dispatch(getJobs(data))
-    // },
+    setDisplay : (page) => {
+        dispatch(setDisplay(page))
+    },
 
 
     

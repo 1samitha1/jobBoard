@@ -7,6 +7,7 @@ import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Container, Row, Col} from 'react-bootstrap';
 import {displayOverlay, setDisplayPage} from '../../actions/admin'
+import {extractToken, getToken, removeToken} from '../../helpers/jwtHandler';
 import Overlay from './Overlay'
 
 
@@ -18,13 +19,27 @@ class AdminDashboard extends Component {
     constructor(props) {
     super(props);
        this.state = {
-           
+           myAdmin : {}
        }
+    }
+
+    componentDidMount(){
+        let token = getToken();
+        let loggedInAdmin = extractToken(token);
+        console.log("loggedInAdmin : ", loggedInAdmin)
+        this.setState({
+            myAdmin : loggedInAdmin
+        })
     }
 
     itemOnclick(page){
         this.props.displayOverlay()
         this.props.setDisplayPage(page)
+    }
+
+    logoutAdmin(){
+        removeToken();
+        window.location.href = "http://localhost:3000/admin-login";
     }
 
 
@@ -39,10 +54,11 @@ class AdminDashboard extends Component {
             <Row id="dashboardTop">
                 <Col>
                     <div className="dashboardTopLeft">
-                        <p id="dashboardTopLeftTxt">Admin Dashboard!</p>
+                        <p id="dashboardTopLeftTxt">Admin Dashboard! </p>
+                        <p id="dashboardTopMiddleAdminName">Welcome Admin : {this.state.myAdmin.firstName}</p>
                     </div>
                     <div className="dashboardTopRight">
-                        <button id="dashboardLogout">Logout</button>
+                        <button onClick={this.logoutAdmin.bind(this)} id="dashboardLogout">Logout</button>
                     </div>
                 </Col>
               </Row>

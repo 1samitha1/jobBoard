@@ -5,6 +5,7 @@ import './profile.css';
 import {Container, Row, Col} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {setDisplay} from '../../actions/general';
+import cvIcon from '../../img/icons/cv.png'
 
 class profileSeeker extends Component {
    constructor(props){
@@ -71,7 +72,7 @@ class profileSeeker extends Component {
                     <h3 className="user">{this.props.user.userName}</h3>
                   </Row>
                   <Row>
-                    <h6  className="title">- {this.props.user.firstName + " " + this.props.user.lastName} -</h6>
+                    <h6  className="title fullNameHeading">- {this.props.user.firstName + " " + this.props.user.lastName} -</h6>
                   </Row> 
                   <Row>   
                     <div className="activities">
@@ -83,7 +84,7 @@ class profileSeeker extends Component {
 
                         <Col className="blocks" md={3} xs={6}> 
                         <div>
-                            <p>Active jobs : 10</p>
+                            <p>Bookmarks : 10</p>
                         </div>
                         </Col> 
 
@@ -126,10 +127,15 @@ class profileSeeker extends Component {
                         <div>
                             <p>Industry : </p>
                         </div>
+
+                        <div id="resumeHolder">
+                            <p>Resume : </p>
+                        </div>
                         
                         <div>
                             <p>Photo : </p>
                         </div>
+                        
                     </Col>
                     
                     <Col md={6} xs={6}>
@@ -208,12 +214,25 @@ class profileSeeker extends Component {
                             <p>{this.props.user.industries[0]}</p>
                         </div>
 
-                        <div>
-                           <button>Upload</button>
+                        <div >
+                            {
+                                this.props.user.resume && this.props.user.resume !== "" ?
+                                <img className="resumeIconDiv"  src={cvIcon}/>
+                                :
+                                <div>
+                                    <input className="uploadInput" type="file" accept="image/*" name="photo"/>
+                                    <button className="uploadiButtonProfile updateCV" value="upload">Upload</button>
+                                </div>
+                            }
                         </div>
-                        
+
+                        <div>
+                            <input className="uploadInput" type="file" accept="image/*" name="photo"/>
+                            <button className="uploadiButtonProfile uploadImg" value="upload">Upload</button>
+                        </div>
+ 
                     </Col>
-                    
+    
                 </Row>
                 <Row className="profileActions"> 
                     

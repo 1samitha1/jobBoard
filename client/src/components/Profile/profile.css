@@ -19,12 +19,58 @@
     margin-right: auto;
 }
 
+.fullNameHeading{
+    font-size: 15px;
+}
+
 .activities{
     width: 85%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 2%;
+    margin-top: 4px;
     border-bottom: 1px solid #fff;
+}
+
+.resumeIconDiv{
+    width: 43px;
+    margin-top: 10px;
+    margin-bottom: 13px;
+    cursor: pointer;
+}
+
+#resumeHolder{
+    margin-top: 34px;
+    margin-bottom: 30px;
+}
+
+.uploadiButtonProfile{
+    width: 69px;
+    margin-left: 15px;
+    margin-top: 2%;
+    border-radius: 7px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid;
+    padding: 3px;
+    background: #42a1ce45;
+    color: #ffffff;
+}
+
+.updateCV{
+    margin-top: 20px;
+}
+
+.uploadImg{
+    margin-top: 16px;
+}
+
+.uploadiButtonProfile:hover{
+    background-color: #42a1cebf;
+}
+
+.uploadInput{
+    max-width: 222px;
+    width: 222px;
 }
 
 .blocks{
@@ -38,17 +84,19 @@
     margin-left: auto !important;
     margin-right: auto !important;
     text-align: center;
-    margin-bottom: 2%;
+    margin-bottom: 5px;
     font-family: sans-serif;
     cursor: pointer;
     border: 1px solid #b9afaf;
-    padding: 2%;
+    padding: 12px;
     border-radius: 8px;
     color: #ffffff;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .actionButtons{
-    width: 48%;
+    width: 62%;
     margin-left: 3%;
     margin-right: 3%;
     background: #42a1ce45;
@@ -68,7 +116,7 @@
 }
 
 .actionButtonsDisabled{
-    width: 48%;
+    width: 62%;
     margin-left: 3%;
     margin-right: 3%;
     background: #5f646645;
@@ -86,8 +134,8 @@
     width: 70%;
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-top: 3%;
-    margin-bottom: 3%;
+    margin-top: 8px;
+    margin-bottom: 7px;
 }
 
 .editInput{

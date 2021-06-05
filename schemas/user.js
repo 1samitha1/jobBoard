@@ -50,6 +50,9 @@ const userSchema = new Schema({
     },
     photo : {
         type: String,
+    },
+    jobPosition : {
+        type: String,
     }
 },{
     collection: 'users'

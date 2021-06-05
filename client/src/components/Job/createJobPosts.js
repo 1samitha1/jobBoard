@@ -6,6 +6,9 @@ import "./jobStyles.css";
 import {industries} from '../../constants/industries';
 import {Form} from 'react-bootstrap'
 import {Link} from 'react-router-dom';
+import {salaries} from '../../constants/salaries';
+import {locations} from '../../constants/locations';
+import {Container, Row, Col} from 'react-bootstrap';
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
 
 
@@ -15,7 +18,7 @@ class CreateJobs extends Component {
     this.state = {
       jobTitle: "",
       jobPosition: "",
-      salary: "negotiable",
+      salary: "",
       jobDescription: "",
       jobIndustry: "",
       startDate : "",
@@ -25,7 +28,8 @@ class CreateJobs extends Component {
       comapnyId : "",
       companyName : "",
       comapnyImg : "",
-      jobType : "Full Time"
+      jobType : "Full Time",
+      location: ""
     };
   }
 
@@ -40,6 +44,7 @@ class CreateJobs extends Component {
       title: data.jobTitle,
       position: data.jobPosition,
       salary: data.salary ? data.salary :"negotiable",
+      location: data.location,
       description: data.jobDescription,
       industry: data.jobIndustry,
       startDate : data.startDate,
@@ -58,7 +63,8 @@ class CreateJobs extends Component {
     this.setState({
       jobTitle: "",
       jobPosition: "",
-      salary: "negotiable",
+      salary: "",
+      location: "",
       jobDescription: "",
       jobIndustry: "",
       startDate : "",
@@ -78,6 +84,26 @@ class CreateJobs extends Component {
         });
         return industryList;
     }  
+  }
+
+  generateSalaries(){
+    if(salaries){
+        let salaryList = [];
+        salaries.map((val, i) => {
+            salaryList.push(<option value={val.value}>{val.value}</option>)
+        });
+        return salaryList;
+    }
+}
+
+  generateLocations(){
+    if(locations){
+      let locationList = [];
+       locations.map((val, i) => {
+          locationList.push(<option value={val.value}>{val.value}</option>)
+      });
+      return locationList;
+    }
   }
 
   render() {
@@ -110,111 +136,139 @@ class CreateJobs extends Component {
 
     return (
       <div id="createJobsWrapper">
-        <div id="createJobsDiv">
+        <Row id="createJobsDiv">
+          <Col>
           <h2>Create a new job post</h2>
-
-          {/* <Form id="createJobForm">
-             <Form.Group controlId="job_title" className="formField mt-4" >
-              <Form.Label>Job title :</Form.Label>
-              <Form.Control type="text" 
-                placeholder="Job Title" 
-                onChange={this.handleFieldChange.bind(this)}
-                value={this.state.jobTitle}
-                maxlength="56" />
-              </Form.Group>
-          </Form>               */}
-
-          {/* <form> */}
-            <div className="jobFormRow">
-              <div className="jobRowSingle">
-                <span>Job title :</span>
+            <Row  className="jobFormRow">
+              <Col md={12}>
+              <span>Job title :</span>
                 <input
                   id="jobTitle"
                   type="text"
+                  className="jobItems"
                   onChange={this.handleFieldChange.bind(this)}
                   value={this.state.jobTitle}
                   placeholder="Job Title"
                   required
                   maxLength="56"
                 />
-              </div>
-            </div>
-            <div className="jobFormRow">
-              <div className="jobRowDouble">
-                <span>Job position :</span>
+              </Col>
+            </Row>
+            
+            <Row  className="jobFormRow">
+              <Col md={12}>
+              <span>Job position :</span>
                 <input
                   id="jobPosition"
                   type="text"
+                  className="jobItems"
                   onChange={this.handleFieldChange.bind(this)}
                   value={this.state.jobPosition}
                   placeholder="Job Position"
                   required
                 />
-              </div>
+              </Col>
+            </Row>
 
-              <div className="jobRowDouble">
+            <Row  className="jobFormRow">
+              <Col md={6}>
                 <span>Salary :</span>
-                <input
-                  id="salary"
-                  type="text"
-                  onChange={this.handleFieldChange.bind(this)}
-                  value={this.state.salary}
-                  placeholder="Salary"
-                />
-              </div>
-            </div>
-
-            <div className="jobFormRow">
-             <div className="jobRowSingle">
-             <span>description :</span>
-                <textarea
-                    id="jobDescription"
-                    type="text"
+                  <select id="salary" 
                     onChange={this.handleFieldChange.bind(this)}
-                    value={this.state.jobDescription}
-                    placeholder="Job description"
-                    rows="6"
-                    required
-                />  
-             </div>   
-              
-            </div>
-            <div className="jobFormRow">
-             <div className="jobRowDouble">
-             <span>Industry :</span>
-                <select id="jobIndustry" type="text"
+                    className="jobDropDowns jobItems" 
+                    value={this.state.salary}>
+                      <option value="">Select salary</option>
+                        {this.generateSalaries()}                                       
+                  </select>
+              </Col>
+
+              <Col md={6}>
+                <span>Location :</span>
+                  <select id="location" 
+                    onChange={this.handleFieldChange.bind(this)} 
+                    className="jobDropDowns jobItems"
+                    value={this.state.location}>
+                      <option value="">Select location</option>
+                        {this.generateLocations()}                                       
+                  </select>
+              </Col>
+            </Row>
+
+            <Row  className="jobFormRow jobDesc">
+              <Col md={12}>
+              <span>description :</span>
+                <textarea
+                  id="jobDescription"
+                  type="text"
+                  className="jobItems"
+                  onChange={this.handleFieldChange.bind(this)}
+                  value={this.state.jobDescription}
+                  placeholder="Job description"
+                  rows="5"
+                  required
+                />
+              </Col>
+            </Row>
+
+            <Row  className="jobFormRow">
+              <Col md={6}>
+              <span>Industry :</span>
+                <select id="jobIndustry" className="jobDropDowns jobItems" type="text"
                     value={this.state.jobIndustry} required
                     onChange={this.handleFieldChange.bind(this)}>
                         <option value=""> Select Industry</option>
                         {this.generateIndustries()}
                     </select>
+              </Col>
 
-             </div>
-
-             <div className="jobRowDouble">
-             <span>Job Type :</span>
-                <select id="jobType" type="text"
+              <Col md={6}>
+                <span>Job Type :</span>
+                  <select id="jobType" className="jobDropDowns jobItems" type="text"
                     value={this.state.jobType} required
                     onChange={this.handleFieldChange.bind(this)}>
                         <option value="Full Time"> Full time</option>
                         <option value="Part Time"> Part Time</option>
-                    </select>
+                  </select>
+              </Col>
+            </Row>
 
-             </div>
-              
-            </div>
-            <div className="jobFormRow">
-             <div className="jobRowDouble">
-                <span>Start date :</span>
-                <span>{today}</span>
-             </div>
-             <div className="jobRowDouble">
-                <span>Expire date :</span>
-                <span>{expireDate}</span>
-             </div>
-            </div>
+            <Row  className="jobFormRow">
+              <Col md={6}>
+                <span className="jobItems">Start date :</span>
+                <span className="jobItems">{today}</span>
+              </Col>
 
-            <div className="jobFormRowBtns">
+              <Col md={6}>
+                <span className="jobItems">Expire date :</span>
+                <span className="jobItems">{expireDate}</span>
+              </Col>
+            </Row>
+
+            <Row  className="jobFormRowBtns">
+              <Col md={6}>
+                <button className="jobItems" onClick={() => this.createJob({
+                   jobTitle: this.state.jobTitle,
+                   jobPosition: this.state.jobPosition,
+                   salary: this.state.salary,
+                   location: this.state.location,
+                   jobDescription: this.state.jobDescription,
+                   jobIndustry: this.state.jobIndustry,
+                   startDate : today,
+                   expireDate : expireDate,
+                   expireTimestamp : expireTimestamp,
+                   applicants : 0,
+                   views: 0,
+                   jobType : this.state.jobType
+                  })}>Create</button>
+              </Col>
+
+              <Col md={6}>
+                <Link to="/home"><button className="jobItems">Back</button></Link>
+              </Col>
+            </Row>
+
+
+            {/* <div className="jobFormRowBtns">
                 <button onClick={() => this.createJob({
                    jobTitle: this.state.jobTitle,
                    jobPosition: this.state.jobPosition,
@@ -230,10 +284,10 @@ class CreateJobs extends Component {
                 })}>Create</button>
 
                 <Link to="/home"><button>Back</button></Link>
-            </div>
+            </div> */}
 
-          {/* </form> */}
-        </div>
+            </Col>
+        </Row>
       </div>
     );
   }

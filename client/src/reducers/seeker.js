@@ -1,7 +1,7 @@
 import { object } from 'prop-types';
 import {
     SET_CANDIDATE_DATA,
-    // OPEN_JOB_POST,
+    SET_CANDIDATE_TO_MINI_PROFILE
     // CLOSE_JOB_POST
 
 } from '../actions/seeker';
@@ -9,7 +9,7 @@ import {
 const seeker = ( state = {
     candidateArray : [],
     candidateCount : 0,
-    // jobToOpen : {},
+    miniprofileCandidate : {},
     // openJobPost : false
 
 }, action) => {
@@ -19,6 +19,12 @@ const seeker = ( state = {
                 candidateArray : action.data,
                 candidateCount : action.data.length
             });
+         
+        case SET_CANDIDATE_TO_MINI_PROFILE : 
+            return {
+                ...state,
+                miniprofileCandidate : action.candidate
+            }    
 
         // case OPEN_JOB_POST :
         //     return Object.assign({}, state, {

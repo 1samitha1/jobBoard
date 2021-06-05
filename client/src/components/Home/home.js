@@ -21,6 +21,9 @@ import AppliedJobs from '../Job/appliedJobs';
 import SkillTests from '../Tests/skillTests';
 import CreateTest from '../Tests/CreateTest';
 import JobApplications from '../Job/JobApplications';
+import ResumeCentre from '../Resume/ResumeCenter';
+import ProviderBookmark from '../Bookmarks/ProviderBookmarks';
+import SeekerMiniProfile from '../Candidates/MiniProfile';
 
 import { Container,Row, Col } from 'react-bootstrap';
 import {searchJobs, closeJobPost} from '../../actions/jobs';
@@ -29,6 +32,8 @@ import {setDisplay} from '../../actions/general';
 import { logoutUser } from '../../actions/login';
 
 import {industries} from '../../constants/industries';
+import {locations} from '../../constants/locations';
+import {salaries} from '../../constants/salaries';
 
 let authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 
@@ -83,6 +88,28 @@ class Home extends Component {
                 industryList.push(<option value={ind.value}>{ind.name}</option>)
             });
             return industryList;
+        }
+       
+    }
+
+    generateLocations(){
+        if(locations){
+            let locationList = [];
+             locations.map((val, i) => {
+                locationList.push(<option value={val.value}>{val.value}</option>)
+            });
+            return locationList;
+        }
+       
+    }
+
+    generateSalaries(){
+        if(salaries){
+            let salaryList = [];
+            salaries.map((val, i) => {
+                salaryList.push(<option value={val.value}>{val.value}</option>)
+            });
+            return salaryList;
         }
        
     }
@@ -214,7 +241,7 @@ class Home extends Component {
                                             authUser.userType === 'seeker' ? 
                                                 <div>
                                                     <p onClick={() => this.setDisplayElm('seeker_profile')} className="actions">Profile</p>
-                                                    <p onClick={() => this.setDisplayElm('resume_center')} className="actions">Resume Center</p>
+                                                    <p onClick={() => this.setDisplayElm('resume_centre')} className="actions">Resume Center</p>
                                                     <p onClick={() => this.setDisplayElm('applied_jobs')} className="actions">Applied Jobs</p>
                                                     <p onClick={() => this.setDisplayElm('skill_tests')} className="actions">Skill Tests</p>
                                                     <p onClick={this.logoutUser.bind(this)} className="actions logoutLink">Logout</p>
@@ -231,14 +258,14 @@ class Home extends Component {
                                      </div> 
                                      :
                                     <div id="IndustryTrendings">
-                                        <h2>Trending Industries</h2>
+                                        {/* <h2>Trending Industries</h2>
                                         <p className="fontLarge">Accounting <span className="numOfVacancies">- 10</span></p>
                                         <p className="fontLarge">IT & Computing <span className="numOfVacancies">- 5</span></p>
                                         <p className="fontLarge">Banking</p>
                                         <p className="fontLarge">Marketing</p>
                                         <p className="fontLarge">Education</p>
                                         <p className="fontLarge">Engineering</p>
-                                        <p className="fontLarge">Hotel & Hospitality</p>
+                                        <p className="fontLarge">Hotel & Hospitality</p> */}
                                 
                                      </div>
 
@@ -333,6 +360,34 @@ class Home extends Component {
                                     }
 
                                     {
+                                        this.props.displayElm === "resume_centre" &&
+                                        <div>
+                                            <ResumeCentre />
+                                        </div>
+                                    }
+
+                                    {
+                                        this.props.displayElm === "bookmark_provider" &&
+                                        <div>
+                                            <ProviderBookmark />
+                                        </div>
+                                    }
+
+                                    {
+                                        this.props.displayElm === "bookmark_seeker" &&
+                                        <div>
+                                            
+                                        </div>
+                                    }
+
+                                    {
+                                        this.props.displayElm === "seeker_miniprofile" &&
+                                        <div>
+                                            <SeekerMiniProfile />
+                                        </div>
+                                    }
+
+                                    {
                                        this.props.displayElm  === "home" && 
                                         <div>
                                             <div id="resultWrapperTop">
@@ -351,20 +406,34 @@ class Home extends Component {
                                                 </div>
                                                 <div id="searchCriteria">
                                                     <div>
-                                                    <input id="keyword" value={this.state.keyword} onChange={this.setSearchCriteria.bind(this)} 
-                                                    className="searchInput" type="text" placeholder="Search keyword" />
-                
-                                                    <select  id="jobType" onChange={this.setSearchCriteria.bind(this)} className="jobType">
-                                                        <option value="">Select type</option>
-                                                        <option value="Full Time">Full Time</option>
-                                                        <option value="Part Time">Part Time</option>
-                                                    </select>
-                
-                                                    <select id="industry" onChange={this.setSearchCriteria.bind(this)} className="industry">
-                                                        <option value="">Select Industry</option>
-                                                        {this.generateIndustries()}                                       
-                                                    </select>
-                                                    <button onClick={() => this.startSearch(userType)} id="searchJobsBtn"> Search </button>
+                                                        <input id="keyword" value={this.state.keyword} onChange={this.setSearchCriteria.bind(this)} 
+                                                        className="searchInput" type="text" placeholder="Search keyword" />
+                    
+                                                        <select  id="jobType" onChange={this.setSearchCriteria.bind(this)} className="jobType">
+                                                            <option value="">Select type</option>
+                                                            <option value="Full Time">Full Time</option>
+                                                            <option value="Part Time">Part Time</option>
+                                                        </select>
+                    
+                                                        <select id="industry" onChange={this.setSearchCriteria.bind(this)} className="industry">
+                                                            <option value="">Select Industry</option>
+                                                            {this.generateIndustries()}                                       
+                                                        </select>
+
+                                                        <select id="location" onChange={this.setSearchCriteria.bind(this)} className="location">
+                                                            <option value="">Select Location</option>
+                                                            {this.generateLocations()}                                       
+                                                        </select>
+                                                        {
+                                                            authUser.userType === 'seeker' && 
+                                                            <select id="salary" onChange={this.setSearchCriteria.bind(this)} className="salary">
+                                                                <option value="">Salary Range</option>
+                                                                {this.generateSalaries()}                                       
+                                                            </select>
+                                                        
+                                                        }
+                                                        
+                                                        <button onClick={() => this.startSearch(userType)} id="searchJobsBtn"> Search </button>
                                                     </div>
                                                     
                                                 </div>

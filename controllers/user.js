@@ -1,12 +1,10 @@
 const User = require("../schemas/user");
 const bcrypt = require("bcryptjs");
+const JWT = require('jsonwebtoken');
 const ObjectId = require('mongodb').ObjectID;
 
 const registerNewUser = (data) => {
   try {
-
-  
-  console.log('vvvvvv registerNewUser : ', data)
   return new Promise((resolve, reject) => {
     User.findOne( { $or: [ { email: data.email }, { userName: data.userName } ] } )
     .then((result) => {
@@ -21,7 +19,6 @@ const registerNewUser = (data) => {
             bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(newUser.password, salt, (err, hash) => {
               newUser.password = hash;
-              console.log('vvvvvv newUser : ', newUser)
               newUser.save()
                     .then((savedUser) => {
                      resolve({success: true, msg : "Registration Successful!"});
@@ -80,10 +77,25 @@ const updateProvider = (userData) => {
     console.log('error while updateUser : ', err)
   }
  
+};
+
+const authenticateUserToken = (req, res, next) =>{
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if(token){
+    JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+      console.log('authenticateUserToken : ', user);
+      req.user = user;
+      next();
+    })
+  }
+
 }
 
 module.exports = {
   registerNewUser,
   uploadUserImage,
-  updateProvider
+  updateProvider,
+  authenticateUserToken
 };

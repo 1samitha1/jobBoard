@@ -136,7 +136,7 @@ class AppliedJobs extends Component {
 }
 
 const propTypes = {
-    
+    setDisplay: PropTypes.func.isRequired
     
 };
 
@@ -146,9 +146,9 @@ const mapStateToProps = (state) => ({
 });
 
 const dispatchToProps = (dispatch) => ({
-    // getJobs : (data) => {
-    //     dispatch(getJobs(data))
-    // },
+    setDisplay : (page) => {
+        dispatch(setDisplay(page))
+    },
 
     
 

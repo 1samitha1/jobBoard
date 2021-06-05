@@ -56,6 +56,10 @@
     border:1px solid #ffffff;
 }
 
+#loginTop input::placeholder{
+    color: #ffffff;
+}
+
 #loginBottom button {
     width: 68%;
     height: 3vw;

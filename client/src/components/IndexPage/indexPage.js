@@ -5,6 +5,7 @@ import './indexPageStyles.css';
 import '../commons/commonStyles.css'
 import { logoutUser } from '../../actions/login';
 import {setSearchCriteria} from '../../actions/search';
+import {setDisplay} from '../../actions/general';
 import {Link, Redirect} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -67,6 +68,11 @@ class indexPage extends Component {
         }
       }
 
+      visitProfile(){
+        let page = authUser.userType === "provider" ? "provider_profile" : "seeker_profile";
+        this.props.setDisplay(page)
+      }
+
     render() {
         let loggedUser = "";
         if(authUser){
@@ -87,7 +93,7 @@ class indexPage extends Component {
                         loggedUser && loggedUser !== "" ?
                             <div>
                                 <p onClick={this.logoutUser.bind(this)} id="logout">Logout?</p>
-                                <p id="greetUser">Hi {loggedUser}!</p>
+                                <p id="greetUser">Hi <Link to="/home"  onClick={this.visitProfile.bind(this)}>{loggedUser}</Link>!</p>
                             </div> 
                     :
                     <div>
@@ -125,7 +131,8 @@ class indexPage extends Component {
 
 const propTypes = {
     logoutUser:PropTypes.func.isRequired,
-    setSearchCriteria: PropTypes.func.isRequired
+    setSearchCriteria: PropTypes.func.isRequired,
+    setDisplay: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -141,6 +148,10 @@ const mapDispatchToProps = (dispatch) => ({
     setSearchCriteria: (values) => {
         dispatch(setSearchCriteria(values))
     },
+
+    setDisplay: (page) => {
+        dispatch(setDisplay(page))
+    }
 
 });
 

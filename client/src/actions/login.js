@@ -2,8 +2,7 @@ import fetchRequests from '../routes/fetchServer';
 import axios from 'axios';
 import toast from '../configs/toast'; 
 import {setCurrentUser} from './user';
-
-// export const REMINDER_LIST_FOR_COMPANY = "REMINDER_LIST_FOR_COMPANY";
+import {setToken} from '../helpers/jwtHandler';
 
 const userLogin = (data) => {
     return (dispatch) => {
@@ -34,6 +33,25 @@ const userLogin = (data) => {
     }
 };
 
+const adminLogin = (credentialData) => {
+    return () => {
+        axios.post('/user/admin-login',
+        credentialData, {
+        withCredentials: true,
+        credentials: "same-origin", 
+        }).then((res) => {
+            if(res.data && res.data.success){
+                console.log('vvvvv adminLogin res ', res.data.userAccessToken)
+                setToken(res.data.userAccessToken);
+                window.location.href = "http://localhost:3000/admin-dashboard";
+            }else{
+                toast.error('Invalid username or password!',
+                {autoClose:2500, hideProgressBar: true})
+            }
+        })
+    }
+}
+    
 const logoutUser = () => {
     return () => {
         axios({
@@ -50,5 +68,6 @@ const logoutUser = () => {
 
 export {
     userLogin,
-    logoutUser
+    logoutUser,
+    adminLogin
 }

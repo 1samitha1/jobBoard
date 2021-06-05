@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
+import {getToken, extractToken} from '../src/helpers/jwtHandler';
 import Home from './components/Home/home'
 import Register from './components/RegSelector/regSelector';
 import RegProvider from './components/Register/regProvider';
@@ -17,7 +18,11 @@ import {Route, Switch, BrowserRouter} from 'react-router-dom';
 import OnlyForProviders from './components/Errors/onlyForProviders'
 
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
-
+const token = getToken();
+let admin = undefined;
+if(token){
+  admin = extractToken(token)
+}
 class App extends Component {
 
   render () {
@@ -27,7 +32,7 @@ class App extends Component {
           <BrowserRouter>
               <Switch>
                 <Route exact path="/" component={IndexPage} />
-                <Route exact path="/home" component={Home} />
+                <Route exact path="/home" component={authUser ? Home : Login} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
                 <Route path="/provider_registration" component={RegProvider} />
@@ -35,14 +40,13 @@ class App extends Component {
                 <Route path="/apply_job" component={ApplyJob} />
 
                 <Route path="/admin-login" component={AdminLogin} />
-                <Route path="/admin-dashboard" component={AdminDashbord} />
+                <Route path="/admin-dashboard" component={admin ? AdminDashbord : AdminLogin } />
 
                 {(authUser && authUser.userType === 'provider') ?
                  <Route path="/create_a_job_post" component={CreateJobs} />
                  :
                  <Route path="/create_a_job_post" component={OnlyForProviders} />
                 }
-                
                 
                 <Route component={NotFound} />
 

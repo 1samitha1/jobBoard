@@ -35,7 +35,7 @@ class profileProvider extends Component {
         website : this.props.user.website,
         industry : this.props.user.industries[0]
     })
-    console.log('bbbb ', industries)
+
    }
 
    displaySearch(){
@@ -96,6 +96,10 @@ class profileProvider extends Component {
         this.props.updateUserInfo(dataObj);
     }
 
+    setDisplayElm(val){
+        this.props.setDisplay(val);
+    }
+
     renderIndustries(){
         if(industries){
             let industryList = [];
@@ -142,7 +146,7 @@ class profileProvider extends Component {
 
                         <Col className="blocks"  md={3} xs={6}> 
                         <div>
-                            <p>Since : 10-02-2020</p>
+                            <p>Since : {this.props.user.registered}</p>
                         </div>
                         </Col> 
                         
@@ -273,7 +277,7 @@ class profileProvider extends Component {
                 </Row>
                 <Row className="profileActions"> 
                     
-                       <Col md={4} xs={12}> 
+                       <Col md={3} xs={12}> 
                        {
                            this.state.editing ? 
                            <button onClick={this.cancelEditing.bind(this)} className="actionButtons">Cancel</button> 
@@ -283,25 +287,26 @@ class profileProvider extends Component {
                         
                        </Col>
 
-                       <Col md={4} xs={12}> 
-                       {
-                           this.state.editing ?
-                            <button onClick={this.updateUserInfo.bind(this)} className="actionButtons">Save</button>
-                                :
-                            <button  className="actionButtonsDisabled" disabled>Save</button>
+                       <Col md={3} xs={12}> 
+                        {
+                            this.state.editing ?
+                                <button onClick={this.updateUserInfo.bind(this)} className="actionButtons">Save</button>
+                                    :
+                                <button className="actionButtonsDisabled" disabled>Save</button>
 
-                       }
-                      
+                        }
                        </Col>
 
-                       <Col md={4} xs={12}> 
-                       <button onClick={this.displaySearch.bind(this)} className="actionButtons">Back to Search</button> 
+                       <Col md={3} xs={12}> 
+                            <button onClick={() => this.setDisplayElm("bookmark_provider")} className="actionButtons">Bookmarks</button> 
+                       </Col>
+
+                       <Col md={3} xs={12}> 
+                            <button onClick={this.displaySearch.bind(this)} className="actionButtons">Back to Search</button> 
                        </Col>
                    
                 </Row>     
-                    {/* <div className="recentActivities">
 
-                    </div> */}
                </div>
             </div>
             </Container> 

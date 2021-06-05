@@ -20,7 +20,8 @@ class RegProvider extends Component {
             password : "",
             passwordConf : "",
             industry: "",
-            phone: ""
+            phone: "",
+            jobPosition: ""
 
         }
     }
@@ -45,7 +46,7 @@ class RegProvider extends Component {
                 }
                 
             }else{
-                    toast.error('Please fill out required fields ( First name, User Name & email)',
+                    toast.error('Please fill out required fields!(First name, User Name, password, email & industry)',
                     {autoClose:3500, hideProgressBar: true})
             }
         }
@@ -118,6 +119,13 @@ class RegProvider extends Component {
                         </select>              
                     </div>
 
+                    <div className="regFormRow singleItem">
+                        <input id="jobPosition" type="text"
+                            onChange={this.handleFieldChange.bind(this)}
+                            value={this.state.jobPosition}
+                            placeholder="Job Profession:" required/>              
+                    </div>
+
                     <div id="actions" >
                     <submit className="btnAction2" onClick={() => this.registerNewUser({
                             firstName : this.state.firstName,
@@ -126,6 +134,7 @@ class RegProvider extends Component {
                             email : this.state.email,
                             phone : this.state.phone,
                             industry : this.state.industry,
+                            jobPosition: this.state.jobPosition,
                             password : this.state.password,
                             passwordConf : this.state.passwordConf,
                         })}

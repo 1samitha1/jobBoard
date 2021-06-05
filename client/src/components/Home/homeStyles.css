@@ -170,7 +170,7 @@
     background: #fffffffa;
     border: 1px solid #ccc;
     border-radius: 6px;
-    width: 24%;
+    width: 18%;
     float: left;
     margin: 3%;
     height: 20%;
@@ -182,7 +182,7 @@
 }
 
 .jobType{
-    width: 13%;
+    width: 11%;
     height: 3vw;
     background-color: #ffffff;
     border: 1px solid #ccc;
@@ -193,7 +193,29 @@
 }
 
 .industry{
-    width: 25%;
+    width: 15%;
+    height: 3vw;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    margin-top: 3%;
+    margin-right: 2%;
+    font-size: 16px;
+    border-radius: 6px;
+}
+
+.location{
+        width: 14%;
+        height: 3vw;
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        margin-top: 3%;
+        margin-right: 2%;
+        font-size: 16px;
+        border-radius: 6px;
+}
+
+.salary{
+    width: 14%;
     height: 3vw;
     background-color: #ffffff;
     border: 1px solid #ccc;
@@ -204,7 +226,7 @@
 }
 
 #searchJobsBtn{
-    width: 13%;
+    width: 10%;
     height: 3vw;
     background-color: #00b548;
     border: 1px solid #ffffff;

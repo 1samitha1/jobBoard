@@ -6,6 +6,8 @@ import {Link} from 'react-router-dom';
 import defaultUser from '../../img/defaults/defaultUser.png';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {setDisplay} from '../../actions/general';
+import {setCandidateToMiniProfile} from '../../actions/seeker'
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
 
 toast.configure();
@@ -38,12 +40,10 @@ class CandidatePost extends Component {
                 <div className="candidateRightTop">
                      <div>
                          <p className="candidateName">{candidate.firstName + " "+ candidate.lastName}</p>
-                         
-                             
-                         <div>
-                             <button>View</button>
-                             <button>Send offers</button>
-
+                         <div className="candidateButtons">
+                             <button onClick={() => this.setDisplay("seeker_miniprofile", candidate)} 
+                             className="viewCandidateProfile candidateButton">View profile</button>
+                             <button className="sendOfferToCandidate candidateButton">Send offers</button>
                          </div>
                      </div>
                      <p className="candidateDescription"> </p>
@@ -51,7 +51,7 @@ class CandidatePost extends Component {
                 <div className="candidateRightBottom">
                      <p className="jobAtributes"><span className="jobAttribute">Industry : </span>{candidate.industries[0]}</p>
                      <p className="jobAtributes"><span className="jobAttribute">Status : </span>job seeker</p>
-                     <p className="jobAtributes"><span className="jobAttribute">Registered : </span>somedate</p>
+                     <p className="jobAtributes"><span className="jobAttribute">Registered : </span>{candidate.registered}</p>
                     
                 </div>
                 
@@ -59,6 +59,11 @@ class CandidatePost extends Component {
          </div>)
     })
         return candidates;
+    };
+
+    setDisplay(page, candidate){
+        this.props.setDisplay(page)
+        this.props.setCandidateToMiniProfile(candidate)
     }
 
     render() {
@@ -72,6 +77,8 @@ class CandidatePost extends Component {
 
 const propTypes = {
     candidates: PropTypes.array.isRequired,
+    setDisplay: PropTypes.func.isRequired,
+    setCandidateToMiniProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -80,7 +87,13 @@ const mapStateToProps = (state) => ({
 });
 
 const dispatchToProps = (dispatch) => ({
+    setDisplay: (page) => {
+        dispatch(setDisplay(page))
+    },
 
+    setCandidateToMiniProfile: (candidate) => {
+        dispatch(setCandidateToMiniProfile(candidate))
+    }
     
 });
 
