@@ -21,7 +21,7 @@ const registerNewUser = (data) => {
               newUser.password = hash;
               newUser.save()
                     .then((savedUser) => {
-                     resolve({success: true, msg : "Registration Successful!"});
+                     resolve({success: true, msg : "Registration Successful!", data : savedUser});
                 });
             });
           });
@@ -80,16 +80,22 @@ const updateProvider = (userData) => {
 };
 
 const authenticateUserToken = (req, res, next) =>{
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  try{
 
-  if(token){
-    JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-      console.log('authenticateUserToken : ', user);
-      req.user = user;
-      next();
-    })
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if(token){
+      JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        req.user = user;
+        next();
+      })
+    }
+
+  }catch(err){
+    console.log('error while authenticateUserToken : ', err)
   }
+  
 
 }
 

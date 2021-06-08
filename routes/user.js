@@ -4,6 +4,7 @@ const passport = require('passport');
 const multer = require('multer');
 const {registerNewUser, uploadUserImage, updateProvider, authenticateUserToken} = require('../controllers/user')
 const JWT = require('jsonwebtoken');
+const {sendEmail} = require('../controllers/email');
 // const {ensureAuthenticated} = require('../configs/auth');
 
 let storage = multer.diskStorage({
@@ -50,7 +51,6 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post('/admin-login', (req, res, next) => {
-    console.log("vvvvvv admin-login called : ",  req.body)
     passport.authenticate('local', (err, user, info) =>{
         if(err) {
             res.send({success:false, error : "Something went wrong", error : err})
@@ -82,6 +82,28 @@ router.post('/admin-login', (req, res, next) => {
 
 });
 
+router.post('/invite-admin',  (req, res, next) => {
+    return registerNewUser(req.body)
+    .then((result) => {
+        console.log('admin adding : ', result.data)
+        let link = `<a href="http://localhost:3000/admin-complete?id=${result.data._id}>click here</a>`
+        let content = `
+        <h4>Smart Job Board Admin Invitation</h4>
+        <p>Hello, ${result.data.firstName}</p>
+        <p>We are glad to inform you that, one of our admin invite you to join our
+            Smart Job Board system as an admin</p>
+        <p>To continue the registration please ${link}</p>    
+        `
+
+       sendEmail([result.data.email], content, "Register as an admin")
+       .then((result) => {
+            res.send(result)
+       })
+        
+    })
+
+});
+
  router.post('/logout', (req, res) => {
     req.logOut();
     res.send({success: true, msg: "logout successful!"})
@@ -89,8 +111,6 @@ router.post('/admin-login', (req, res, next) => {
 });
 
 router.post('/image-upload', upload.single('image'), (req, res) => {
-    console.log('image-upload', req.file)
-    console.log('image-upload', req.body.id)
     let userData = {
         filePath : req.file.destination + req.file.filename,
         userType : req.body.userType,
@@ -103,7 +123,6 @@ router.post('/image-upload', upload.single('image'), (req, res) => {
 });
 
 router.put('/update-user', (req, res) => {
-    console.log('update-user : ', req.body)
     if(req.body.userType = "provider"){
         return updateProvider(req.body)
         .then((result) => {

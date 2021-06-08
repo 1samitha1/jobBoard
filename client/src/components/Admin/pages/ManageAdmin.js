@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Container, Row, Col} from 'react-bootstrap';
-import {setDisplayPage, displayOverlay} from '../../../actions/admin';
+import {setDisplayPage, displayOverlay, sendAdminInvitation} from '../../../actions/admin';
 const closeIcon = require('../../../img/icons/close-icon-white.png');
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 toast.configure();
@@ -15,7 +15,10 @@ class ManageAdmin extends Component {
     constructor(props) {
     super(props);
        this.state = {
-           
+           firstName: "",
+           lastName: "",
+           email: "",
+           userType : "admin"
        }
     }
 
@@ -33,6 +36,19 @@ class ManageAdmin extends Component {
 
     }
 
+    onfieldChange(evt){
+        if(evt && evt.target){
+            this.setState({
+                [evt.target.id] : evt.target.value
+            })
+        }
+
+    }
+
+    inviteAdmin(data){
+        this.props.sendAdminInvitation(data)
+    }
+
   
     render() {
 
@@ -48,13 +64,33 @@ class ManageAdmin extends Component {
 
                         <div id="fieldWrapper">
                            
-                            <input className="createAdminInputs" type="text" placeholder="First Name"></input>
-                            <input className="createAdminInputs" type="text" placeholder="Last Name"></input>
-                            <input className="createAdminInputs" type="text" placeholder="Email"></input>
+                            <input id="firstName" className="createAdminInputs" 
+                                type="text" placeholder="First Name" 
+                                onChange={this.onfieldChange.bind(this)} 
+                                value={this.state.firstName}/>
+
+                            <input id="lastName" className="createAdminInputs" type="text"
+                                onChange={this.onfieldChange.bind(this)}
+                                value={this.state.lastName}  
+                                placeholder="Last Name" />
+
+                            <input id="email" className="createAdminInputs" 
+                                type="text" placeholder="Email"
+                                onChange={this.onfieldChange.bind(this)}
+                                value={this.state.email} />
+
                             <input className="createAdminInputs" type="text" placeholder="Type" value="Type : Administrator" readOnly ></input>
                            
                            <div id="inviteButtonWrapper">
-                                <button id="inviteButton">Send Invitation</button>
+                                <button onClick={() => this.inviteAdmin({
+                                    firstName : this.state.firstName,
+                                    lastName: this.state.lastName,
+                                    email: this.state.email,
+                                    userType: this.state.userType,
+                                    completed: false,
+                                    password: Math.random().toString(36),
+                                    userName: Math.random().toString(30)
+                                })} id="inviteButton">Send Invitation</button>
                                 <button onClick={this.closeOverlay.bind(this)} id="inviteButton">Close</button>
                            </div>
                             
@@ -102,7 +138,9 @@ class ManageAdmin extends Component {
 }
 
 const propTypes = {
-    
+    sendAdminInvitation: PropTypes.func.isRequired,
+    setDisplayPage: PropTypes.func.isRequired,
+    displayOverlay: PropTypes.func.isRequired,
     
 };
 
@@ -118,6 +156,10 @@ const dispatchToProps = (dispatch) => ({
 
     displayOverlay: () => {
         dispatch(displayOverlay());
+    },
+
+    sendAdminInvitation: (data) => {
+        dispatch(sendAdminInvitation(data));
     }
 
 });

@@ -46,7 +46,6 @@ class AdminDashboard extends Component {
     render() {
         return (
             <div id="DashboardWrapper">
-                {console.log('vvv this.props.displayOverlay : ', this.props.displayOverlay)}
                 {this.props.showOverlay ? 
                     <Overlay />
                     :

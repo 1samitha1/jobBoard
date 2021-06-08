@@ -53,6 +53,9 @@ const userSchema = new Schema({
     },
     jobPosition : {
         type: String,
+    },
+    completed: {
+        type: Boolean
     }
 },{
     collection: 'users'
