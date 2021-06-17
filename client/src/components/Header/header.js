@@ -5,16 +5,11 @@ import './headerStyles.css';
 import '../commons/commonStyles.css'
 import {showNotificationWrapper} from '../../actions/notifications';
 import notificationIcon from '../../../src/img/icons/notification-no.jpg';
-import dropDownIcon from '../../../src/img/dropDown.png';
 import {Link} from 'react-router-dom';
 import Toastr from 'toastr';
 Toastr.options.closeButton = true;
 Toastr.options.preventDuplicates = true;
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
- 
-
-
-
 class Header extends Component {
 
     showNotificationWrapper(){
@@ -24,14 +19,16 @@ class Header extends Component {
 
     componentDidMount(){
         Toastr.success('successfully!');
+        
     
     }
 
     render() {
         let welcomeName = "";
-        if(authUser){
-            welcomeName = authUser.userType === "provider" ? 
-            authUser.companyName : authUser.firstName
+        let currentUser = this.props.currentUser.firstName ? this.props.currentUser : authUser
+        if(currentUser){
+            welcomeName = currentUser.userType === "provider" ? 
+            currentUser.companyName : currentUser.firstName
         }
        
         return (
@@ -63,12 +60,12 @@ class Header extends Component {
     }
 }
 
-const propTypes = {
-   
+Header.propTypes = {
+    showNotificationWrapper : PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-   showNotificationWrapper : PropTypes.func.isRequired
+    currentUser : state.user.currentUser
 
 });
 

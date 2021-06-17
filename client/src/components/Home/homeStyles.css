@@ -299,6 +299,12 @@
     margin-bottom: 2%;
 }
 
+.jobDataRow{
+    width:75%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
 #jobDiscriptionWrapper{
     width: 95%;
     margin-left: auto;

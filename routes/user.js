@@ -2,21 +2,34 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const multer = require('multer');
-const {registerNewUser, uploadUserImage, updateProvider, authenticateUserToken} = require('../controllers/user')
+const {registerNewUser, uploadUserImage, updateExistingUser, updateAdmin, 
+    authenticateUserToken, completeAdmin, getUserById, getAdmins, getSeekersAndProviders,
+    searchSeekersAndProviders, uploadResume} = require('../controllers/user')
 const JWT = require('jsonwebtoken');
 const {sendEmail} = require('../controllers/email');
+const {imageStorage, resumeStorage} = require('../configs/multer-config.js')
 // const {ensureAuthenticated} = require('../configs/auth');
 
-let storage = multer.diskStorage({
-    destination : (req, res, cb) => {
-        cb(null, './uploads/')
-    },
-    filename: (req, file, cb) => {
-        cb(null, new Date().getTime()+"_"+file.originalname)
-      }
-});
+// let storage = multer.diskStorage({
+//     destination : (req, res, cb) => {
+//         cb(null, './uploads/')
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, new Date().getTime()+"_"+file.originalname)
+//       }
+// });
 
-var upload = multer({ storage: storage });
+// let resumeStorage2 = multer.diskStorage({
+//     destination : (req, res, cb) => {
+//         cb(null, './uploads/cv')
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, new Date().getTime()+"_"+file.originalname)
+//       }
+// });
+
+var upload = multer({ storage: imageStorage });
+var resumeUpload = multer({ storage: resumeStorage });
 
 router.post('/register', (req, res) => {
   if(req.body.userType === "provider" || req.body.userType === "seeker"){
@@ -65,15 +78,8 @@ router.post('/admin-login', (req, res, next) => {
                     res.send({success:false, error : "Something went wrong", error : err})
                     throw  err
                 }else{
-                    let user = {
-                        _id : req.user._id,
-                        firstName: req.user.firstName,
-                        lastName: req.user.lastName,
-                        email: req.user.email,
-                        password: req.user.password,
-                        userType: req.user.userType
-                    };
-                   let accessToken = JWT.sign(user, process.env.ACCESS_TOKEN_SECRET)
+                    let user = req.user
+                   let accessToken = JWT.sign(user.toJSON(), process.env.ACCESS_TOKEN_SECRET)
                    res.send({success:true, userAccessToken : accessToken})
                 }  
             });
@@ -111,6 +117,7 @@ router.post('/invite-admin',  (req, res, next) => {
 });
 
 router.post('/image-upload', upload.single('image'), (req, res) => {
+    console.log('xxxxx image-upload : ', req.file)
     let userData = {
         filePath : req.file.destination + req.file.filename,
         userType : req.body.userType,
@@ -122,22 +129,80 @@ router.post('/image-upload', upload.single('image'), (req, res) => {
    })
 });
 
+router.post('/resume-upload', resumeUpload.single('resume'), (req, res) => {
+   
+    let userData = {
+        filePath : req.file.destination + req.file.filename,
+        userType : req.body.userType,
+        id : req.body.id
+    }
+   return uploadResume(userData)
+   .then((result) => {
+       res.send(result)
+   })
+});
+
+
+
 router.put('/update-user', (req, res) => {
-    if(req.body.userType = "provider"){
-        return updateProvider(req.body)
+    if(req.body.userType === "provider" || req.body.userType === "seeker"){
+        return updateExistingUser(req.body)
         .then((result) => {
             res.send(result);
         })
-    }else{
-        
+    }else {
+        return updateAdmin(req.body)
+        .then((result) => {
+            res.send(result);
+        });
     }
     
 });
 
-router.post('/test', authenticateUserToken, (req, res, next) => {
-    console.log('testtt  : ', req.user)
-})
+router.post('/complete-admin', (req, res) => {
+    if(req.body){
+        return completeAdmin(req.body)
+        .then((result) => {
+            res.send(result);
+        })
+    }
+});
 
+router.post('/get-user', (req, res) => {
+    if(req.body){
+        return getUserById(req.body.id)
+        .then((result) => {
+            res.send(result);
+        })
+    }
+});
+
+router.post('/admins', (req, res) => {
+    if(req.body){
+        return getAdmins(req.body)
+        .then((result) => {
+            res.send(result);
+        })
+    }
+});
+
+router.post('/get-users', (req, res) => {
+    if(req.body){
+        return getSeekersAndProviders(req.body.exclude)
+        .then((result) => {
+            res.send(result);
+        })
+    }
+});
+
+router.post('/search-users', (req, res) => {
+    if(req.body){
+        return searchSeekersAndProviders(req.body.criteria)
+        .then((result) => {
+            res.send(result);
+        })
+    }
+});
 
 
 module.exports = router;

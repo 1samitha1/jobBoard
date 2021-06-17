@@ -8,6 +8,7 @@ import {setDisplay} from '../../actions/general';
 import {uploadImage} from '../../actions/documents';
 import {updateUserInfo} from '../../actions/user';
 import {industries} from '../../constants/industries';
+import {locations} from '../../constants/locations';
 
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 class profileProvider extends Component {
@@ -21,7 +22,9 @@ class profileProvider extends Component {
         email : "",
         phone : "",
         website : "", 
-        image : {}
+        image : {},
+        industry : "",
+        location : ""
     }
    }
 
@@ -33,6 +36,7 @@ class profileProvider extends Component {
         email : this.props.user.email,
         phone : this.props.user.phone,
         website : this.props.user.website,
+        location : this.props.user.location,
         industry : this.props.user.industries[0]
     })
 
@@ -75,9 +79,7 @@ class profileProvider extends Component {
 
     uploadImage(){
         this.props.uploadImage(this.state.image, "provider", authUser._id);
-        // this.setState({
-        //     image: evt.target.files[0]
-        // })
+        
     }
 
     updateUserInfo(){
@@ -89,11 +91,13 @@ class profileProvider extends Component {
             phone : this.state.phone,
             website : this.state.website,
             industries : [this.state.industry],
+            location : this.state.location,
             textIndex : this.state.companyName + " " + this.state.email + " " + this.state.website,
             id : authUser._id
         }
 
         this.props.updateUserInfo(dataObj);
+        this.cancelEditing();
     }
 
     setDisplayElm(val){
@@ -108,6 +112,17 @@ class profileProvider extends Component {
             });
             return industryList;
         }
+    }
+
+    renderLocations(){
+        if(locations){
+            let locationList = [];
+             locations.map((val, i) => {
+                locationList.push(<option value={val.value}>{val.value}</option>)
+            });
+            return locationList;
+        }
+       
     }
 
     render() {
@@ -178,6 +193,10 @@ class profileProvider extends Component {
                             <p>Industry : </p>
                         </div>
                         
+                        <div>
+                            <p>Location : </p>
+                        </div>
+
                         <div>
                             <p>Logo : </p>
                         </div>
@@ -256,13 +275,27 @@ class profileProvider extends Component {
                         </div>
 
                         <div>
-                        {
+                            {
                                 this.state.editing ? 
-                                <select>
+                                <select id="industry" value={this.state.industry} 
+                                    onChange={this.OnfieldChange.bind(this)} >
                                     {this.renderIndustries()}
                                 </select>
                                 :
                                 <p>{this.props.user.industries[0]}</p>
+                            }
+                           
+                        </div>
+
+                        <div>
+                            {
+                                this.state.editing ? 
+                                <select id="location" value={this.state.location} 
+                                    onChange={this.OnfieldChange.bind(this)} >
+                                    {this.renderLocations()}
+                                </select>
+                                :
+                                <p>{this.props.user.location ? this.props.user.location : ""}</p>
                             }
                            
                         </div>
@@ -314,7 +347,7 @@ class profileProvider extends Component {
     }
 }
 
-const propTypes = {
+profileProvider.propTypes = {
     companyName : PropTypes.string.isRequired,
     user: PropTypes.string.isRequired,
     setDisplay: PropTypes.func.isRequired,

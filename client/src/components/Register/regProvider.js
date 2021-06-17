@@ -4,6 +4,7 @@ import {connect } from 'react-redux';
 import {Link} from 'react-router-dom'
 import {registerNewUser} from '../../actions/register';
 import {industries} from '../../constants/industries';
+import {locations} from '../../constants/locations';
 import toast from '../../configs/toast';
 
 import './regStyles.css';
@@ -20,7 +21,8 @@ class RegProvider extends Component {
             password : "",
             passwordConf : "",
             primaryIndustry: "",
-            companyPhone: ""
+            companyPhone: "",
+            location: ""
 
         }
     }
@@ -71,7 +73,18 @@ class RegProvider extends Component {
             });
             return industryList;
         }  
-      }
+    }
+
+    generateLocations(){
+        if(locations){
+            let locationList = [];
+             locations.map((val, i) => {
+                locationList.push(<option value={val.value}>{val.value}</option>)
+            });
+            return locationList;
+        }
+       
+    }
 
     render() {
 
@@ -130,6 +143,15 @@ class RegProvider extends Component {
                         </select>              
                     </div>
 
+                    <div className="regFormRow">
+                        <select id="location" type="text"
+                            value={this.state.location} required
+                            onChange={this.handleFieldChange.bind(this)}>
+                               <option value=""> Select Location</option>
+                               {this.generateLocations()}
+                        </select>              
+                    </div>
+
                     <div id="actions" >
                         <button className="btnAction2" onClick={() => this.registerNewUser({
                             companyName : this.state.companyName,
@@ -140,6 +162,7 @@ class RegProvider extends Component {
                             industry : this.state.primaryIndustry,
                             password : this.state.password,
                             passwordConf : this.state.passwordConf,
+                            location : this.state.location
                         })}
                             id="registerButton"> Register Now </button>
                             

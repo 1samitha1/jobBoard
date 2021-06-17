@@ -8,8 +8,7 @@ const searchCandidates = async (criteria) => {
       if(criteria.industries){
         criteria.industries = {"$elemMatch":{"$eq":criteria.industries}}
       }
-      
-      console.log('search criteria : ', criteria)
+     
       User.find(criteria, (err, result) => {
         if (err) {
           reject({success: false, error: err})

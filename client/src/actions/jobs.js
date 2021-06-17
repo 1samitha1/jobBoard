@@ -96,6 +96,22 @@ const deleteJobById = (data) => {
            })
         });
     }
+};
+
+const applyJob = (data) => {
+    return (dispatch) => {
+        axios.post('/job/apply',
+        data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+          
+        });
+    }
+}
+
+const saveJobAttachment = (file) => {
+    
 }
 
 
@@ -106,5 +122,6 @@ export  {
     closeJobPost,
     sendJobApplication,
     getJobs,
-    deleteJobById
+    deleteJobById,
+    applyJob
 }

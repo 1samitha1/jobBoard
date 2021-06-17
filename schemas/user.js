@@ -54,6 +54,9 @@ const userSchema = new Schema({
     jobPosition : {
         type: String,
     },
+    location: {
+        type: String
+    },
     completed: {
         type: Boolean
     }

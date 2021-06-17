@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect } from 'react-redux';
-import {} from '../../actions/jobs';
+import {applyJob} from '../../actions/jobs';
 import './jobStyles.css';
 import { Container,Row, Col, Form, Button } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
@@ -36,15 +36,27 @@ class ApplyJob extends Component {
     }
 
     sendJobApplication(data){
+        const {selectedJob} = this.props;
         console.log('sendJobApplication 1 : ', data)
         if(data && data.name !== '' && data.email !== '' && 
-        data.applicantId !== ''){
-            console.log('sendJobApplication 2 : ', data)
+        data.attachment !== ''){
+            if(selectedJob._id && selectedJob.createdBy ){
+                let jobApplication = {
+                    name : data.name,
+                    email: data.email,
+                    attachment: "",
+                    jobId : selectedJob._id,
+                    createdBy: selectedJob.createdBy,
+                    applicants: selectedJob.applicants
+                }
+            }
+           
         }
         
     }
 
     render() {
+
         
         return (
         //  <Container fluid style={{height:'100%'}} >
@@ -131,17 +143,20 @@ class ApplyJob extends Component {
     }
 }
 
-const propTypes = {
-    
+ApplyJob.propTypes = {
+    selectedJob : PropTypes.object.isRequired,
+    applyJob: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-
+    selectedJob : state.jobs.jobToOpen
 
 });
 
 const dispatchToProps = (dispatch) => ({
-    
+    applyJob : (data) => {
+        dispatch(applyJob(data));
+    }
 });
 
 export default connect(

@@ -37,7 +37,6 @@ module.exports = function(passport){
       passport.deserializeUser((id, done) => {
         User.findById(id, (err, user) => {
             // delete user.password;
-            console.log(' deserializeUser nnnn user : ', user)
           done(err, user);
         });
       });

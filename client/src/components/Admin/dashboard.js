@@ -6,13 +6,14 @@ import {Link} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Container, Row, Col} from 'react-bootstrap';
-import {displayOverlay, setDisplayPage} from '../../actions/admin'
+import {displayOverlay, setDisplayPage, setAdminData} from '../../actions/admin'
 import {extractToken, getToken, removeToken} from '../../helpers/jwtHandler';
 import Overlay from './Overlay'
 
 
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 toast.configure();
+
 
 class AdminDashboard extends Component {
 
@@ -29,7 +30,8 @@ class AdminDashboard extends Component {
         console.log("loggedInAdmin : ", loggedInAdmin)
         this.setState({
             myAdmin : loggedInAdmin
-        })
+        });
+        this.props.setAdminData(loggedInAdmin)
     }
 
     itemOnclick(page){
@@ -74,11 +76,7 @@ class AdminDashboard extends Component {
                             <p className="adminActionTxt">Manage Users</p>
                         </div>
                     </Col>
-                    {/* <Col md={4} xs={12}>
-                        <div className="adminActions">
-                            <p className="adminActionTxt">Manage Tests</p>
-                        </div>
-                    </Col> */}
+                    
                   </Row>
                   
                   <Row className="adminActionRows">
@@ -92,11 +90,7 @@ class AdminDashboard extends Component {
                             <p className="adminActionTxt">Manage Admins</p>
                         </div>
                     </Col>
-                    {/* <Col md={4} xs={12}>
-                        <div className="adminActions">
-                            <p className="adminActionTxt">Remove an Admin</p>
-                        </div>
-                    </Col> */}
+                   
                   </Row>
 
               </Row>
@@ -112,7 +106,8 @@ class AdminDashboard extends Component {
 const propTypes = {
     displayOverlay : PropTypes.func.isRequired,
     showOverlay : PropTypes.bool.isRequired,
-    setDisplayPage: PropTypes.func.isRequired
+    setDisplayPage: PropTypes.func.isRequired,
+    setAdminData: PropTypes.func.isRequired
     
 };
 
@@ -128,6 +123,10 @@ const dispatchToProps = (dispatch) => ({
 
     setDisplayPage : (page) => {
         dispatch(setDisplayPage(page))
+    },
+
+    setAdminData: (data) => {
+        dispatch(setAdminData(data));
     }
       
 });

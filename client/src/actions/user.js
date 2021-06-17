@@ -1,7 +1,10 @@
 import axios from 'axios';
 import toast from '../configs/toast';
+import {getAdminByToken, setToken} from '../helpers/jwtHandler';
+import {setAdminData} from './admin';
 
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const SET_SEEKERS_AND_PROVIDERS = 'SET_SEEKERS_AND_PROVIDERS';
 
 export const setCurrentUser = (user) => {
     return{
@@ -20,8 +23,81 @@ export const updateUserInfo = (userData) => {
 
         })
         .then((res) => {
-             localStorage.setItem('authenticatedUser', JSON.stringify(res.data.result))
-             dispatch(setCurrentUser(res.data.result))
+            if(res.data.type === "admin"){
+                setToken(res.data.userAccessToken);
+                let data = getAdminByToken();
+                dispatch(getUserById(data._id, "admin"));
+            }else{
+                localStorage.setItem('authenticatedUser', JSON.stringify(res.data.result))
+                dispatch(setCurrentUser(res.data.result))
+            }
+             
         });
     }
 }
+
+export const getUserById = (id, type) => {
+    return (dispatch) => {
+        axios.post('/user/get-user',
+        {id:id}, {
+        withCredentials: true,
+        credentials: "same-origin", 
+    }).then((res) => {
+        if(res && res.data){
+            if(res.data.success){
+                if(type === "admin"){
+                    dispatch(setAdminData(res.data.result));
+                }
+                
+            }else{
+                toast.error("Error while getting user",
+                {autoClose:3000, hideProgressBar: true})
+            }
+            
+        }   
+    })
+    }
+}
+
+export const getUsers = (exclude) => {
+    return (dispatch) => {
+        axios.post('/user/get-users',
+        {exclude:exclude}, {
+        withCredentials: true,
+        credentials: "same-origin", 
+    }).then((res) => {
+        if(res && res.data){
+            if(res.data.success){
+               dispatch({
+                   type : SET_SEEKERS_AND_PROVIDERS,
+                   users : res.data.result
+               })
+                
+            }
+            
+        }   
+    })
+    }
+}
+
+export const searchUsers = (data) => {
+    return (dispatch) => {
+        axios.post('/user/search-users',
+        {criteria:data}, {
+        withCredentials: true,
+        credentials: "same-origin", 
+    }).then((res) => {
+        if(res && res.data){
+            if(res.data.success){
+               dispatch({
+                   type : SET_SEEKERS_AND_PROVIDERS,
+                   users : res.data.data
+               })
+                
+            }
+            
+        }   
+    })
+    }
+}
+

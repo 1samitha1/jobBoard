@@ -6,9 +6,10 @@ import {Link} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Container, Row, Col} from 'react-bootstrap';
-import {setDisplayPage, displayOverlay, sendAdminInvitation} from '../../../actions/admin';
+import {setDisplayPage, displayOverlay, sendAdminInvitation, getAdmins} from '../../../actions/admin';
+import {getAdminByToken} from '../../../../src/helpers/jwtHandler';
 const closeIcon = require('../../../img/icons/close-icon-white.png');
-const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
+const adminData = getAdminByToken();
 toast.configure();
 class ManageAdmin extends Component {
 
@@ -20,6 +21,10 @@ class ManageAdmin extends Component {
            email: "",
            userType : "admin"
        }
+    }
+
+    componentDidMount(){
+         this.props.getAdmins(adminData._id);
     }
 
     closeOverlay(){
@@ -49,8 +54,27 @@ class ManageAdmin extends Component {
         this.props.sendAdminInvitation(data)
     }
 
+    renderAdmins(){
+        let admins = [];
+        this.props.admins.forEach((item, i) => {
+        admins.push(<div key={i} className="adminListItem">
+                <div className="adminItemBlock">
+                    <p className="adminName">{item.firstName} {item.lastName}</p>
+                    <p className="adminEmail">{item.email}</p>
+                    <p className="adminType">Administrator</p>
+                                   
+                </div>
+                <div className="adminListItemRight">
+                    <button className="removeAdmin">Remove</button>
+                </div>
+            </div>);
+        });
+        return admins;
+    }
+
   
     render() {
+        console.log('cccc ', this.props.admins)
 
         return (
             <Container>
@@ -104,19 +128,9 @@ class ManageAdmin extends Component {
                             remove and admin user from the system. 
                         </p>
                         <div id="adminList">
-                            <div className="adminListItem">
-                                <div className="adminItemBlock">
-                                    <p className="adminName">Harrison Wells</p>
-                                    <p className="adminEmail">hary@starlabs.com</p>
-                                    <p className="adminType">Administrator</p>
-                                   
-                                </div>
-                                <div className="adminListItemRight">
-                                    <button className="removeAdmin">Remove</button>
-                                </div>
-                            </div>
+                            {this.renderAdmins()}
 
-                            <div className="adminListItem">
+                            {/* <div className="adminListItem">
                                 <div className="adminItemBlock">
                                     <p className="adminName">Adam Smith</p>
                                     <p className="adminEmail">adam@gmail.com</p>
@@ -126,7 +140,7 @@ class ManageAdmin extends Component {
                                 <div className="adminListItemRight">
                                     <button className="removeAdmin">Remove</button>
                                 </div>
-                            </div>
+                            </div> */}
 
                         </div>
                     </Col>
@@ -141,11 +155,13 @@ const propTypes = {
     sendAdminInvitation: PropTypes.func.isRequired,
     setDisplayPage: PropTypes.func.isRequired,
     displayOverlay: PropTypes.func.isRequired,
+    getAdmins: PropTypes.func.isRequired,
+    admins: PropTypes.array.isRequired
     
 };
 
 const mapStateToProps = (state) => ({
-    
+    admins : state.admin.admins
 
 });
 
@@ -160,6 +176,10 @@ const dispatchToProps = (dispatch) => ({
 
     sendAdminInvitation: (data) => {
         dispatch(sendAdminInvitation(data));
+    },
+
+    getAdmins: (id) => {
+        dispatch(getAdmins(id))
     }
 
 });

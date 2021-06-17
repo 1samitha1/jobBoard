@@ -2,6 +2,8 @@ import axios from 'axios';
 import toast from '../configs/toast';
 export const DISPLAY_OVERLAY = 'DISPLAY_OVERLAY';
 export const SET_PAGE = 'SET_PAGE';
+export const SET_ADMIN_DATA = 'SET_ADMIN_DATA';
+export const GET_ADMINS = 'GET_ADMINS';
 
 const displayOverlay = () => {
     return (dispatch) => {
@@ -16,6 +18,15 @@ const setDisplayPage = (page) => {
         dispatch({
             type : SET_PAGE,
             page: page
+        })
+    }
+};
+
+const setAdminData = (data) => {
+    return (dispatch) => {
+        dispatch({
+            type : SET_ADMIN_DATA,
+            data: data
         })
     }
 };
@@ -51,11 +62,14 @@ const completeAdminRegistration = (data) => {
     }).then((res) => {
         if(res && res.data){
             if(res.data.success){
-                toast.success(res.data.msg,
+                toast.success("Profile Updated Sucessfully.",
                     {autoClose:3000, hideProgressBar: true})
-                window.location.href = "http://localhost:3000/admin-login";    
+                    setTimeout(() => {
+                        window.location.href = "http://localhost:3000/admin-login"; 
+                    },4000)
+                   
             }else{
-                toast.error(res.data.msg,
+                toast.error("Something went wrong! Please try again",
                 {autoClose:3000, hideProgressBar: true})
             }
             
@@ -64,7 +78,24 @@ const completeAdminRegistration = (data) => {
     }
 } 
 
-
+const getAdmins = (id) => {
+    return (dispatch) => {
+        axios.post('/user/admins',
+        {exclude : id}, {
+        withCredentials: true,
+        credentials: "same-origin", 
+    }).then((res) => {
+            if(res && res.data){
+                if(res.data.success){
+                    dispatch({
+                        type : GET_ADMINS,
+                        admins: res.data.result
+                    }); 
+                }
+            }   
+        })
+    }
+}
 
 
 
@@ -72,6 +103,8 @@ export  {
     displayOverlay,
     setDisplayPage,
     sendAdminInvitation,
-    completeAdminRegistration
+    completeAdminRegistration,
+    setAdminData,
+    getAdmins
     
 }

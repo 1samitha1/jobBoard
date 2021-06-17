@@ -1,11 +1,15 @@
 import {
     DISPLAY_OVERLAY,
-    SET_PAGE
+    SET_PAGE,
+    SET_ADMIN_DATA,
+    GET_ADMINS
 } from '../actions/admin';
 
 const admin = ( state = {
     showOverlay : false,
-    page : ""
+    page : "",
+    adminData : {},
+    admins : []
 
 }, action) => {
     switch (action.type) {
@@ -20,6 +24,18 @@ const admin = ( state = {
                 ...state,
                 page : action.page
             }
+
+        case SET_ADMIN_DATA :    
+            return {
+                ...state,
+                adminData : action.data
+            } 
+           
+        case GET_ADMINS :    
+            return {
+                ...state,
+                admins : action.admins
+            } 
 
         default:
             return state;

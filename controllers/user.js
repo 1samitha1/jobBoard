@@ -41,27 +41,77 @@ const uploadUserImage = (userData) => {
         reject({success: false, Error: err})
        }
 
-       resolve({success: true, result : doc})
+       User.findOne({"_id": ObjectId(userData.id) }, (err,result) => {
+        delete result.password;
+        let token = "";
+       if(result.userType === "admin"){
+          token = JWT.sign(result.toJSON(), process.env.ACCESS_TOKEN_SECRET)
+       }
+       resolve({success: true, result : result, token: token})
+       })
+        
      }))
   })  
 };
 
-const updateProvider = (userData) => {
+const uploadResume = (userData) => {
+  return new Promise((resolve, reject) => {
+     User.findOneAndUpdate({_id : ObjectId(userData.id), userType : userData.userType}, {resume : userData.filePath}, 
+     { new: true}, ((err, doc) => {
+       if(err){
+        reject({success: false, Error: err})
+       }else{
+        resolve({success: true, result : doc })
+       }
+        
+     }))
+  })  
+};
+
+const updateExistingUser = (userData) => {
   try{
     return new Promise((resolve, reject) => {
+      let query = {};
 
-      let query =  { "$set": { 
-        "companyName": userData.companyName,
-        "userName": userData.userName,
-        "email" : userData.email,
-        "website" : userData.website,
-        "industries" : userData.industries,
-        "phone" : userData.phone,
-        "textIndex" : userData.textIndex
+      if(userData.userType === "provider"){
+          query =  { "$set": { 
+            "companyName": userData.companyName,
+            "userName": userData.userName,
+            "email" : userData.email,
+            "website" : userData.website,
+            "industries" : userData.industries,
+            "phone" : userData.phone,
+            "location" : userData.location,
+            "textIndex" : userData.textIndex
+          }
+        }
+      }else if(userData.userType === "seeker"){
+          query =  { "$set": { 
+            "firstName": userData.firstName,
+            "lastName": userData.lastName,
+            "userName": userData.userName,
+            "email" : userData.email,
+            "phone" : userData.phone,
+            "industries" : userData.industries,
+            "location" : userData.location,
+            "textIndex" : userData.textIndex
+          }
+        }
       }
-    }
+
+    //   let query =  { "$set": { 
+    //     "companyName": userData.companyName,
+    //     "userName": userData.userName,
+    //     "email" : userData.email,
+    //     "website" : userData.website,
+    //     "industries" : userData.industries,
+    //     "phone" : userData.phone,
+    //     "location" : userData.location,
+    //     "textIndex" : userData.textIndex
+    //   }
+    // }
       
-      User.findOneAndUpdate({ "_id": userData.id }, query).exec((err, res) => {
+      User.findOneAndUpdate({ "_id": ObjectId(userData.id) }, query, { new: true}).exec((err, res) => {
         if(err) {
             console.log(err);
             reject({error : err})
@@ -79,6 +129,35 @@ const updateProvider = (userData) => {
  
 };
 
+const updateAdmin = (adminData) => {
+  try{
+
+    return new Promise((resolve, reject) => {
+      let query =  { "$set": { 
+        "firstName": adminData.firstName,
+        "lastName": adminData.lastName,
+        "email" : adminData.email
+      }
+    }
+
+    User.findOneAndUpdate({ "_id": ObjectId(adminData.id) }, query, { new: true}).exec((err, res) => {
+      if(err) {
+          console.log(err);
+          reject({error : err})
+      } else {
+          let accessToken = JWT.sign(res.toJSON(), process.env.ACCESS_TOKEN_SECRET)
+          resolve({success:true, type:"admin", result:res, userAccessToken : accessToken}) 
+      }
+    });
+
+    })
+
+  }catch(err){
+    reject({success : false, error : err});
+    console.log('error while updateUser : ', err)
+  }
+}
+
 const authenticateUserToken = (req, res, next) =>{
   try{
 
@@ -95,13 +174,123 @@ const authenticateUserToken = (req, res, next) =>{
   }catch(err){
     console.log('error while authenticateUserToken : ', err)
   }
-  
+}
 
+const completeAdmin = (user) =>{
+  try{
+    return new Promise((resolve, reject) => {
+    let admin = user;
+
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(admin.password, salt, (err, hash) => {
+        admin.password = hash;
+        let query =  { "$set": { "userName": admin.username, "password": admin.password, "completed" : true } }
+
+        User.findOneAndUpdate({ "_id": ObjectId(admin.id) }, query).exec((err, res) => {
+          if(err) {
+              console.log(err);
+              reject({success:false});
+          } else {
+             resolve({success:true});
+          }
+       });
+        
+      });
+    });
+  });
+  }catch(err){
+    console.log('error while authenticateUserToken : ', err)
+  }
+}
+
+const getUserById = (userId) => {
+  try{
+    return new Promise((resolve, reject) => {
+      User.findOne({_id : ObjectId(userId)},((err, res) => {
+        if(err){
+          reject({success : false})
+        }else{
+          resolve({success : true, result : res })
+        }
+
+      }));
+    });
+  }catch(err){
+    console.log('error while getting user by id : ', err)
+  }
+}
+
+const getAdmins = (data) => {
+  try{
+    return new Promise((resolve, reject) => {
+      User.find({userType : "admin", _id : {$ne: ObjectId(data.exclude)}},((err, res) => {
+        if(err){
+          reject({success : false})
+        }else{
+          resolve({success : true, result : res })
+        }
+
+      }));
+    });
+  }catch(err){
+    console.log('error while getting admins : ', err)
+  }
+}
+
+const getSeekersAndProviders = (exclude) => {
+  try{
+    return new Promise((resolve, reject) => {
+      User.find({userType : {$ne: exclude}},((err, res) => {
+        if(err){
+          reject({success : false})
+        }else{
+          console.log('vvvvv res : ', res)
+          resolve({success : true, result : res })
+        }
+      }));
+    })
+    
+  }catch(err){
+    console.log('error while getting seekers and providers : ', err)
+  }
+}
+
+const searchSeekersAndProviders = (criteria) => {
+  try{
+    return new Promise((resolve, reject) => {
+      if(criteria.textIndex){
+        criteria.textIndex= {"$regex": criteria.textIndex, "$options": "i"}
+      }
+      if(criteria.industries){
+        criteria.industries = {"$elemMatch":{"$eq":criteria.industries}}
+      }
+
+      User.find(criteria, (err, result) => {
+        if (err) {
+          reject({success: false, error: err})
+        } else {
+          if (result) {
+            resolve({success: true, data: result})
+          }
+        }
+      })
+    })
+    
+  }catch(err){
+    console.log('error while getting seekers and providers : ', err)
+  }
 }
 
 module.exports = {
   registerNewUser,
   uploadUserImage,
-  updateProvider,
-  authenticateUserToken
+  updateExistingUser,
+  authenticateUserToken,
+  completeAdmin,
+  updateAdmin,
+  getUserById,
+  getAdmins,
+  getSeekersAndProviders,
+  searchSeekersAndProviders,
+  uploadResume
 };

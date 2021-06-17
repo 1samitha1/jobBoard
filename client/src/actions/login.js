@@ -2,7 +2,7 @@ import fetchRequests from '../routes/fetchServer';
 import axios from 'axios';
 import toast from '../configs/toast'; 
 import {setCurrentUser} from './user';
-import {setToken} from '../helpers/jwtHandler';
+import {setToken, extractToken} from '../helpers/jwtHandler';
 
 const userLogin = (data) => {
     return (dispatch) => {
@@ -34,7 +34,7 @@ const userLogin = (data) => {
 };
 
 const adminLogin = (credentialData) => {
-    return () => {
+    return (dispatch) => {
         axios.post('/user/admin-login',
         credentialData, {
         withCredentials: true,

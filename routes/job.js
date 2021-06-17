@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const Job = require('../controllers/job')
+const multer = require('multer');
+const Job = require('../controllers/job');
+const {imageStorage, resumeStorage} = require('../configs/multer-config.js');
+
+var resumeUpload = multer({ storage: resumeStorage });
 
 router.post('/create', (req, res) => {
     Job.createNewJob(req.body)
@@ -27,12 +31,29 @@ router.post('/get', (req, res) => {
 });
 
 router.post('/delete', (req, res) => {
-    console.log('delete route : ', req.body)
     Job.deleteJob(req.body)
         .then((result) => {
             res.send(result);
         })
     
 });
+
+router.post('./apply', (req,res) => {
+    Job.applyJob(req.body)
+        .then((result) => {
+            res.send(result);
+        })
+})
+
+router.post('./application-attachment', resumeUpload.single('attachment'), (req,res) => {
+    let applicationAttachment = {
+        jobid : "",
+        attachment : req.file
+    }
+    Job.saveApplicationAttachment(req.body)
+        .then((result) => {
+            res.send(result);
+        })
+})
 
 module.exports = router;

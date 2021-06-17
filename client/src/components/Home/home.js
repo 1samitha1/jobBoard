@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import {connect } from 'react-redux';
+import {Link} from 'react-router-dom';
 import Header from '../Header/header';
 import './homeStyles.css'
 import '../commons/commonStyles.css'
 
 import defaultUser from '../../img/defaults/defaultUser.png';
 import defaultCompany from '../../img/defaults/defaultCompany.png';
-import logoutIconBlack from '../../img/icons/logoutBlack.png';
+// import logoutIconBlack from '../../img/icons/logoutBlack.png';
 import closeIconWhite from '../../img/icons/closeWhite.png';
 
 import NotificationWrapper from '../Notifications/NoticationsWrapper'
@@ -172,11 +173,15 @@ class Home extends Component {
     }
 
     render() {
-        const {displayNotificationWrapper, openJobPost, jobToOpen, currentUser} = this.props
+        const {displayNotificationWrapper, openJobPost, jobToOpen, currentUser} = this.props;
+
+        console.log('xxxxx jobToOpen : ', jobToOpen)
 
         if(currentUser.userType){
             authUser = this.props.currentUser;
         } 
+
+        console.log("auth user : ", authUser)
 
          let userImg = defaultUser;
          let curruntTimestamp = new Date();
@@ -258,14 +263,6 @@ class Home extends Component {
                                      </div> 
                                      :
                                     <div id="IndustryTrendings">
-                                        {/* <h2>Trending Industries</h2>
-                                        <p className="fontLarge">Accounting <span className="numOfVacancies">- 10</span></p>
-                                        <p className="fontLarge">IT & Computing <span className="numOfVacancies">- 5</span></p>
-                                        <p className="fontLarge">Banking</p>
-                                        <p className="fontLarge">Marketing</p>
-                                        <p className="fontLarge">Education</p>
-                                        <p className="fontLarge">Engineering</p>
-                                        <p className="fontLarge">Hotel & Hospitality</p> */}
                                 
                                      </div>
 
@@ -277,19 +274,26 @@ class Home extends Component {
                                 <div id="viewJobPostWrapper">
                                    <img onClick={this.closeJobPost.bind(this)} src={closeIconWhite} id="closeJobPost"></img>
                                    <p id="postTitle">{jobToOpen.title}</p>
-                                   <div id="jobData">
-                                       <span className="jobDataItem">Job Position : {jobToOpen.position} | </span> 
-                                       <span className="jobDataItem"> Company : {jobToOpen.companyName} | </span>
-                                       <span className="jobDataItem"> Industry : {jobToOpen.industry} | </span>
-                                       <span className="jobDataItem"> Job type : {jobToOpen.type} | </span>
-                                       <span className="jobDataItem"> Start date : {jobToOpen.startDate} | </span>
-                                       <span className="jobDataItem"> Expire date : {jobToOpen.expireDate} </span>
-                                   </div>
+                                   <dic id="jobData">
+                                        <Row className="jobDataRow"> 
+                                            <Col md={4}><p className="jobDataItem"><strong>Job Position :</strong> {jobToOpen.position}</p></Col>
+                                            <Col md={4}><p className="jobDataItem"><strong>Company :</strong> {jobToOpen.companyName}</p></Col>
+                                            <Col md={4}><p className="jobDataItem"><strong>Industry :</strong> {jobToOpen.industry}</p></Col>
+                                           
+                                        </Row>
+
+                                        <Row className="jobDataRow">
+                                            <Col md={4}><p className="jobDataItem"><strong>Job type :</strong> {jobToOpen.type}</p></Col>
+                                            <Col md={4}><p className="jobDataItem"><strong>Start date :</strong> {jobToOpen.startDate}</p></Col>
+                                            <Col md={4}><p className="jobDataItem"><strong>Expire date :</strong> {jobToOpen.expireDate}</p></Col>
+                                        </Row>
+
+                                   </dic>
                                    <div id="jobDiscriptionWrapper">
                                        <p id="jobDiscription">{jobToOpen.description}</p>
                                    </div>
                                    <div id="jobPostActions">
-                                       <button className="jobActionItem" id="applyJob">Apply Job</button>
+                                   <Link to="/apply_job"><button className="jobActionItem" id="applyJob">Apply Job</button></Link>
                                        <p className="jobActionItem"> No of Applicants : {jobToOpen.applicants}</p>
                                        <button className="jobActionItem" onClick={this.closeJobPost.bind(this)} id="goBack">Back</button>
                                    </div>

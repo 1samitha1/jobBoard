@@ -1,4 +1,5 @@
 const Job = require("../schemas/job");
+const JobApplication = require("../schemas/jobApplications");
 
 const createNewJob = (data) => {
   return new Promise((resolve, reject) => {
@@ -34,7 +35,7 @@ const searchJobs = (criteria) => {
 };
 
 const getJobs = (data) => {
-  console.log('xxxxx getJobs : ', data)
+  
   return new Promise((resolve, reject) => {
     Job.find({createdBy : data.createdBy}, (err, result) => {
       if (err) {
@@ -63,9 +64,33 @@ const deleteJob = (data) => {
   })
 }
 
+const applyJob = (application) => {
+  return new Promise((resolve, reject) => {
+    let newJobApplication = new JobApplication(application);
+    newJobApplication.save((err,result) => {
+      if(err){
+        reject({success : false, error : err})
+      }else{
+        if(result){
+          resolve({success: true, data: result})
+        }
+      }
+    })
+  
+  });
+}
+
+const saveApplicationAttachment = (attachment) => {
+  return new Promise((resolve, reject) => {
+
+  });
+}
+
 module.exports = {
     createNewJob,
     searchJobs,
     getJobs,
-    deleteJob
+    deleteJob,
+    applyJob,
+    saveApplicationAttachment
 };
