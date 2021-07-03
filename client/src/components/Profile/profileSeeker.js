@@ -44,8 +44,8 @@ class profileSeeker extends Component {
     })
    }
 
-   displaySearch(){
-    this.props.setDisplay("home") 
+   displayPage(page){
+    this.props.setDisplay(page) 
    }
 
     editProfile(userId){
@@ -94,6 +94,12 @@ class profileSeeker extends Component {
     handlePhotoSelect(evt){
         this.setState({
             image: evt.target.files[0]
+        })
+    }
+
+    handleResumeSelect(evt){
+        this.setState({
+            resume: evt.target.files[0]
         })
     }
 
@@ -304,7 +310,7 @@ class profileSeeker extends Component {
                                     {this.renderLocations()}
                                 </select>
                                 :
-                                <p>{this.props.user.location ? this.props.user.location : ""}</p>
+                                <p>{this.props.user.location ? this.props.user.location : "add location"}</p>
                             }
                         </div>
 
@@ -314,8 +320,8 @@ class profileSeeker extends Component {
                                 <img className="resumeIconDiv"  src={cvIcon}/>
                                 :
                                 <div>
-                                    <input className="uploadInput" type="file" accept="image/*" name="cv"/>
-                                    <button className="uploadiButtonProfile updateCV" value="upload">Upload</button>
+                                    <input className="uploadInput" type="file" accept="pdf/*" name="cv" onChange={this.handleResumeSelect.bind(this)} />
+                                    <button className="uploadiButtonProfile updateCV" value="upload" onClick={this.uploadResume.bind(this)}>Upload</button>
                                 </div>
                             }
                         </div>
@@ -351,11 +357,11 @@ class profileSeeker extends Component {
                        </Col>
 
                        <Col md={3} xs={12}> 
-                       <button className="actionButtons">Bookmarks</button> 
+                       <button onClick={() => this.displayPage("bookmark_seeker")} className="actionButtons">Saved jobs</button> 
                        </Col>
 
                        <Col md={3} xs={12}> 
-                       <button onClick={this.displaySearch.bind(this)} className="actionButtons">Back to Search</button> 
+                       <button onClick={() => this.displayPage("home")} className="actionButtons">Back to Search</button> 
                        </Col>
                    
                 </Row>     
@@ -389,6 +395,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
 
     uploadResume: (file, type, id) => {
+        console.log('vvvvv uploadResume ')
         dispatch(uploadResume(file, type, id))
     },
 

@@ -16,7 +16,7 @@ import Jobs from '../Job/jobPost';
 import CreatedJobs from '../Job/createdJobs';
 import Candidates from '../Candidates/candidateResult';
 import ProviderProfile from '../Profile/profileProvider';
-import ProviderSeeker from '../Profile/profileSeeker';
+import SeekerProfile from '../Profile/profileSeeker';
 import TestPortal from '../Tests/testsPortal';
 import AppliedJobs from '../Job/appliedJobs';
 import SkillTests from '../Tests/skillTests';
@@ -24,7 +24,10 @@ import CreateTest from '../Tests/CreateTest';
 import JobApplications from '../Job/JobApplications';
 import ResumeCentre from '../Resume/ResumeCenter';
 import ProviderBookmark from '../Bookmarks/ProviderBookmarks';
+import SeekerBookmark from '../Bookmarks/SeekerBookmarks';
 import SeekerMiniProfile from '../Candidates/MiniProfile';
+import Scheduler from '../Schedules/Scheduler';
+import CreateScheduler from '../Schedules/CreateSchedule';
 
 import { Container,Row, Col } from 'react-bootstrap';
 import {searchJobs, closeJobPost} from '../../actions/jobs';
@@ -45,7 +48,10 @@ class Home extends Component {
            keyword : this.props.searchKeyword,
            jobType: "",
            industry: "",
-           currentUser : {}  
+           employeeType: "",
+           location: "",
+           currentUser : {},
+           salary : ""  
        }
     }
    
@@ -136,32 +142,39 @@ class Home extends Component {
             if(this.state.industry !== ''){
                 criteria.industry = this.state.industry
             }
+
+            if(this.state.salary !== ''){
+                criteria.salary = this.state.salary
+            }
+
             this.props.searchJobs(criteria);
         }else{
             if(this.state.keyword !== ''){
                 criteria.textIndex = this.state.keyword
             }
     
-            if(this.state.jobType !== ''){
-                criteria.textIndex += " " + this.state.jobType
+            if(this.state.employeeType !== ''){
+                criteria.employeeType = this.state.employeeType
             }
     
             if(this.state.industry !== ''){
                 criteria.industries = this.state.industry
             }
 
+            if(this.state.location !== ''){
+                criteria.location = this.state.location
+            }
+
             this.props.searchCandidates(criteria); 
         }
-
-       
 
         if(userType === "seeker"){
             this.props.searchJobs(criteria);
         }else{
+            console.log("search candidates : ", criteria)
             this.props.searchCandidates(criteria); 
         }
-        
-        // this.props.searchJobs(criteria);
+   
     }
 
     closeJobPost(){
@@ -174,8 +187,6 @@ class Home extends Component {
 
     render() {
         const {displayNotificationWrapper, openJobPost, jobToOpen, currentUser} = this.props;
-
-        console.log('xxxxx jobToOpen : ', jobToOpen)
 
         if(currentUser.userType){
             authUser = this.props.currentUser;
@@ -317,7 +328,7 @@ class Home extends Component {
                                     {
                                          this.props.displayElm === "seeker_profile" &&
                                          <div>
-                                            <ProviderSeeker user={authUser}  />
+                                            <SeekerProfile user={authUser}  />
                                          </div>
                                     }
 
@@ -380,7 +391,7 @@ class Home extends Component {
                                     {
                                         this.props.displayElm === "bookmark_seeker" &&
                                         <div>
-                                            
+                                            <SeekerBookmark />
                                         </div>
                                     }
 
@@ -388,6 +399,20 @@ class Home extends Component {
                                         this.props.displayElm === "seeker_miniprofile" &&
                                         <div>
                                             <SeekerMiniProfile />
+                                        </div>
+                                    }
+
+                                    {
+                                        this.props.displayElm === "scheduler" &&
+                                        <div>
+                                            <Scheduler />
+                                        </div>
+                                    }
+
+                                    {
+                                        this.props.displayElm === "create_schedules" &&
+                                        <div>
+                                            <CreateScheduler />
                                         </div>
                                     }
 
@@ -402,7 +427,7 @@ class Home extends Component {
                                                         <p className="resultCount fontNormal">No of seekers : {this.props.candidateCount}</p>
                                                     }
 
-                                                     {
+                                                    {
                                                         userType === "seeker" &&
                                                         <p className="resultCount fontNormal">No of Jobs : {this.props.jobCount}</p>
                                                     }
@@ -413,19 +438,20 @@ class Home extends Component {
                                                         <input id="keyword" value={this.state.keyword} onChange={this.setSearchCriteria.bind(this)} 
                                                         className="searchInput" type="text" placeholder="Search keyword" />
                     
-                                                        <select  id="jobType" onChange={this.setSearchCriteria.bind(this)} className="jobType">
-                                                            <option value="">Select type</option>
-                                                            <option value="Full Time">Full Time</option>
-                                                            <option value="Part Time">Part Time</option>
+                                                        <select  id={authUser.userType === 'seeker' ? "jobType" : "employeeType"} 
+                                                        onChange={this.setSearchCriteria.bind(this)} className="jobType">
+                                                            <option value="">All types</option>
+                                                            <option value="Full time">Full Time</option>
+                                                            <option value="Part time">Part Time</option>
                                                         </select>
                     
                                                         <select id="industry" onChange={this.setSearchCriteria.bind(this)} className="industry">
-                                                            <option value="">Select Industry</option>
+                                                            <option value="">All Industries</option>
                                                             {this.generateIndustries()}                                       
                                                         </select>
 
                                                         <select id="location" onChange={this.setSearchCriteria.bind(this)} className="location">
-                                                            <option value="">Select Location</option>
+                                                            <option value="">All Location</option>
                                                             {this.generateLocations()}                                       
                                                         </select>
                                                         {

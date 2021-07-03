@@ -15,13 +15,17 @@ const flash = require('connect-flash');
 
 require('dotenv').config()
 
+//DB connection
 
-
-// DB connection
 mongoose.connect('mongodb://127.0.0.1:27017/jobBoard', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
+
+// mongoose.connect('mongodb+srv://admin:S7M8G9.123@cluster0.xflmf.mongodb.net/jobBoard?retryWrites=true&w=majority', {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// });
 
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Mongodb connection error:'));

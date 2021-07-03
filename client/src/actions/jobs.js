@@ -4,6 +4,8 @@ export const SET_JOB_DATA = 'SET_JOB_DATA';
 export const OPEN_JOB_POST = 'OPEN_JOB_POST';
 export const CLOSE_JOB_POST = 'CLOSE_JOB_POST';
 export const CREATED_JOBS = 'CREATED_JOBS';
+export const SET_APPLIED_JOBS = 'SET_APPLIED_JOBS';
+export const SET_RECEIVED_JOB_APPLICATIONS = 'SET_RECEIVED_JOB_APPLICATIONS';
 
 const createJob = (jobData) => {
     return () => {
@@ -83,7 +85,6 @@ const getJobs = (data) => {
 };
 
 const deleteJobById = (data) => {
-    console.log('vvvv deleteJobById : ', deleteJobById)
     return (dispatch) => {
         axios.post('/job/delete',
         data, {
@@ -99,19 +100,101 @@ const deleteJobById = (data) => {
 };
 
 const applyJob = (data) => {
+    let attachment = data.attachment;
+    let application = {
+            name : data.name,
+            email: data.email,
+            message: data.message,
+            attachment: "",
+            jobId : data.jobId,
+            createdBy: data.createdBy,
+            appliedBy: data.appliedBy,
+            applicants: data.applicants
+    };
     return (dispatch) => {
         axios.post('/job/apply',
-        data, {
+        application, {
             withCredentials: true,
             credentials: "same-origin",
         }).then((res) => {
+            console.log('applyJob sucess : ', res)
+            if(res && res.data.success){
+                dispatch(saveJobAttachment(
+                    {applicationId : res.data.data._id, 
+                     attachment : attachment}));
+
+            }
           
         });
     }
 }
 
-const saveJobAttachment = (file) => {
+const saveJobAttachment = (attachmentData) => {
+    if(attachmentData){
+        return (dispatch) => {
+            const formData = new FormData();
+            formData.append('applicationId', attachmentData.applicationId)
+            formData.append('attachment', attachmentData.attachment);
+
+             axios.post('/job/application-attachment',
+             formData, {
+                'withCredentials': true,
+                'credentials': "same-origin",
+                'Content-Type': 'multipart/form-data',
+              })
+              .then((res) => {
+                  if(res.data && res.data.result){
+                    toast.success('Applied to the job successfully!',
+                    {autoClose:2500, hideProgressBar: true})
+                    window.location.href = "http://localhost:3000/home";
+                  }
+              })
+          
+        }
+    }
     
+}
+
+const getAppliedJobs = (user) => {
+    if(user){
+        return (dispatch) => {
+            axios.post('/job/applied-jobs',
+            user, {
+                withCredentials: true,
+                credentials: "same-origin",
+            }).then((res) => {
+                if(res && res.data.sucess){
+                    dispatch({
+                        type: SET_APPLIED_JOBS,
+                        jobs : res.data.result
+                    })
+    
+                }
+              
+            });
+        }
+    }
+}
+
+const getRecivedJobs = (user) => {
+    if(user){
+        return (dispatch) => {
+            axios.post('/job/recived-jobs',
+            user, {
+                withCredentials: true,
+                credentials: "same-origin",
+            }).then((res) => {
+                if(res && res.data.sucess){
+                    dispatch({
+                        type: SET_RECEIVED_JOB_APPLICATIONS,
+                        jobs : res.data.result
+                    })
+    
+                }
+              
+            });
+        }
+    }
 }
 
 
@@ -123,5 +206,7 @@ export  {
     sendJobApplication,
     getJobs,
     deleteJobById,
-    applyJob
+    applyJob,
+    getAppliedJobs,
+    getRecivedJobs
 }

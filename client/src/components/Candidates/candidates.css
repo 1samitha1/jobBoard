@@ -115,6 +115,7 @@
     margin-bottom: 10px;
     border: 1px solid #ffffff;
     border-radius: 6px;
+    overflow-y: clip;
 }
 
 #c_miniProfileImgWrapper img{

@@ -13,7 +13,6 @@ const editIcon = require('../../img/icons/edit-icon-white.png')
 const deleteIcon = require('../../img/icons/delete-icon-white.png')
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 
-
 toast.configure();
 
 class JobPost extends Component {
@@ -38,12 +37,10 @@ class JobPost extends Component {
     }
 
     generateJobPosts(){
-        console.log('xxxxxxx this.props.createdJobs : ', this.props.createdJobs)
 
     let jobPosts = [];
     
     this.props.createdJobs.map((jobItem, i) => {
-        console.log('vvv jobItem : ', jobItem)
 
         let content = jobItem.description;
         if(content.length > 153){

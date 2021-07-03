@@ -35,7 +35,7 @@ class ResumeCenter extends Component {
         <Container>
             <div id="resumeWrapper">
                 <p id="resumeHeading">Resume Center</p>
-                <p id="resumeSubHeading">Download and create your prefessional resume from well-known free resume creation websites</p>
+                <p id="resumeSubHeading">npm run dCreate your prefessional resume using well-known free resume creation tools</p>
                <div id="resumeContents">
                     <Row className="resumeRows">
                         <Col md={3} xs={6}>

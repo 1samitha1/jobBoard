@@ -7,6 +7,7 @@ import { Container,Row, Col, Form, Button } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 
 toast.configure();
 
@@ -18,7 +19,7 @@ class ApplyJob extends Component {
            name : "",
            email : "",
            message : "",
-           attachment : {},
+           attachment : "",
            applicantId : "",
            jobId :""
        }
@@ -36,7 +37,7 @@ class ApplyJob extends Component {
     }
 
     sendJobApplication(data){
-        const {selectedJob} = this.props;
+        const {selectedJob, applyJob} = this.props;
         console.log('sendJobApplication 1 : ', data)
         if(data && data.name !== '' && data.email !== '' && 
         data.attachment !== ''){
@@ -44,11 +45,19 @@ class ApplyJob extends Component {
                 let jobApplication = {
                     name : data.name,
                     email: data.email,
-                    attachment: "",
+                    message: data.message,
+                    attachment: this.state.attachment,
                     jobId : selectedJob._id,
                     createdBy: selectedJob.createdBy,
+                    appliedBy: authUser._id,
                     applicants: selectedJob.applicants
                 }
+
+                applyJob(jobApplication);
+
+            }else{
+                toast.error('You must select a job before apply',
+                {autoClose:2500, hideProgressBar: true})
             }
            
         }
@@ -155,6 +164,7 @@ const mapStateToProps = (state) => ({
 
 const dispatchToProps = (dispatch) => ({
     applyJob : (data) => {
+        console.log("dispatchToProps applyJob : ", data)
         dispatch(applyJob(data));
     }
 });

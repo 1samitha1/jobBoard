@@ -6,7 +6,8 @@ import {Link} from 'react-router-dom';
 import defaultCompany from '../../img/defaults/defaultCompany.png';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {openJobPost, closeJobPost} from '../../actions/jobs';
+import {openJobPost, closeJobPost, } from '../../actions/jobs';
+import {addBookmark} from '../../actions/user';
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
 
 toast.configure();
@@ -21,12 +22,17 @@ class JobPost extends Component {
        }
     }
 
+    saveJob(data){
+        this.props.addBookmark(data);
+    }
+
     generateJobPosts(){
 
     let employerLogo = defaultCompany;
     let jobPosts = [];
     
     this.props.jobs.map((jobItem, i) => {
+        console.log('vvvvv jobItem : ', jobItem)
 
         let content = jobItem.description;
         if(content.length > 153){
@@ -46,12 +52,15 @@ class JobPost extends Component {
                          <p onClick={() => this.openJobPost(jobItem)} className="jobTitle jobToOpen">{jobItem.title}</p>
                          <p className="jobAtributes topAttribute">
                              <span className="jobAttribute">Applicants :</span> {jobItem.applicants}</p>
-                             {/* {
+                             {
                                 authUser.userType === "seeker" ?
-                                <button>Apply</button>
+                                <button className="bookmarkJobPost" onClick={() => this.saveJob({
+                                    itemId : jobItem._id,
+                                    userId : authUser._id
+                                })}>Save</button>
                                 :
                                 null
-                             } */}
+                             }
                              
                          <div>
 
@@ -86,9 +95,10 @@ class JobPost extends Component {
     }
 }
 
-const propTypes = {
+JobPost.propTypes = {
     jobs: PropTypes.array.isRequired,
     openJobPost: PropTypes.func.isRequired,
+    addBookmark: PropTypes.func.isRequired
     
 };
 
@@ -99,9 +109,12 @@ const mapStateToProps = (state) => ({
 
 const dispatchToProps = (dispatch) => ({
     openJobPost : (jobData) => {
-        dispatch(openJobPost(jobData))
+        dispatch(openJobPost(jobData));
     },
 
+    addBookmark : (data) => {
+        dispatch(addBookmark(data));
+    }
     
 });
 

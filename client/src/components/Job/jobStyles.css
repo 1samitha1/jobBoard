@@ -93,9 +93,9 @@
 
 .jobAtributes{
     float: left;
-    margin-left: 2.5%;
-    margin-right: 2.5%;
-    font-size: 14px;
+    margin-left: 8px;
+    margin-right: 12px;
+    font-size: 12px;
     margin-top: 0.5%;
 }
 
@@ -401,10 +401,29 @@
     background-color: #42a1cebf;
 }
 
+.bookmarkJobPost{
+    width: 75px;
+    background: #42a1ce45;
+    color: #ffffff;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 9px;
+    box-shadow: none;
+    border: 1px solid;
+    padding: 2px;
+    margin-top: 5px;
+    margin-bottom: 2%;
+    margin-right: 2px;
+}
+
+.bookmarkJobPost:hover{
+    background-color: #42a1cebf;
+}
+
 /*applied jobs */
 
 .appliedJobs{
-    width: 92%;
+    width: 75%;
     margin-left: auto !important;
     margin-right: auto !important;
     overflow-y: scroll;
@@ -463,7 +482,7 @@
 }
 
 .appliedJobDiv{
-    width: 89%;
+    width: 80%;
     /* background-color: #efefef; */
     background-color: #67626270;
     margin-left: auto;

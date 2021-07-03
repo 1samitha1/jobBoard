@@ -1,0 +1,141 @@
+#scheduleWrapper{
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#closeSchedule{
+    width: 25px;
+    float: right;
+    margin-right: 2%;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+#scheduleHeading{
+    width: 95%;
+    float: left;
+    text-align: center;
+    color: #ffffff;
+    font-size: 23px;
+    margin-top: 12px;
+    margin-bottom: 5px;
+}
+
+#scheduleSubHeading{
+    width: 95%;
+    float: left;
+    text-align: center;
+    color: #ffffff;
+    font-size: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#scheduleButtonWrapper{
+    width: 100%;
+    height: 35%;
+    float: left;
+    text-align: center;
+}
+
+#schedulerBody{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 380px;
+    border: 1px solid #ffffff;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    overflow-y: scroll;
+}
+
+#createSchedule{
+    width: 130px;
+    margin-top: 1%;
+    margin-left: 41%;
+    float: left;
+    margin-bottom: 15px;
+    background: #42a1ce45;
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 7px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid;
+    padding: 6px;
+}
+
+#reminderForm{
+    width: 45%;
+    height: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #ffffff;
+    border-radius: 6px;
+    margin-top: 50px;
+    margin-bottom: 45px;
+    
+}
+
+.reminderFormDiv{
+    text-align: center;
+    width: 100%;
+    height: 45px;
+    margin-top: 7%;
+    
+}
+
+.reminderFormDiv input{
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    height: 3vw;
+    border-radius: 4px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding-left: 2%;
+    color: #383535;
+    border: none;
+    font-size: 1.1vw;
+    background-color: #ffffff;
+}
+
+.reminderFormDiv textarea{
+    width: 60%;
+    padding-left: 2%;
+    border-radius: 4px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding-left: 2%;
+    color: #383535;
+    border: none;
+    font-size: 1.1vw;
+    background-color: #ffffff;
+}
+
+.reminderFormDiv button{
+    width: 35%;
+    font-size: 15px;
+    margin-top: 5%;
+    margin-left: 30%;
+    float: left;
+    margin-bottom: 15px;
+    background: #42a1ce45;
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 7px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid;
+    padding: 1%;
+}
+
+.reminderFormDiv button:hover{
+    background-color: #42a1cebf;
+}
+

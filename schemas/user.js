@@ -54,12 +54,23 @@ const userSchema = new Schema({
     jobPosition : {
         type: String,
     },
+    employeeType: {
+        type: String
+    },
     location: {
         type: String
     },
     completed: {
         type: Boolean
-    }
+    },
+    resume : {
+        type: String
+    },
+    bookmarks: {
+        type: [{
+            type: String
+        }]
+    },
 },{
     collection: 'users'
 });

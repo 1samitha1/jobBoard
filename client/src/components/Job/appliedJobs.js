@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 import defaultCompany from '../../img/defaults/defaultCompany.png';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {getJobs} from '../../actions/jobs';
+import {getJobs, getAppliedJobs} from '../../actions/jobs';
 import {Container, Row, Col} from 'react-bootstrap';
 import {setDisplay} from '../../actions/general';
 const editIcon = require('../../img/icons/edit-icon-white.png')
@@ -26,7 +26,7 @@ class AppliedJobs extends Component {
     }
 
     componentDidMount(){
-        // this.props.getJobs(this.props.userId);
+        this.props.getAppliedJobs({id : authUser._id});
     }
 
     displaySearch(){
@@ -35,22 +35,73 @@ class AppliedJobs extends Component {
 
     generateJobPosts(){
 
-    // let jobPosts = [];
-    // console.log('vvvv this.props.createdJobs : ', this.props.createdJobs)
+    let jobsArray = [];
     
-    // this.props.createdJobs.map((jobItem, i) => {
+    this.props.appliedJobs.map((jobItem, i) => {
 
-    //     let content = jobItem.description;
-    //     if(content.length > 153){
-    //         content = content.substring(0,153)+"...";
-    //     }
-        
-    //     jobPosts.push(
-        
+        let content = jobItem.message ? jobItem.message : "";
+        if(content.length > 153){
+            content = content.substring(0,153)+"...";
+        }
+    
+        jobsArray.push(
+            <div key={i} className="appliedJobDiv">
+            <Col md={12} xs={12} className="appliedJobsCol1">
+                <Row>
+                    <Col><p className="title">{jobItem.jobTitle}</p></Col>
+                </Row>
+
+                <Row>
+                    <Col><p className="jobMsg">{content}</p></Col>
+                </Row>
+
+                <Row>
+                    <Col className="jobCompany"> Company : {jobItem.companyName}</Col>
+                </Row>
+
+                <Row>
+                        {/* <button className="JobAppliedBtns">Open</button> */}
+                        <button className="JobAppliedBtns">Delete</button>
+                        {/* <p>Attachments</p> */}
+                </Row>
+            
+            </Col>
+
+            {/* <Col md={5} xs={12} className="appliedJobsCol2">
+                <Col className="colItem">
+                    <Row>  
+                        <p className="jobStatItems">Applied on</p>
+                    </Row>
+                    <Row> 
+                       <p>20/10/2020</p>
+                    </Row>
+                </Col>
+
+                <Col className="colItem">
+                    <Row> 
+                        <p className="jobStatItems">Status</p>
+                    </Row>
+                    <Row> 
+                       <p>active</p>
+                    </Row>
+                </Col>
+
+                <Col className="colItem">
+                    <Row> 
+                        <p className="jobStatItems">Type</p>
+                    </Row>
+                    <Row> 
+                       <p>full time</p>
+                    </Row>
+                </Col>
+                
+            
+            </Col> */}
+        </div>
    
-    //     </Row>)
-    // })
-    //     return jobPosts;
+        )
+    })
+        return jobsArray;
     }
 
     // openJobPost(jobData){
@@ -74,74 +125,22 @@ class AppliedJobs extends Component {
                     </Col>
                 </Row>
                 <Row className="appliedJobs">
-                    <div  className="appliedJobDiv">
-                        <Col md={7} xs={12} className="appliedJobsCol1">
-                            <Row>
-                                <Col><p className="title"> Job name is here</p></Col>
-                            </Row>
-
-                            <Row>
-                                <Col><p className="jobMsg"> This is a sample messsage regarding this job post
-                                which is already done </p></Col>
-                            </Row>
-
-                            <Row>
-                                <Col className="jobCompany"> Company : ABC company</Col>
-                            </Row>
-
-                            <Row>
-                                    <button className="JobAppliedBtns">Open</button>
-                                    <button className="JobAppliedBtns">Delete</button>
-                                    {/* <p>Attachments</p> */}
-                            </Row>
-                        
-                        </Col>
-
-                        <Col md={5} xs={12} className="appliedJobsCol2">
-                            <Col className="colItem">
-                                <Row>  
-                                    <p className="jobStatItems">Applied on</p>
-                                </Row>
-                                <Row> 
-                                   <p>20/10/2020</p>
-                                </Row>
-                            </Col>
-
-                            <Col className="colItem">
-                                <Row> 
-                                    <p className="jobStatItems">Status</p>
-                                </Row>
-                                <Row> 
-                                   <p>active</p>
-                                </Row>
-                            </Col>
-
-                            <Col className="colItem">
-                                <Row> 
-                                    <p className="jobStatItems">Type</p>
-                                </Row>
-                                <Row> 
-                                   <p>full time</p>
-                                </Row>
-                            </Col>
-                            
-                        
-                        </Col>
-                    </div>
+                    {this.generateJobPosts()}
                 </Row>
-               {/* {this.generateJobPosts()} */}
+               
             </div>
         );
     }
 }
 
-const propTypes = {
-    setDisplay: PropTypes.func.isRequired
+AppliedJobs.propTypes = {
+    setDisplay: PropTypes.func.isRequired,
+    getAppliedJobs: PropTypes.func.isRequired
     
 };
 
 const mapStateToProps = (state) => ({
-    
+    appliedJobs : state.jobs.appliedJobs
 
 });
 
@@ -149,6 +148,10 @@ const dispatchToProps = (dispatch) => ({
     setDisplay : (page) => {
         dispatch(setDisplay(page))
     },
+
+    getAppliedJobs: (data) => {
+        dispatch(getAppliedJobs(data))
+    }
 
     
 

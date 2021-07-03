@@ -6,6 +6,8 @@ router.post('/search', (req, res) => {
     Seeker.searchCandidates(req.body)
         .then((result) => {
             res.send(result);
+        }).catch((err) => {
+            console.log("error while searchCandidates : ", err)
         })
     
 });

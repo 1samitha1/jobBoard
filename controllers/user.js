@@ -1,4 +1,5 @@
 const User = require("../schemas/user");
+const Job = require("../schemas/job");
 const bcrypt = require("bcryptjs");
 const JWT = require('jsonwebtoken');
 const ObjectId = require('mongodb').ObjectID;
@@ -61,6 +62,7 @@ const uploadResume = (userData) => {
        if(err){
         reject({success: false, Error: err})
        }else{
+         console.log('vvvvv resume success : ', doc)
         resolve({success: true, result : doc })
        }
         
@@ -281,6 +283,46 @@ const searchSeekersAndProviders = (criteria) => {
   }
 }
 
+const addBookmark = (data) => {
+  try{
+    return new Promise((resolve, reject) => {
+      User.find({_id : ObjectId(data.userId), bookmarks :{$in: [data.itemId]}}, ((err, result) => {
+        console.log('xxxxx result : ', result)
+        if(err) reject({success: false, error : "something went wrong while saving job"});
+        if(result.length > 0){
+          resolve({success : false, error : "Job is aleady saved to the profile"})
+         }else{
+             User.updateOne({_id : ObjectId(data.userId)}, { $push: { bookmarks: ObjectId(data.itemId)}}, ((err, doc) => {
+            if(err){
+              reject({success: false, error : "something went wrong while saving job"})
+            }else{
+              resolve({success : true, result : doc})
+            }
+          }));
+         }
+      }));
+    });
+
+  }catch(err){
+    console.log('error while adding bookmark : ', err)
+  }
+}
+
+const getBookmarksForUser = (data) => {
+  try{
+    User.find({_id : ObjectId(data.userId)}, ((err, result) => {
+      if(result){
+        Job.find({_id : {$in :[result.bookmarks]}}, ((err, res) => {
+          console.log(' getBookmarksForUser res : ', res)
+        }))
+      }
+    }))
+
+  }catch(err){
+    console.log('error while fetching user bookmarks : ', err)
+  }
+}
+
 module.exports = {
   registerNewUser,
   uploadUserImage,
@@ -292,5 +334,7 @@ module.exports = {
   getAdmins,
   getSeekersAndProviders,
   searchSeekersAndProviders,
-  uploadResume
+  uploadResume,
+  addBookmark,
+  getBookmarksForUser
 };

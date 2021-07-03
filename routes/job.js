@@ -38,21 +38,34 @@ router.post('/delete', (req, res) => {
     
 });
 
-router.post('./apply', (req,res) => {
+router.post('/apply', (req,res) => {
     Job.applyJob(req.body)
         .then((result) => {
             res.send(result);
+        }).catch((err) => {
+            console.log('error while applying job : ', err)
         })
 })
 
-router.post('./application-attachment', resumeUpload.single('attachment'), (req,res) => {
+router.post('/application-attachment', resumeUpload.single('attachment'), (req,res) => {
     let applicationAttachment = {
-        jobid : "",
-        attachment : req.file
+        applicationId : req.body.applicationId,
+        attachment : req.file.destination + req.file.filename
     }
-    Job.saveApplicationAttachment(req.body)
+    Job.saveApplicationAttachment(applicationAttachment)
         .then((result) => {
             res.send(result);
+        }).catch((err) => {
+            console.log('')
+        })
+})
+
+router.post('/applied-jobs', (req,res) => {
+    Job.getAppliedJobs(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log('error while applied jobs : ', err)
         })
 })
 

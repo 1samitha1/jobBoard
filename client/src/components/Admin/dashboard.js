@@ -56,7 +56,8 @@ class AdminDashboard extends Component {
                 <Col>
                     <div className="dashboardTopLeft">
                         <p id="dashboardTopLeftTxt">Admin Dashboard! </p>
-                        <p id="dashboardTopMiddleAdminName">Welcome Admin : {this.state.myAdmin.firstName}</p>
+                        {/* <p id="dashboardTopMiddleAdminName">Welcome Admin : {this.state.myAdmin.firstName}</p> */}
+                        <p id="dashboardTopMiddleAdminName">Welcome Admin </p> 
                     </div>
                     <div className="dashboardTopRight">
                         <button onClick={this.logoutAdmin.bind(this)} id="dashboardLogout">Logout</button>

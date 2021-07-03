@@ -4,29 +4,11 @@ const passport = require('passport');
 const multer = require('multer');
 const {registerNewUser, uploadUserImage, updateExistingUser, updateAdmin, 
     authenticateUserToken, completeAdmin, getUserById, getAdmins, getSeekersAndProviders,
-    searchSeekersAndProviders, uploadResume} = require('../controllers/user')
+    searchSeekersAndProviders, uploadResume, addBookmark, getBookmarksForUser} = require('../controllers/user')
 const JWT = require('jsonwebtoken');
 const {sendEmail} = require('../controllers/email');
 const {imageStorage, resumeStorage} = require('../configs/multer-config.js')
 // const {ensureAuthenticated} = require('../configs/auth');
-
-// let storage = multer.diskStorage({
-//     destination : (req, res, cb) => {
-//         cb(null, './uploads/')
-//     },
-//     filename: (req, file, cb) => {
-//         cb(null, new Date().getTime()+"_"+file.originalname)
-//       }
-// });
-
-// let resumeStorage2 = multer.diskStorage({
-//     destination : (req, res, cb) => {
-//         cb(null, './uploads/cv')
-//     },
-//     filename: (req, file, cb) => {
-//         cb(null, new Date().getTime()+"_"+file.originalname)
-//       }
-// });
 
 var upload = multer({ storage: imageStorage });
 var resumeUpload = multer({ storage: resumeStorage });
@@ -117,7 +99,6 @@ router.post('/invite-admin',  (req, res, next) => {
 });
 
 router.post('/image-upload', upload.single('image'), (req, res) => {
-    console.log('xxxxx image-upload : ', req.file)
     let userData = {
         filePath : req.file.destination + req.file.filename,
         userType : req.body.userType,
@@ -136,6 +117,7 @@ router.post('/resume-upload', resumeUpload.single('resume'), (req, res) => {
         userType : req.body.userType,
         id : req.body.id
     }
+    console.log('vvv userData : ', userData)
    return uploadResume(userData)
    .then((result) => {
        res.send(result)
@@ -200,6 +182,30 @@ router.post('/search-users', (req, res) => {
         return searchSeekersAndProviders(req.body.criteria)
         .then((result) => {
             res.send(result);
+        })
+    }
+});
+
+router.post('/bookmark', (req, res) => {
+    if(req.body){
+        console.log("bookmark " , req.body)
+        return addBookmark(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log("error while adding bookmark : ", err);
+        })
+    }
+});
+
+router.post('/get-bookmarks', (req, res) => {
+    if(req.body){
+        console.log("bookmark " , req.body)
+        return getBookmarksForUser(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log("error while adding bookmark : ", err);
         })
     }
 });

@@ -91,7 +91,8 @@ class ManageJobs extends Component {
                             <Row>
                                 <Col md={12}>
                                     <Row>
-                                        <Col md={12}><p className="resultCount">No of jobs : 1</p></Col>
+                                        <Col md={6}><p className="resultCount">Searched jobs : 1</p></Col>
+                                        <Col md={6}><p className="resultCount">Total jobs : 5</p></Col>
                                     </Row>
                                     <Row>
                                         <Col md={12}>

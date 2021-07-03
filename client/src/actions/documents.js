@@ -37,7 +37,7 @@ export const uploadImage = (file, userType, userId) => {
 }
 
 export const uploadResume = (file, userType, userId) => {
-    console.log('vvvvv file:  ', file)
+    console.log('vvvvv uploadResume file:  ', file)
     const formData = new FormData();
         formData.append('userType', userType)
         formData.append('id', userId)

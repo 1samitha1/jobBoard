@@ -101,3 +101,46 @@ export const searchUsers = (data) => {
     }
 }
 
+export const addBookmark = (data) => {
+    if(data){
+        return () => {
+            axios.post('/user/bookmark',
+            data, {
+                withCredentials: true,
+                credentials: "same-origin",
+            }).then((res) => {
+                if(res && res.data.success){
+                    toast.success("Job saved to your profile",
+                    {autoClose:3000, hideProgressBar: true});
+    
+                }else{
+                    toast.error(res.data.error,
+                    {autoClose:3000, hideProgressBar: true});
+                }
+              
+            });
+        }
+    }
+}
+
+export const getBookmarksForUser = (data) => {
+    if(data){
+        return (dispatch) => {
+            axios.post('/user/get-bookmarks',
+            data, {
+                withCredentials: true,
+                credentials: "same-origin",
+            }).then((res) => {
+                if(res && res.data.success){
+                    
+    
+                }else{
+                    toast.error(res.data.error,
+                    {autoClose:3000, hideProgressBar: true});
+                }
+              
+            });
+        }
+    }
+}
+

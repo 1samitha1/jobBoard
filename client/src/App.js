@@ -41,7 +41,8 @@ class App extends Component {
                 <Route path="/apply_job" component={ApplyJob} />
 
                 <Route path="/admin-login" component={AdminLogin} />
-                <Route path="/admin-dashboard" component={admin ? AdminDashbord : AdminLogin } />
+                {/* <Route path="/admin-dashboard" component={admin ? AdminDashbord : AdminLogin } /> */}
+                <Route path="/admin-dashboard" component={AdminDashbord} />
                 <Route path="/admin-complete:id?" component={AdminRegistration} />
 
                 {(authUser && authUser.userType === 'provider') ?

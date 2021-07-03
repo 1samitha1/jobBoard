@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {connect } from 'react-redux';
 import {Link} from 'react-router-dom';
 import {industries} from '../../constants/industries';
+import { locations } from '../../constants/locations';
 import {registerNewUser} from '../../actions/register';
 import toast from '../../configs/toast';
 
@@ -21,7 +22,9 @@ class RegProvider extends Component {
             passwordConf : "",
             industry: "",
             phone: "",
-            jobPosition: ""
+            jobPosition: "",
+            location: "",
+            employeeType: ""
 
         }
     }
@@ -39,6 +42,7 @@ class RegProvider extends Component {
                 if(data.password === data.passwordConf){
                     data.textIndex = `${data.firstName} ${data.lastName} ${data.industry} ${data.email} ${data.phone} ${data.userName}`
                     data.photo = "";
+                    data.resume = "";
                     this.props.registerNewUser(data)
                 }else{
                     toast.error('Passowrd confirmation is not matching!',
@@ -61,6 +65,16 @@ class RegProvider extends Component {
             return industryList;
         }  
       }
+    
+    generateLocation(){
+        if(locations){
+            let locationList = [];
+            locations.map((location, i) => {
+                locationList.push(<option value={location.value}>{location.value}</option>)
+            });
+            return locationList;
+        } 
+    }
 
     render() {
 
@@ -109,7 +123,7 @@ class RegProvider extends Component {
                         <input id="phone" type="text"
                             onChange={this.handleFieldChange.bind(this)}
                             value={this.state.phone}
-                            placeholder="Phone No:" required/>
+                            placeholder="Phone Number" required/>
 
                         <select id="industry" type="text"
                             value={this.state.industry} required
@@ -119,11 +133,26 @@ class RegProvider extends Component {
                         </select>              
                     </div>
 
-                    <div className="regFormRow singleItem">
-                        <input id="jobPosition" type="text"
+                    <div className="regFormRow ">
+                        {/* <input id="jobPosition" type="text"
                             onChange={this.handleFieldChange.bind(this)}
                             value={this.state.jobPosition}
-                            placeholder="Job Profession:" required/>              
+                            placeholder="Profession" required/>   */}
+
+                        <select id="employeeType" type="text"
+                            value={this.state.employeeType} required
+                            onChange={this.handleFieldChange.bind(this)}>
+                                <option value=""> Select type</option>
+                                <option value="Full time"> Full time</option>
+                                <option value="Part time"> Part time</option>
+                        </select>    
+
+                        <select id="location" type="text"
+                            value={this.state.location} required
+                            onChange={this.handleFieldChange.bind(this)}>
+                                <option value=""> Select location</option>
+                                {this.generateLocation()}
+                        </select>                
                     </div>
 
                     <div id="actions" >
@@ -135,6 +164,8 @@ class RegProvider extends Component {
                             phone : this.state.phone,
                             industry : this.state.industry,
                             jobPosition: this.state.jobPosition,
+                            location: this.state.location,
+                            employeeType: this.state.employeeType,
                             password : this.state.password,
                             passwordConf : this.state.passwordConf,
                         })}

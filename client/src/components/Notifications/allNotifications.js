@@ -4,7 +4,7 @@ import {connect } from 'react-redux';
 import './notificationsStyles.css';
 import '../commons/commonStyles.css'
 import {closeNotificationWrapper} from '../../actions/notifications.js';
-import closeIcon from '../../../src/img/close.png';
+import closeIcon from '../../../src/img/icons/close-icon-white.png';
 
 class allNotifications extends Component {
 
@@ -13,7 +13,7 @@ class allNotifications extends Component {
         return (
             <div id="allNotificationsWrapper">
                 <div id="allNotifiHeader">
-                    <p>Notifications</p>
+                    <p id="notificationHeading">Notification Center</p>
                     <img onClick={this.props.closeNotificationWrapper} className="closeWindow" src={closeIcon}></img>
                 </div>
                 <div id="allNotifications">

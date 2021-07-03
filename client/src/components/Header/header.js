@@ -4,6 +4,7 @@ import {connect } from 'react-redux';
 import './headerStyles.css';
 import '../commons/commonStyles.css'
 import {showNotificationWrapper} from '../../actions/notifications';
+import {setDisplay, setPrevPage} from '../../actions/general';
 import notificationIcon from '../../../src/img/icons/notification-no.jpg';
 import {Link} from 'react-router-dom';
 import Toastr from 'toastr';
@@ -19,8 +20,15 @@ class Header extends Component {
 
     componentDidMount(){
         Toastr.success('successfully!');
-        
-    
+    }
+
+    setDisplayPage(page){
+        this.props.setDisplay(page);
+        this.setPrevPage(this.props.displayElm);
+    }
+
+    setPrevPage(prevPage){
+        this.props.setPrevPage(prevPage)
     }
 
     render() {
@@ -37,6 +45,10 @@ class Header extends Component {
                     <p className="greetingsText">Welcome on board {welcomeName}!</p>
                 </div>
                 <div id="headerRight">
+                    {
+                         (authUser && authUser.userType === 'provider') &&
+                         <button id="scheduleBtn" onClick={() => this.setDisplayPage("scheduler")}>Schedules</button>
+                    }
                     {
                         authUser && authUser.userType ?
                             <div id="headerIcons">
@@ -61,17 +73,29 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-    showNotificationWrapper : PropTypes.func.isRequired
+    showNotificationWrapper : PropTypes.func.isRequired,
+    setDisplay: PropTypes.func.isRequired,
+    displayElm: PropTypes.string.isRequired,
+    setPrevPage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    currentUser : state.user.currentUser
+    currentUser : state.user.currentUser,
+    displayElm : state.general.displayElm
 
 });
 
 const mapDispatchToProps = (dispatch) => ({
     showNotificationWrapper : () => {
         dispatch(showNotificationWrapper());
+    },
+
+    setDisplay: (page) => {
+        dispatch(setDisplay(page))
+    },
+
+    setPrevPage: (prevPage) => {
+        dispatch(setPrevPage(prevPage))
     }
 });
 

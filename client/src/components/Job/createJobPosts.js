@@ -27,8 +27,8 @@ class CreateJobs extends Component {
       applicants : 0,
       comapnyId : "",
       companyName : "",
-      comapnyImg : "",
-      jobType : "Full Time",
+      companyImg : "",
+      jobType : "Full time",
       location: ""
     };
   }
@@ -72,7 +72,7 @@ class CreateJobs extends Component {
       expireTimestamp : "",
       applicants : 0,
       companyName : "",
-      comapnyImg : ""
+      companyImg : ""
     });
   }
 

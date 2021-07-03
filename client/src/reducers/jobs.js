@@ -2,7 +2,9 @@ import {
     SET_JOB_DATA,
     OPEN_JOB_POST,
     CLOSE_JOB_POST,
-    CREATED_JOBS
+    CREATED_JOBS,
+    SET_APPLIED_JOBS,
+    SET_RECEIVED_JOB_APPLICATIONS
 
 } from '../actions/jobs';
 
@@ -11,7 +13,9 @@ const jobs = ( state = {
     jobCount : 0,
     jobToOpen : {},
     openJobPost : false,
-    createdJobs : []
+    createdJobs : [],
+    appliedJobs : [],
+    receivedJobAppications : []
 
 }, action) => {
     switch (action.type) {
@@ -36,7 +40,19 @@ const jobs = ( state = {
         case CREATED_JOBS :  
             return Object.assign({}, state, {
                 createdJobs : action.createdJobs
-            });    
+            });
+            
+        case SET_APPLIED_JOBS : 
+        return {
+            ...state,
+            appliedJobs : action.jobs
+        }   
+
+        case SET_RECEIVED_JOB_APPLICATIONS :
+        return {
+            ...state,
+            receivedJobAppications : action.applications
+        }
 
         default:
             return state;

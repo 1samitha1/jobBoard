@@ -8,17 +8,29 @@ const jobApplications = new Schema({
     email: {
         type: String
     },
+    message: {
+        type: String
+    },
     attachment: {
         type: String
     },
     jobId: {
-        type: Array
+        type: String
     },
     createdBy : {
-        type: Number
+        type: String
     },
     timestamp : {
         type: Number
+    },
+    appliedBy : {
+        type: String
+    },
+    jobTitle : {
+        type: String
+    },
+    companyName : {
+        type: String
     }
     
 },{
