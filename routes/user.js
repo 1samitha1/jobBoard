@@ -200,7 +200,7 @@ router.post('/bookmark', (req, res) => {
 
 router.post('/get-bookmarks', (req, res) => {
     if(req.body){
-        console.log("bookmark " , req.body)
+        console.log("get-bookmarks bookmark " , req.body)
         return getBookmarksForUser(req.body)
         .then((result) => {
             res.send(result);

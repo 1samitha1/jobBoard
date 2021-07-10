@@ -6,6 +6,7 @@ const User = require('./routes/user');
 const Job = require('./routes/job');
 const Seeker = require('./routes/seeker');
 const skillTests = require('./routes/skillTests');
+const notification = require('./routes/notification');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -69,7 +70,8 @@ app.use('/', Router);
 app.use('/user', User);
 app.use('/job', Job);
 app.use('/candidate', Seeker);
-app.use('/test', skillTests)
+app.use('/test', skillTests);
+app.use('/notification', notification)
 
 const port = 5000;
 

@@ -292,7 +292,7 @@ const addBookmark = (data) => {
         if(result.length > 0){
           resolve({success : false, error : "Job is aleady saved to the profile"})
          }else{
-             User.updateOne({_id : ObjectId(data.userId)}, { $push: { bookmarks: ObjectId(data.itemId)}}, ((err, doc) => {
+             User.updateOne({_id : ObjectId(data.userId)}, { $push: { bookmarks: new ObjectId(data.itemId)}}, ((err, doc) => {
             if(err){
               reject({success: false, error : "something went wrong while saving job"})
             }else{
@@ -310,13 +310,26 @@ const addBookmark = (data) => {
 
 const getBookmarksForUser = (data) => {
   try{
-    User.find({_id : ObjectId(data.userId)}, ((err, result) => {
-      if(result){
-        Job.find({_id : {$in :[result.bookmarks]}}, ((err, res) => {
-          console.log(' getBookmarksForUser res : ', res)
-        }))
-      }
-    }))
+    return new Promise((resolve, reject) => {
+      User.find({_id : ObjectId(data.userId)}, ((err, result) => {
+        if(result){
+          if(err) reject({success : fase, error : err});
+          let oids = [];
+          let now = new Date().getTime();
+          result[0].bookmarks.forEach(function(item){
+          oids.push(new ObjectId(item));
+        });
+        
+          Job.find({_id : {$in :oids}, expireTimestamp : { $gte : now }}, ((err, res) => {
+            if(err) reject({success : fase, error : err});
+            if(res){
+              console.log(' getBookmarksForUser res : ', res)
+              resolve({success : true, data : res});
+            }
+          }));
+        }
+      }));
+    });
 
   }catch(err){
     console.log('error while fetching user bookmarks : ', err)

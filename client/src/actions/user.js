@@ -5,6 +5,7 @@ import {setAdminData} from './admin';
 
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const SET_SEEKERS_AND_PROVIDERS = 'SET_SEEKERS_AND_PROVIDERS';
+export const SET_SEEKER_BOOKMARKS = 'SET_SEEKERS_BOOKMARKS';
 
 export const setCurrentUser = (user) => {
     return{
@@ -131,8 +132,10 @@ export const getBookmarksForUser = (data) => {
                 withCredentials: true,
                 credentials: "same-origin",
             }).then((res) => {
+               
                 if(res && res.data.success){
-                    
+                    console.log('vvvv ', res.data.data)
+                    dispatch(setBookmarksToUser(res.data.data));
     
                 }else{
                     toast.error(res.data.error,
@@ -142,5 +145,17 @@ export const getBookmarksForUser = (data) => {
             });
         }
     }
+}
+
+export const setBookmarksToUser = (data) => {
+     if(data){
+        return {
+            type : SET_SEEKER_BOOKMARKS,
+            bookmarks : data
+        }
+
+       
+     }
+
 }
 

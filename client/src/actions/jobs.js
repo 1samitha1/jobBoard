@@ -109,7 +109,8 @@ const applyJob = (data) => {
             jobId : data.jobId,
             createdBy: data.createdBy,
             appliedBy: data.appliedBy,
-            applicants: data.applicants
+            applicants: Number(data.applicants),
+            jobTitle : data.jobTitle
     };
     return (dispatch) => {
         axios.post('/job/apply',
@@ -117,12 +118,15 @@ const applyJob = (data) => {
             withCredentials: true,
             credentials: "same-origin",
         }).then((res) => {
-            console.log('applyJob sucess : ', res)
-            if(res && res.data.success){
+            if(res.data.success){
                 dispatch(saveJobAttachment(
                     {applicationId : res.data.data._id, 
                      attachment : attachment}));
-
+            }else{
+                if(res.data.message){
+                    toast.error(res.data.message,
+                    {autoClose:2500, hideProgressBar: true})
+                }
             }
           
         });
@@ -143,6 +147,7 @@ const saveJobAttachment = (attachmentData) => {
                 'Content-Type': 'multipart/form-data',
               })
               .then((res) => {
+                  console.log('apply res : ', res)
                   if(res.data && res.data.result){
                     toast.success('Applied to the job successfully!',
                     {autoClose:2500, hideProgressBar: true})

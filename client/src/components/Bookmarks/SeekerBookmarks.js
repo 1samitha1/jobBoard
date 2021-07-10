@@ -9,7 +9,7 @@ import {setDisplay} from '../../actions/general';
 import {getBookmarksForUser} from '../../actions/user';
 
 import closeIcon from '../../img/icons/close-icon-white.png';
-import defaultSeeker from '../../img/defaults/defaultUser.png';
+import defaultCompany from '../../img/defaults/defaultCompany.png';
 import delIcon from '../../img/icons/delete-icon-white.png';
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 
@@ -25,16 +25,49 @@ class SeekerBookmark extends Component {
 
 
     componentDidMount(){
-        
+        this.props.getBookmarksForUser({userId : authUser._id, type: authUser.type})
     }
 
     displayPage(val){
         this.props.setDisplay(val)
     }
 
-    render() {
+    generateBookmarks(){
+        let seekerBookmarksAry = [];
+        console.log(' this.props.seekerBookmarks : ',  this.props.seekerBookmarks)
+        this.props.seekerBookmarks.map((item, key) => {
+            seekerBookmarksAry.push(
+                <Row key={key} className="seekerBookmarkItemWrapper">
+                    <Col md={12} xs={12}>
+                        <div className="seekerBookmarkImgDiv">
+                            <img className="bookmarkImg" src={item.companyImg !== "" ? item.companyImg : defaultCompany}/>
+                            <button className="seekerBookmarkJobViewButton">view</button>
+                        </div>
+                        <div className="bookmarkSideDiv">
+                            <p className="bookmarkJobTitle">{item.title} </p>
+                            <p className="bookmarkJobCompany">{item.companyName}</p>
+                            <img className="bookmarkDelete" src={delIcon} />
+                            <div className="bookmarkJobDescription">
+                                {item.description}
+                            </div>
+                        <div className="seekerBookmarkLabelDiv">
+                            <p className="seekerBookmarkLables">Industry : {item.industry}</p>
+                        </div>
+                        <div className="seekerBookmarkLabelDiv">
+                            <p className="seekerBookmarkLables">Expires : {item.expireDate}</p>
+                        </div>
+                                   
+                        </div>
+                    </Col>
+                </Row>
+            )
+        });
 
-        let userImg = defaultSeeker;
+        return seekerBookmarksAry;
+
+    }
+
+    render() {
 
         return (
         <Container>
@@ -44,29 +77,7 @@ class SeekerBookmark extends Component {
                     <p id="bookmarkHeading">Bookmarks</p>
                     <p id="bookmarkSubHeading">Saved Jobs for future use</p>
                     <div id="providerBookmarkDiv">
-                        <Row className="seekerBookmarkItemWrapper">
-                            <Col md={12} xs={12}>
-                                <div className="seekerBookmarkImgDiv">
-                                    <img className="bookmarkImg" src={userImg}/>
-                                    <button className="seekerBookmarkJobViewButton">view</button>
-                                </div>
-                                <div className="bookmarkSideDiv">
-                                    <p className="bookmarkJobTitle">Software engineer needed </p>
-                                    <p className="bookmarkJobCompany">ABC Company</p>
-                                    <img className="bookmarkDelete" src={delIcon} />
-                                    <div className="bookmarkJobDescription">
-
-                                    </div>
-                                    <div className="seekerBookmarkLabelDiv">
-                                        <p className="seekerBookmarkLables">Industry : ITComputing</p>
-                                    </div>
-                                    <div className="seekerBookmarkLabelDiv">
-                                        <p className="seekerBookmarkLables">Expires : 2021-10-01</p>
-                                    </div>
-                                   
-                                </div>
-                            </Col>
-                        </Row>
+                    {this.generateBookmarks()}
 
                     </div>
                    
@@ -79,12 +90,13 @@ class SeekerBookmark extends Component {
 
 SeekerBookmark.propTypes = {
     setDisplay: PropTypes.func.isRequired,
-    getBookmarksForUser: PropTypes.func.isRequired
+    getBookmarksForUser: PropTypes.func.isRequired,
+    seekerBookmarks: PropTypes.func.isRequired
     
 };
 
 const mapStateToProps = (state) => ({
-   
+    seekerBookmarks : state.user.seekerBookmarks
 });
 
 const dispatchToProps = (dispatch) => ({

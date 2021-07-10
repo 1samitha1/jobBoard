@@ -50,7 +50,8 @@ class ApplyJob extends Component {
                     jobId : selectedJob._id,
                     createdBy: selectedJob.createdBy,
                     appliedBy: authUser._id,
-                    applicants: selectedJob.applicants
+                    applicants: selectedJob.applicants,
+                    jobTitle : selectedJob.title
                 }
 
                 applyJob(jobApplication);
@@ -89,7 +90,7 @@ class ApplyJob extends Component {
                                 onChange={this.onFormFieldChange.bind(this)} />
                         </Form.Group>
 
-                        <Form.Group controlId="email" >
+                        <Form.Group controlId="message" >
                             <Form.Label>Message :</Form.Label>
                             <Form.Control as="textarea" rows={3} 
                                 placeholder="Enter message" 
@@ -164,7 +165,6 @@ const mapStateToProps = (state) => ({
 
 const dispatchToProps = (dispatch) => ({
     applyJob : (data) => {
-        console.log("dispatchToProps applyJob : ", data)
         dispatch(applyJob(data));
     }
 });

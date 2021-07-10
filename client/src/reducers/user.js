@@ -1,12 +1,14 @@
 import {
     SET_CURRENT_USER,
-    SET_SEEKERS_AND_PROVIDERS
+    SET_SEEKERS_AND_PROVIDERS,
+    SET_SEEKER_BOOKMARKS
 
 } from '../actions/user';
 
 const user = ( state = {
     currentUser : {},
-    users : []
+    users : [],
+    seekerBookmarks : []
 
 }, action) => {
     switch (action.type) {
@@ -19,6 +21,12 @@ const user = ( state = {
             return Object.assign({}, state, {
                 users : action.users
             });
+
+        case SET_SEEKER_BOOKMARKS :
+            return {
+                ...state,
+                seekerBookmarks : action.bookmarks
+            }      
 
         default:
             return state;

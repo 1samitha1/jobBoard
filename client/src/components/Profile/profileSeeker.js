@@ -160,7 +160,7 @@ class profileSeeker extends Component {
 
                         <Col className="blocks" md={3} xs={6}> 
                         <div>
-                            <p>Bookmarks : 10</p>
+                            <p>Saved : 10</p>
                         </div>
                         </Col> 
 

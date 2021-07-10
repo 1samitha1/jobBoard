@@ -1,5 +1,8 @@
- export const SHOW_HIDE_NOTIFICATIONS_WRAPPER = 'SHOW_NOTIFICATIONS_WRAPPER';
- export const HANDLE_POPUP_VISIBILITY = 'HANDLE_POPUP_VISIBILITY';
+import axios from 'axios';
+import toast from '../configs/toast';
+export const SHOW_HIDE_NOTIFICATIONS_WRAPPER = 'SHOW_NOTIFICATIONS_WRAPPER';
+export const HANDLE_POPUP_VISIBILITY = 'HANDLE_POPUP_VISIBILITY';
+export const SET_USER_NOTIFICATIONS = 'SET_USER_NOTIFICATIONS';
 
 
 const showNotificationWrapper = () => {
@@ -30,11 +33,32 @@ const openPopup = () => {
     }
 }
 
+const getNotificationsByUser = (data) => {
+    console.log('vvvvvv getNotificationsByUser ', data)
+    return (dispatch) => {
+        axios.post('/notification/get',
+        data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+            if(res.data.success){
+                console.log('vvvvvv getNotificationsByUser res ', res.data)
+                dispatch({
+                    type : SET_USER_NOTIFICATIONS,
+                    notifications : res.data.data
+                })
+            }
+          
+        });
+    }
+}
+
 
 
 export  {
     showNotificationWrapper,
     closeNotificationWrapper,
     closePopup,
-    openPopup
+    openPopup,
+    getNotificationsByUser
 }

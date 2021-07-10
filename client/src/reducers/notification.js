@@ -1,13 +1,14 @@
 import {
     SHOW_HIDE_NOTIFICATIONS_WRAPPER,
-    HANDLE_POPUP_VISIBILITY
-
+    HANDLE_POPUP_VISIBILITY,
+    SET_USER_NOTIFICATIONS
 
 } from '../actions/notifications';
 
 const notification = ( state = {
     displayNotificationWrapper : false,
-    displayPopup : false
+    displayPopup : false,
+    userNotifications : []
 
 }, action) => {
     switch (action.type) {
@@ -20,7 +21,13 @@ const notification = ( state = {
                 ...state,
                 displayPopup : action.visibility
             }
-          
+         
+        case SET_USER_NOTIFICATIONS :    
+            return {
+                ...state,
+                userNotifications : action.notifications
+            }
+            
         default:
             return state;
     }

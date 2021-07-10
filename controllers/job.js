@@ -1,6 +1,7 @@
 const Job = require("../schemas/job");
 const JobApplication = require("../schemas/jobApplications");
 const ObjectId = require('mongodb').ObjectID;
+const {createNotification} = require("./notification")
 
 const createNewJob = (data) => {
   return new Promise((resolve, reject) => {
@@ -69,18 +70,33 @@ const deleteJob = (data) => {
 const applyJob = (application) => {
   return new Promise((resolve, reject) => {
     console.log("job application : ", application)
-    let newJobApplication = new JobApplication(application);
-    newJobApplication.save((err,result) => {
-      if(err){
-        reject({success : false, error : err})
+    JobApplication.find({appliedBy : application.appliedBy}, (err, res) => {
+      if(err) reject({success : false, error : err});
+      if(res && res.length > 0){
+        resolve({success : false, message : "you have aready applied to this job!"});
       }else{
-        if(result){
-          console.log("job application sucess : ", result)
-          resolve({success: true, data: result})
-        }
+          let newJobApplication = new JobApplication(application);
+          newJobApplication.save((err,result) => {
+            if(err){
+              reject({success : false, error : err})
+            }else{
+              if(result){
+                let notification = {
+                  title : `New job application received!`,
+                  content : `You have recived a new job application for the job " ${result.jobTitle} "`,
+                  timestamp : new Date().getTime(),
+                  read : false,
+                  userId : result.createdBy,
+                  category: "jobAppication"
+                };
+                createNotification(notification);
+                console.log("job application sucess : ", result)
+                resolve({success: true, data: result})
+              }
+            }
+          });
       }
     })
-  
   });
 }
 
@@ -94,7 +110,8 @@ const saveApplicationAttachment = (attachmentData) => {
         console.log("job saveApplicationAttachment sucess 1 : ")
         updateJobApplicationStatus({jobId : doc.jobId, count : 1})
         .then((res) => {
-          if(res && res._id){
+          console.log('vvvv res : ', res)
+          if(res.success && res.data._id){
             resolve({success: true, result : doc});
           }else{
             reject({success : false, error : res.error})
@@ -110,7 +127,7 @@ const saveApplicationAttachment = (attachmentData) => {
 
 const updateJobApplicationStatus = (data) => {
   return new Promise((resolve, reject) => {
-   Job.findOneAndUpdate({_id : ObjectId(data.jobId)}, {$inc : {'applicants' : data.count}}, {new: true}, ((err, result) => {
+   Job.findOneAndUpdate({_id : ObjectId(data.jobId)}, {$inc : {applicants : Number(data.count)}}, {new: true}, ((err, result) => {
      if(err){
       reject({success : false, error : err})
      }else{
