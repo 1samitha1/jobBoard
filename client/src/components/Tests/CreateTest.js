@@ -9,7 +9,7 @@ import {getJobs} from '../../actions/jobs';
 import {Container, Row, Col} from 'react-bootstrap';
 import {setDisplay} from '../../actions/general';
 import {industries} from '../../constants/industries';
-import {createTest, getTestsByUser} from '../../actions/tests'
+import {createTest} from '../../actions/tests'
 
 
 let authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
@@ -35,7 +35,7 @@ class CreateTest extends Component {
     }
 
     componentDidMount(){
-       
+     
     }
 
     displaySearch(){
@@ -110,10 +110,9 @@ class CreateTest extends Component {
             timestamp : new Date().getTime(),
             applicants : 0,
             createdBy: authUser._id,
-            testContent : this.state.testContent
-        }
-
-        console.log('vvvvvvv createTest : ', testData);
+            testContent : this.state.testContent,
+            applicantList : []
+        };
 
         if(testData.testName !== "" && testData.industry !== "" && testData.duration !== ""){
             this.props.createTest(testData)
@@ -125,9 +124,6 @@ class CreateTest extends Component {
 
 
     render() {
-
-        
-
         return (
             <div id="createTestsWrapper">
                 <div id="createTest">
@@ -219,9 +215,9 @@ class CreateTest extends Component {
                                         value={this.state.testContent[0].correct}
                                         className="correct">
                                             <option value="">select</option>
-                                            <option value="answer1">answer 1</option>
-                                            <option value="answer2">answer 2</option>
-                                            <option value="answer3">answer 3</option>
+                                            <option value="1">answer 1</option>
+                                            <option value="2">answer 2</option>
+                                            <option value="3">answer 3</option>
                                     </select>
                                 </Row>
                             </div>
@@ -271,9 +267,9 @@ class CreateTest extends Component {
                                         value={this.state.testContent[1].correct}
                                         className="correct">
                                              <option value="">select</option>
-                                            <option value="answer1">answer 1</option>
-                                            <option value="answer2">answer 2</option>
-                                            <option value="answer3">answer 3</option>
+                                            <option value="1">answer 1</option>
+                                            <option value="2">answer 2</option>
+                                            <option value="3">answer 3</option>
                                     </select>
                                 </Row>
                             </div>
@@ -323,9 +319,9 @@ class CreateTest extends Component {
                                         value={this.state.testContent[2].correct}
                                         className="correct">
                                              <option value="">select</option>
-                                            <option value="answer1">answer 1</option>
-                                            <option value="answer2">answer 2</option>
-                                            <option value="answer3">answer 3</option>
+                                            <option value="1">answer 1</option>
+                                            <option value="2">answer 2</option>
+                                            <option value="3">answer 3</option>
                                     </select>
                                 </Row>
                             </div>
@@ -375,9 +371,9 @@ class CreateTest extends Component {
                                         value={this.state.testContent[3].correct}
                                         className="correct">
                                              <option value="">select</option>
-                                            <option value="answer1">answer 1</option>
-                                            <option value="answer2">answer 2</option>
-                                            <option value="answer3">answer 3</option>
+                                            <option value="1">answer 1</option>
+                                            <option value="2">answer 2</option>
+                                            <option value="3">answer 3</option>
                                     </select>
                                 </Row>
                             </div>
@@ -427,9 +423,9 @@ class CreateTest extends Component {
                                         value={this.state.testContent[4].correct}
                                         className="correct">
                                             <option value="">select</option>
-                                            <option value="answer1">answer 1</option>
-                                            <option value="answer2">answer 2</option>
-                                            <option value="answer3">answer 3</option>
+                                            <option value="1">answer 1</option>
+                                            <option value="2">answer 2</option>
+                                            <option value="3">answer 3</option>
                                     </select>
                                 </Row>
                             </div>
@@ -456,13 +452,14 @@ const propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    currentUser : state.user.currentUser
+    currentUser : state.user.currentUser,
+    tests : state.tests.tests
 });
 
 const dispatchToProps = (dispatch) => ({
     createTest : (data) => {
         dispatch(createTest(data))
-    },  
+    }  
 });
 
 export default connect(

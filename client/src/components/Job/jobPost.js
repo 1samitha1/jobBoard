@@ -32,8 +32,6 @@ class JobPost extends Component {
     let jobPosts = [];
     
     this.props.jobs.map((jobItem, i) => {
-        console.log('vvvvv jobItem : ', jobItem)
-
         let content = jobItem.description;
         if(content.length > 153){
             content = content.substring(0,153)+"...";

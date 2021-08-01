@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // import {} from '../../actions/tests';
 import {Container, Row, Col} from 'react-bootstrap';
 import {setDisplay} from '../../actions/general';
-import { getTestsByUser} from '../../actions/tests'
+import { getTestsByUser, deleteSelectedTest} from '../../actions/tests'
 const editIcon = require('../../img/icons/edit-icon-white.png')
 const deleteIcon = require('../../img/icons/delete-icon-white.png')
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
@@ -26,11 +26,8 @@ class TestsPortal extends Component {
     }
 
     componentDidMount(){
-        if(this.props.currentUser){
-            this.props.getTestsByUser({id : this.props.currentUser._id});
-        }else{
-            this.props.getTestsByUser({id : authUser._id});
-        }
+    
+        this.props.getTestsByUser({id : authUser._id});
         
     }
 
@@ -40,61 +37,62 @@ class TestsPortal extends Component {
 
     generateTestDivs(){
 
-    let Tests = [];
-    
-    // this.props.createdJobs.map((jobItem, i) => {
+        let Tests = [];
+        this.props.createdTests.map((item, i) => {
+            console.log('vvvvvvv item.testContent - ',item.testContent)
+            // let content = item.testContent;
+            // if(content.length > 153){
+            //     content = content.substring(0,153)+"...";
+            // }
 
-        // let content = jobItem.description;
-        // if(content.length > 153){
-        //     content = content.substring(0,153)+"...";
-        // }
-        
-        Tests.push(
-            <Row className="testsItem">
-                <Col className="testCol1" md={8} xs={12}>
-                    <Row>
-                        <Col><p className="testName">Swift Mobile App development</p></Col>
-                    </Row>
-                        <p>This test will test the knowledge of swift development of the candidate.</p>
-                        <div className="testStats">
-                            <p>Questions : <span> 10 </span></p>
-                            <p>Type : <span> MCQ </span></p>
-                            <p>Status : <span> Active </span></p>
-                        </div>
+            Tests.push(
+                <Row key={i} className="testsItem">
+                    <Col className="testCol1" md={8} xs={12}>
+                        <Row>
+                            <Col><p className="testName">{item.testName}</p></Col>
+                        </Row>
+                            <p>Test created for : {item.industry}</p>
+                            <div className="testStats">
+                                <p>Questions : <span> {item.testContent.length} </span></p>
+                                <p>Type : <span> MCQ </span></p>
+                                <p>Purpose : <span> skill test </span></p>
+                            </div>
 
-                        <button className="testActions"> Delete </button>
-                    </Col>
+                            <button onClick={() => this.deleteSelectedTest({id:item._id, createdBy: item.createdBy})} className="testActions"> Delete </button>
+                        </Col>
+                        
+                        <Col className="testCol2" md={4} xs={12}>
+                            <div className="testDetails">
+                                <p>Created : <span>{item.createdDate}</span></p>
+                            </div>
+                            <div className="testDetails">
+                                <p>Duration : <span>{item.duration} minutes</span></p>
+                            </div>
+                            <div className="testDetails">
+                                <p>Applicants : <span>{item.applicants}</span></p>
+                            </div>
+                            <div className="testDetails">
+                                <p>Industry : <span>{item.industry}</span></p>
+                            </div>
+                        </Col>
                     
-                    <Col className="testCol2" md={4} xs={12}>
-                        <div className="testDetails">
-                            <p>Created : <span>20-10-2021</span></p>
-                        </div>
-                        <div className="testDetails">
-                            <p>Duration : <span>30 minutes</span></p>
-                        </div>
-                        <div className="testDetails">
-                            <p>Applicants : <span>10</span></p>
-                        </div>
-                        <div className="testDetails">
-                            <p>Industry : <span>IT Computing</span></p>
-                        </div>
-                    </Col>
-                
-                </Row>
-         )
-   
-         return Tests;
+                    </Row>
+            )
+        })
+        return Tests;
     }
 
-    openJobPost(jobData){
-        this.props.openJobPost(jobData)
-    }
-
-    
     displayCreateTest(){
         this.props.setDisplay("create_test") 
     }
 
+    deleteSelectedTest(data){
+        this.props.deleteSelectedTest(data)
+    }
+
+    displayTestResults(){
+        this.props.setDisplay("skill_tests_results")
+    }
 
     render() {
         return (
@@ -108,18 +106,22 @@ class TestsPortal extends Component {
                         tests. You can create, edit or delete any test which is belongs to you.</p></Col>
                 </Row>
                 <Row className="testsButtons">
-                    <Col md={6} xs={12}>
+                    <Col md={4} xs={12}>
                         <button onClick={this.displayCreateTest.bind(this)} className="testActionBtns">Create Test</button>
                     </Col>
 
-                    <Col md={6} xs={12}>
+                    <Col md={4} xs={12}>
+                        <button onClick={this.displayTestResults.bind(this)} className="testActionBtns">Test Results</button>
+                    </Col>
+
+                    <Col md={4} xs={12}>
                         <button onClick={this.displaySearch.bind(this)} className="testActionBtns">Back to search</button>
                     </Col>
                 </Row>
 
                 <div className="testsDiv">
                 {/* <div > */}
-                <Row className="testsItem">
+                {/* <Row className="testsItem">
                     <Col className="testCol1" md={8} xs={12}>
                                 <Row>
                                     <Col><p className="testName">JavaScript Basics</p></Col>
@@ -149,7 +151,7 @@ class TestsPortal extends Component {
                         </div>
                     </Col>
                 
-                </Row>
+                </Row> */}
                 {this.generateTestDivs()}
             </div>
 
@@ -161,12 +163,14 @@ class TestsPortal extends Component {
 
 const propTypes = {
     setDisplay: PropTypes.func.isRequired,
-    getTestsByUser : PropTypes.func.isRequired
+    getTestsByUser : PropTypes.func.isRequired,
+    createdTests: PropTypes.func.isRequired,
+    deleteSelectedTest: PropTypes.func.isRequired
     
 };
 
 const mapStateToProps = (state) => ({
-   
+   createdTests : state.tests.tests
 
 });
 
@@ -177,6 +181,10 @@ const dispatchToProps = (dispatch) => ({
 
     getTestsByUser : (data) => {
         dispatch(getTestsByUser(data))
+    },
+
+    deleteSelectedTest : (data) => {
+        dispatch(deleteSelectedTest(data))
     }
     
 });

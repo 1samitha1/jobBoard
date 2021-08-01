@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import {connect } from 'react-redux';
 import './headerStyles.css';
 import '../commons/commonStyles.css'
-import {showNotificationWrapper} from '../../actions/notifications';
+import {showNotificationWrapper, getNotificationsByUser} from '../../actions/notifications';
 import {setDisplay, setPrevPage} from '../../actions/general';
 import notificationIcon from '../../../src/img/icons/notification-no.jpg';
+import notificationsRecived from '../../../src/img/icons/notification-yes.jpg';
 import {Link} from 'react-router-dom';
 import Toastr from 'toastr';
 Toastr.options.closeButton = true;
@@ -20,6 +21,7 @@ class Header extends Component {
 
     componentDidMount(){
         Toastr.success('successfully!');
+        this.props.getNotificationsByUser({userId : authUser._id});
     }
 
     setDisplayPage(page){
@@ -38,6 +40,11 @@ class Header extends Component {
             welcomeName = currentUser.userType === "provider" ? 
             currentUser.companyName : currentUser.firstName
         }
+
+        let icon = notificationIcon;
+        if(this.props.userNotifications.length > 0){
+            icon = notificationsRecived
+        }
        
         return (
             <div id="headerWrapper">
@@ -53,8 +60,8 @@ class Header extends Component {
                         authUser && authUser.userType ?
                             <div id="headerIcons">
                                 <div className="headerIconRight">
-                                    <img onClick={this.showNotificationWrapper.bind(this)} className="iconHeader" src={notificationIcon}></img>
-                                    <p id="notifyCount">0</p>
+                                    <img onClick={this.showNotificationWrapper.bind(this)} className="iconHeader" src={icon}></img>
+                                    <p id="notifyCount">{this.props.userNotifications.length}</p>
                                 </div>
                               
                             </div>
@@ -76,12 +83,15 @@ Header.propTypes = {
     showNotificationWrapper : PropTypes.func.isRequired,
     setDisplay: PropTypes.func.isRequired,
     displayElm: PropTypes.string.isRequired,
-    setPrevPage: PropTypes.func.isRequired
+    setPrevPage: PropTypes.func.isRequired,
+    userNotifications : PropTypes.array.isRequired
 };
 
 const mapStateToProps = (state) => ({
     currentUser : state.user.currentUser,
-    displayElm : state.general.displayElm
+    displayElm : state.general.displayElm,
+    userNotifications : state.notification.userNotifications,
+    getNotificationsByUser: PropTypes.func.isRequired,
 
 });
 
@@ -96,6 +106,10 @@ const mapDispatchToProps = (dispatch) => ({
 
     setPrevPage: (prevPage) => {
         dispatch(setPrevPage(prevPage))
+    },
+
+    getNotificationsByUser: (data) => {
+        dispatch(getNotificationsByUser(data))
     }
 });
 

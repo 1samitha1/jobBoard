@@ -4,7 +4,8 @@ import {
     CLOSE_JOB_POST,
     CREATED_JOBS,
     SET_APPLIED_JOBS,
-    SET_RECEIVED_JOB_APPLICATIONS
+    SET_RECEIVED_JOB_APPLICATIONS,
+    SET_ACCEPTED_JOB_APPLICATION_DETAILS
 
 } from '../actions/jobs';
 
@@ -15,7 +16,8 @@ const jobs = ( state = {
     openJobPost : false,
     createdJobs : [],
     appliedJobs : [],
-    receivedJobAppications : []
+    receivedJobAppications : [],
+    acceptedJobAppication : {}
 
 }, action) => {
     switch (action.type) {
@@ -53,6 +55,12 @@ const jobs = ( state = {
             ...state,
             receivedJobAppications : action.applications
         }
+
+        case SET_ACCEPTED_JOB_APPLICATION_DETAILS :
+            return {
+                ...state,
+                acceptedJobAppication : action.data
+            }
 
         default:
             return state;

@@ -1,12 +1,16 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+
 const Router = require('./routes/router');
 const User = require('./routes/user');
 const Job = require('./routes/job');
 const Seeker = require('./routes/seeker');
 const skillTests = require('./routes/skillTests');
 const notification = require('./routes/notification');
+const interview = require('./routes/interview');
+const reminder = require('./routes/reminder');
+
 const passport = require('passport');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -71,7 +75,9 @@ app.use('/user', User);
 app.use('/job', Job);
 app.use('/candidate', Seeker);
 app.use('/test', skillTests);
-app.use('/notification', notification)
+app.use('/notification', notification);
+app.use('/interview', interview);
+app.use('/reminder', reminder);
 
 const port = 5000;
 

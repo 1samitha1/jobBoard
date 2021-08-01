@@ -25,7 +25,10 @@ const testSchema = new Schema({
     },
     createdBy : {
         type: String
-    }
+    },
+    applicantList: {
+        type: Array
+    },
     
 },{
     collection: 'tests'

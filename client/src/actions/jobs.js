@@ -6,6 +6,7 @@ export const CLOSE_JOB_POST = 'CLOSE_JOB_POST';
 export const CREATED_JOBS = 'CREATED_JOBS';
 export const SET_APPLIED_JOBS = 'SET_APPLIED_JOBS';
 export const SET_RECEIVED_JOB_APPLICATIONS = 'SET_RECEIVED_JOB_APPLICATIONS';
+export const SET_ACCEPTED_JOB_APPLICATION_DETAILS = 'SET_ACCEPTED_JOB_APPLICATION_DETAILS';
 
 const createJob = (jobData) => {
     return () => {
@@ -110,7 +111,8 @@ const applyJob = (data) => {
             createdBy: data.createdBy,
             appliedBy: data.appliedBy,
             applicants: Number(data.applicants),
-            jobTitle : data.jobTitle
+            jobTitle : data.jobTitle,
+            accepted : false
     };
     return (dispatch) => {
         axios.post('/job/apply',
@@ -181,18 +183,18 @@ const getAppliedJobs = (user) => {
     }
 }
 
-const getRecivedJobs = (user) => {
-    if(user){
+const getJobApplicationsByUser = (data) => {
+    if(data){
         return (dispatch) => {
-            axios.post('/job/recived-jobs',
-            user, {
+            axios.post('/job/received-applications',
+            data, {
                 withCredentials: true,
                 credentials: "same-origin",
             }).then((res) => {
                 if(res && res.data.sucess){
                     dispatch({
                         type: SET_RECEIVED_JOB_APPLICATIONS,
-                        jobs : res.data.result
+                        applications : res.data.result
                     })
     
                 }
@@ -200,6 +202,31 @@ const getRecivedJobs = (user) => {
             });
         }
     }
+}
+
+const rejectJobAppication = (data) => {
+    return (dispatch) => {
+        axios.post('/job/reject-application',
+        data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+            if(res && res.data.sucess){
+                toast.success('Selected job Application removed!',
+                {autoClose:2500, hideProgressBar: true})
+
+            }
+          
+        });
+    }
+}
+
+const acceptJobApplication = (data) => {
+    return {
+        type : SET_ACCEPTED_JOB_APPLICATION_DETAILS,
+        data : data
+    }
+    
 }
 
 
@@ -213,5 +240,7 @@ export  {
     deleteJobById,
     applyJob,
     getAppliedJobs,
-    getRecivedJobs
+    getJobApplicationsByUser,
+    rejectJobAppication,
+    acceptJobApplication
 }

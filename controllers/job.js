@@ -38,14 +38,12 @@ const searchJobs = (criteria) => {
 };
 
 const getJobs = (data) => {
-  
   return new Promise((resolve, reject) => {
     Job.find({createdBy : data.createdBy}, (err, result) => {
       if (err) {
         reject({success: false, error: err})
       } else {
         if (result) {
-          console.log('xxxxx getJobs res : ', result)
           resolve({success: true, data: result})
         }
       }
@@ -69,8 +67,7 @@ const deleteJob = (data) => {
 
 const applyJob = (application) => {
   return new Promise((resolve, reject) => {
-    console.log("job application : ", application)
-    JobApplication.find({appliedBy : application.appliedBy}, (err, res) => {
+    JobApplication.find({jobId : application.jobId, appliedBy : application.appliedBy}, (err, res) => {
       if(err) reject({success : false, error : err});
       if(res && res.length > 0){
         resolve({success : false, message : "you have aready applied to this job!"});
@@ -87,10 +84,9 @@ const applyJob = (application) => {
                   timestamp : new Date().getTime(),
                   read : false,
                   userId : result.createdBy,
-                  category: "jobAppication"
+                  category: "job_applications"
                 };
                 createNotification(notification);
-                console.log("job application sucess : ", result)
                 resolve({success: true, data: result})
               }
             }
@@ -166,6 +162,41 @@ const getAppliedJobs = (data) => {
   });
 }
 
+const getJobApplicationsByUser = (data) => {
+  return new Promise((resolve, reject) => {
+    JobApplication.find({createdBy : data.id}, (err, result) =>{
+      if(err){
+        reject({success: false, error : err})
+      }
+      resolve({sucess : true, result : result});
+    });
+  })
+}
+
+const rejectJobApplication = (data) => {
+  return new Promise((resolve, reject) => {
+    JobApplication.findOneAndDelete({_id : ObjectId(data.id)},((err, res) => {
+      if(err) {
+        reject({success: fase})
+      }else{
+        resolve({success: true})
+      }
+    }))
+  })
+}
+
+const updateJobApplication = (data) => {
+  return new Promise((resolve, reject) => {
+    JobApplication.findOneAndUpdate({_id : ObjectId(data.jobId)}, {$set : {applied : true}}, {new: true}, ((err, result) => {
+      if(err){
+       reject({success : false, error : err})
+      }else{
+        resolve({success : true, data : result})
+      }
+    }))
+  })
+}
+
 
 module.exports = {
     createNewJob,
@@ -174,6 +205,9 @@ module.exports = {
     deleteJob,
     applyJob,
     saveApplicationAttachment,
-    getAppliedJobs
+    getAppliedJobs,
+    getJobApplicationsByUser,
+    rejectJobApplication,
+    updateJobApplication
     
 };

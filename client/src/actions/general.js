@@ -2,8 +2,6 @@ import axios from 'axios';
 export const DISPLAY = 'DISPLAY';
 export const PREVIOUS_PAGE = 'PREVIOUS_PAGE';
 
-
-
 const setDisplay = (val) => {
     return {
         type : DISPLAY,

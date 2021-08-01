@@ -19,7 +19,6 @@ const sendEmail = (receivers, content, subject) =>{
                 }
             });
 
-            console.log('vvvv email testAccount.user : ', receivers.join())
              let mailOptions = {
                 from: '"Smart Job Board" <admin@jobboard.com>', // sender address
                 to:  receivers.join(), 
@@ -30,11 +29,13 @@ const sendEmail = (receivers, content, subject) =>{
 
             transporter.sendMail(mailOptions, function(error, info){
                 if (error) {
+                    console.log('email Didnt sent')
                     reject({success:false, msg: "Error while sending email"})
-                  console.log(error);
+                    console.log(error);
                 } else {
                     if(info.response){
-                        resolve({success:true, msg: "Sent Successfuly"})
+                        console.log('email sent successfully')
+                        resolve({success:true, msg: "Sent Successfully"})
                     }
                 }
               });
@@ -46,6 +47,7 @@ const sendEmail = (receivers, content, subject) =>{
     }
 
 }
+
 module.exports = {
     sendEmail
   };

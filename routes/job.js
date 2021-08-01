@@ -45,7 +45,7 @@ router.post('/apply', (req,res) => {
         }).catch((err) => {
             console.log('error while applying job : ', err)
         })
-})
+});
 
 router.post('/application-attachment', resumeUpload.single('attachment'), (req,res) => {
     let applicationAttachment = {
@@ -58,7 +58,7 @@ router.post('/application-attachment', resumeUpload.single('attachment'), (req,r
         }).catch((err) => {
             console.log('')
         })
-})
+});
 
 router.post('/applied-jobs', (req,res) => {
     Job.getAppliedJobs(req.body)
@@ -67,6 +67,34 @@ router.post('/applied-jobs', (req,res) => {
         }).catch((err) => {
             console.log('error while applied jobs : ', err)
         })
-})
+});
+
+router.post('/received-applications', (req,res) => {
+    Job.getJobApplicationsByUser(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log('error while get JobApplications By User : ', err)
+        })
+});
+
+router.post('/reject-application', (req,res) => {
+    Job.rejectJobApplication(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log('error while rejecting Job Application : ', err)
+        })
+});
+
+router.post('/update-application', (req,res) => {
+    Job.updateJobApplication(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log('error while updating Job Application : ', err)
+        })
+});
+
 
 module.exports = router;

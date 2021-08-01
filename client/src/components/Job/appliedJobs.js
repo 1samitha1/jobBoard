@@ -66,37 +66,6 @@ class AppliedJobs extends Component {
                 </Row>
             
             </Col>
-
-            {/* <Col md={5} xs={12} className="appliedJobsCol2">
-                <Col className="colItem">
-                    <Row>  
-                        <p className="jobStatItems">Applied on</p>
-                    </Row>
-                    <Row> 
-                       <p>20/10/2020</p>
-                    </Row>
-                </Col>
-
-                <Col className="colItem">
-                    <Row> 
-                        <p className="jobStatItems">Status</p>
-                    </Row>
-                    <Row> 
-                       <p>active</p>
-                    </Row>
-                </Col>
-
-                <Col className="colItem">
-                    <Row> 
-                        <p className="jobStatItems">Type</p>
-                    </Row>
-                    <Row> 
-                       <p>full time</p>
-                    </Row>
-                </Col>
-                
-            
-            </Col> */}
         </div>
    
         )

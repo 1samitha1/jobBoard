@@ -12,24 +12,36 @@ import defaultCompany from '../../img/defaults/defaultCompany.png';
 import closeIconWhite from '../../img/icons/closeWhite.png';
 
 import NotificationWrapper from '../Notifications/NoticationsWrapper'
-import Jobs from '../Job/jobPost';
-import CreatedJobs from '../Job/createdJobs';
+
 import Candidates from '../Candidates/candidateResult';
+
 import ProviderProfile from '../Profile/profileProvider';
 import SeekerProfile from '../Profile/profileSeeker';
+
 import TestPortal from '../Tests/testsPortal';
-import AppliedJobs from '../Job/appliedJobs';
 import SkillTests from '../Tests/skillTests';
 import CreateTest from '../Tests/CreateTest';
+import SendTest from '../Tests/SendTest';
+import RunTest from '../Tests/RunTests';
+import TestResults from '../Tests/TestResults';
+
+import AppliedJobs from '../Job/appliedJobs';
 import JobApplications from '../Job/JobApplications';
+import Jobs from '../Job/jobPost';
+import CreatedJobs from '../Job/createdJobs';
+
 import ResumeCentre from '../Resume/ResumeCenter';
+
 import ProviderBookmark from '../Bookmarks/ProviderBookmarks';
 import SeekerBookmark from '../Bookmarks/SeekerBookmarks';
+
 import SeekerMiniProfile from '../Candidates/MiniProfile';
+
 import Scheduler from '../Schedules/Scheduler';
 import CreateScheduler from '../Schedules/CreateSchedule';
 
 import { Container,Row, Col } from 'react-bootstrap';
+
 import {searchJobs, closeJobPost} from '../../actions/jobs';
 import {searchCandidates} from '../../actions/seeker';
 import {setDisplay} from '../../actions/general';
@@ -413,6 +425,27 @@ class Home extends Component {
                                         this.props.displayElm === "create_schedules" &&
                                         <div>
                                             <CreateScheduler />
+                                        </div>
+                                    }
+
+                                    {
+                                        this.props.displayElm === "send_tests" &&
+                                        <div>
+                                           <SendTest />
+                                        </div>
+                                    }
+
+                                    {
+                                        this.props.displayElm === "run_test" &&
+                                        <div>
+                                           <RunTest />
+                                        </div>
+                                    }
+
+                                    {
+                                        this.props.displayElm === "skill_tests_results" &&
+                                        <div>
+                                           <TestResults />
                                         </div>
                                     }
 

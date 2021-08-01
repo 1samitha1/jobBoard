@@ -65,5 +65,32 @@
     border-radius: 10px;
     text-align: center;
     color: #ffffff;
+    background-color: #2b2a2aeb;
+    cursor: pointer;
+}
+
+.singeNotification p{
+    color: #ffffff;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.notiTitle{
+    text-decoration: underline;
+}
+
+.notiContent{
+    font-size: 15px;
+}
+
+.notiDate{
+    font-size: 11px;
+    color: #c1bbbbde !important;
+}
+
+.notiContentWrapper{
+    width:95%;
+    margin-left: auto;
+    margin-right: auto;
 }
 

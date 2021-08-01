@@ -34,7 +34,7 @@ const openPopup = () => {
 }
 
 const getNotificationsByUser = (data) => {
-    console.log('vvvvvv getNotificationsByUser ', data)
+    console.log('SET_USER_NOTIFICATIONS 1 : ',data)
     return (dispatch) => {
         axios.post('/notification/get',
         data, {
@@ -42,7 +42,7 @@ const getNotificationsByUser = (data) => {
             credentials: "same-origin",
         }).then((res) => {
             if(res.data.success){
-                console.log('vvvvvv getNotificationsByUser res ', res.data)
+                console.log('SET_USER_NOTIFICATIONS 2 : ', res.data.data)
                 dispatch({
                     type : SET_USER_NOTIFICATIONS,
                     notifications : res.data.data
@@ -53,12 +53,24 @@ const getNotificationsByUser = (data) => {
     }
 }
 
-
+const updateNotificationStatus = (data) => {
+    return (dispatch) => {
+        axios.post('/notification/update',
+        data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+            
+          
+        });
+    }
+}
 
 export  {
     showNotificationWrapper,
     closeNotificationWrapper,
     closePopup,
     openPopup,
-    getNotificationsByUser
+    getNotificationsByUser,
+    updateNotificationStatus
 }

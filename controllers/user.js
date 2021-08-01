@@ -287,7 +287,6 @@ const addBookmark = (data) => {
   try{
     return new Promise((resolve, reject) => {
       User.find({_id : ObjectId(data.userId), bookmarks :{$in: [data.itemId]}}, ((err, result) => {
-        console.log('xxxxx result : ', result)
         if(err) reject({success: false, error : "something went wrong while saving job"});
         if(result.length > 0){
           resolve({success : false, error : "Job is aleady saved to the profile"})

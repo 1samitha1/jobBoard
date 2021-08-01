@@ -31,6 +31,9 @@ const jobApplications = new Schema({
     },
     companyName : {
         type: String
+    },
+    accepted : {
+        type: Boolean
     }
     
 },{
