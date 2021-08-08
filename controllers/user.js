@@ -3,17 +3,19 @@ const Job = require("../schemas/job");
 const bcrypt = require("bcryptjs");
 const JWT = require('jsonwebtoken');
 const ObjectId = require('mongodb').ObjectID;
+const {createNotification} = require("./notification");
+const {sendEmail} = require("./email");
 
 const registerNewUser = (data) => {
   try {
   return new Promise((resolve, reject) => {
-    User.findOne( { $or: [ { email: data.email }, { userName: data.userName } ] } )
+    User.findOne({ $or: [{ email: data.email }, { userName: data.userName } ], $and: [{userType : "administrator"}] } )
     .then((result) => {
         if (result) {
           if(result.email === data.email){
-            reject({success : false, error : "Email address is already exists"})
+            resolve({success : false, msg : "Email address is already exists"})
           }else if(result.userName === data.userName){
-            reject({success : false, error : "User Name is already exists ! Please add a different User Name"})
+            resolve({success : false, msg : "User Name is already exists! Please add a different User Name"})
           }
         } else {
             let newUser = new User(data);
@@ -21,8 +23,8 @@ const registerNewUser = (data) => {
             bcrypt.hash(newUser.password, salt, (err, hash) => {
               newUser.password = hash;
               newUser.save()
-                    .then((savedUser) => {
-                     resolve({success: true, msg : "Registration Successful!", data : savedUser});
+                .then((savedUser) => {
+                  resolve({success: true, msg : "Registration Successful!", data : savedUser});
                 });
             });
           });
@@ -62,10 +64,8 @@ const uploadResume = (userData) => {
        if(err){
         reject({success: false, Error: err})
        }else{
-         console.log('vvvvv resume success : ', doc)
         resolve({success: true, result : doc })
-       }
-        
+       } 
      }))
   })  
 };
@@ -246,7 +246,6 @@ const getSeekersAndProviders = (exclude) => {
         if(err){
           reject({success : false})
         }else{
-          console.log('vvvvv res : ', res)
           resolve({success : true, result : res })
         }
       }));
@@ -335,6 +334,99 @@ const getBookmarksForUser = (data) => {
   }
 }
 
+const saveJobOffer = (data) => {
+  return new Promise((resolve, reject) => {
+    User.find({_id : ObjectId(data.candidateId), offers :{$in: [data.jobId]}}, ((err, res) => {
+      if(err) reject({success:false, error : err})
+      else{
+        if(res.length === 0){
+          User.updateOne({_id : ObjectId(data.candidateId)}, { $push: { offers: new ObjectId(data.jobId)}}, ((err, doc) => {
+            if(err){
+              reject({success: false, error : "something went wrong while saving job offer"});
+            }else{
+               // notification for condidate
+                let notification = {
+                  title : `New Job Offer received!`,
+                  content : `You have recived a new job offer from a company for a job`,
+                  timestamp : new Date().getTime(),
+                  read : false,
+                  userId : data.candidateId,
+                  category: "job_offers"
+                };
+                createNotification(notification);
+
+                User.findOne({_id : ObjectId(data.candidateId)}, ((err, result) => {
+                  // email for condidate
+                  let content = `
+                    <h4>Smart Job Board - New Job Offer recived</h4>
+                    <p>Hi ${result.firstName} Its a good news</p>
+                    <p>You have received a new Job offer from an employee. Login to the system to view more!</p>`
+
+                    sendEmail([result.email], content, "New Job Offer");
+
+                }))
+
+              resolve({success : true});
+
+            }
+          }));
+        }else{
+          resolve({success : false, message : "This job is already offered to this candidate!"})
+        }
+      }
+
+    }));
+  });
+};
+
+const getJobOffers = (data) => {
+  return new Promise((resolve, reject) => {
+    User.find({_id : ObjectId(data.candidateId)}, ((err, res) => {
+      if(res && res[0].offers && res[0].offers.length > 0){
+        Job.find({_id : {$in :res[0].offers}}, ((err, response) => {
+          if(err) reject({success : false})
+          if(response){
+            resolve({success : true, data : response});
+          }
+        }));
+      }
+
+    }))
+  })
+}
+
+const deleteUserById = (data) => {
+  return new Promise((resolve, reject) => {
+    User.deleteOne({_id : ObjectId(data.id)}, ((err, res) => {
+      if(err) reject({success : false, error : err})
+      if(res){
+        resolve({success : true});
+      }
+    }))
+
+  })
+}
+
+const notifyToUser = (data) => {
+  return new Promise((resolve, reject) => {
+    let notification = {
+      title : `An admin has sent you a notification!`,
+      content : data.content,
+      timestamp : new Date().getTime(),
+      read : false,
+      userId : data.userId,
+      category: ""
+    };
+
+    createNotification(notification)
+    .then((res) => {
+      resolve({success: true})
+    })
+    
+
+  })
+}
+
 module.exports = {
   registerNewUser,
   uploadUserImage,
@@ -348,5 +440,9 @@ module.exports = {
   searchSeekersAndProviders,
   uploadResume,
   addBookmark,
-  getBookmarksForUser
+  getBookmarksForUser,
+  saveJobOffer,
+  getJobOffers,
+  deleteUserById,
+  notifyToUser
 };

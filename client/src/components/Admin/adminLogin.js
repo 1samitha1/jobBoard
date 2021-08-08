@@ -74,7 +74,7 @@ class AdminLogin extends Component {
     }
 }
 
-const propTypes = {
+AdminLogin.propTypes = {
     adminLogin: PropTypes.func.isRequired
     
 };

@@ -12,7 +12,7 @@ const imageStorage = multer.diskStorage({
 
 const resumeStorage = multer.diskStorage({
     destination : (req, res, cb) => {
-        cb(null, './uploads/cv')
+        cb(null, './uploads/cv/')
     },
     filename: (req, file, cb) => {
         cb(null, new Date().getTime()+"_"+file.originalname)

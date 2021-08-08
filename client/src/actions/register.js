@@ -9,6 +9,7 @@ const openRegisterComponent = () => {
 };
 
 const registerNewUser = (userData) => {
+    console.log('calling registerNewUser ')
     return () => {
         let industries = [];
         industries.push(userData.industry);

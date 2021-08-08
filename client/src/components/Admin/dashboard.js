@@ -104,7 +104,7 @@ class AdminDashboard extends Component {
     }
 }
 
-const propTypes = {
+AdminDashboard.propTypes = {
     displayOverlay : PropTypes.func.isRequired,
     showOverlay : PropTypes.bool.isRequired,
     setDisplayPage: PropTypes.func.isRequired,

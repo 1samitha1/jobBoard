@@ -93,7 +93,7 @@ class CompleteRegistration extends Component {
     }
 }
 
-const propTypes = {
+CompleteRegistration.propTypes = {
     completeAdminRegistration: PropTypes.func.isRequired
     
 };

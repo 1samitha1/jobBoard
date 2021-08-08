@@ -54,8 +54,14 @@ class Header extends Component {
                 <div id="headerRight">
                     {
                          (authUser && authUser.userType === 'provider') &&
-                         <button id="scheduleBtn" onClick={() => this.setDisplayPage("scheduler")}>Schedules</button>
+                         <button id="scheduleBtn" onClick={() => this.setDisplayPage("scheduler")}>Interviews</button>
                     }
+
+{
+                         (authUser && authUser.userType === 'seeker') &&
+                         <button id="scheduleBtn" onClick={() => this.setDisplayPage("job_offers")}>Job Offers</button>
+                    }
+
                     {
                         authUser && authUser.userType ?
                             <div id="headerIcons">

@@ -43,6 +43,7 @@ class RegProvider extends Component {
                     data.textIndex = `${data.firstName} ${data.lastName} ${data.industry} ${data.email} ${data.phone} ${data.userName}`
                     data.photo = "";
                     data.resume = "";
+                    data.offers = [];
                     this.props.registerNewUser(data)
                 }else{
                     toast.error('Passowrd confirmation is not matching!',

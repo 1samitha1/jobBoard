@@ -71,6 +71,11 @@ const userSchema = new Schema({
             type: String
         }]
     },
+    offers: {
+        type: [{
+            type: String
+        }]
+    },
 },{
     collection: 'users'
 });

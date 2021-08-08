@@ -68,6 +68,7 @@ require('./configs/passport')(passport);
 app.use(flash());
 app.use(express.static('public'));
 app.use('/uploads', express.static('uploads'));
+app.use(express.static(__dirname + '/uploads'));
 
 // system routes
 app.use('/', Router);

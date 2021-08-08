@@ -6,7 +6,9 @@ import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Container, Row, Col} from 'react-bootstrap';
 import {setDisplay} from '../../actions/general';
+import {downloadFile} from '../../actions/documents';
 import defaultSeeker from '../../img/defaults/defaultUser.png';
+import {Link} from 'react-router-dom';
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 
 toast.configure();
@@ -21,6 +23,10 @@ class MiniProfile extends Component {
 
     setDisplay(page){
         this.props.setDisplay(page)
+    }
+
+    downloadCv(){
+        this.props.downloadFile()
     }
 
 
@@ -80,7 +86,8 @@ class MiniProfile extends Component {
                                 <label>Resume : </label>
                                 {
                                     miniprofileCandidate.resume ?
-                                    <p>Sam</p>
+                                     <button onClick={this.downloadCv.bind(this)}>click</button>
+                                    // <Link to="user/file-download" target="_blank" download>Download</Link>
                                     :
                                     <p>No resume found!</p>
                                 }
@@ -102,7 +109,7 @@ class MiniProfile extends Component {
     }
 }
 
-const propTypes = {
+MiniProfile.propTypes = {
     setDisplay: PropTypes.func.isRequired,
     miniprofileCandidate: PropTypes.object.isRequired
     
@@ -117,6 +124,9 @@ const dispatchToProps = (dispatch) => ({
         dispatch(setDisplay(page))
     },
 
+    downloadFile: () => {
+        dispatch(downloadFile())
+    }
     
 });
 

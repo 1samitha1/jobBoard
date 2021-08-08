@@ -28,6 +28,7 @@ const createJob = (jobData) => {
 };
 
 const openJobPost = (jobData) => {
+    console.log('vvvv openJobPost : ', jobData)
     return {
         type: OPEN_JOB_POST,
         jobPost: jobData
@@ -36,6 +37,7 @@ const openJobPost = (jobData) => {
 
 const searchJobs = (criteria) => {
     return (dispatch) => {
+        console.log('searchJobs : ',criteria)
         axios.post('/job/search',
             criteria, {
             withCredentials: true,
@@ -95,10 +97,32 @@ const deleteJobById = (data) => {
            dispatch({
                type: CREATED_JOBS,
                createdJobs : res.data.data
-           })
+           });
+           
         });
     }
 };
+
+const deleteJobByJobId = (data) => {
+    return (dispatch) => {
+        axios.post('/job/delete-by-jobId',
+        data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+            if(res.data && res.data.success){
+                dispatch(searchJobs({}));
+            }
+        //    dispatch({
+        //        type: CREATED_JOBS,
+        //        createdJobs : res.data.data
+        //    });
+        //    toast.success('Job deleted successfully!',
+        //     {autoClose:2500, hideProgressBar: true})
+        });
+    }
+    
+}
 
 const applyJob = (data) => {
     let attachment = data.attachment;
@@ -225,9 +249,23 @@ const acceptJobApplication = (data) => {
     return {
         type : SET_ACCEPTED_JOB_APPLICATION_DETAILS,
         data : data
-    }
-    
+    }   
 }
+
+const deleteAppication = (data) => {
+    return (dispatch) => {
+        axios.post('/job/delete-application',
+        data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+            if(res.data && res.data.success){
+                dispatch(getAppliedJobs({id: data.userId}));
+            }
+        });
+    }
+}
+
 
 
 export  {
@@ -242,5 +280,7 @@ export  {
     getAppliedJobs,
     getJobApplicationsByUser,
     rejectJobAppication,
-    acceptJobApplication
+    acceptJobApplication,
+    deleteAppication,
+    deleteJobByJobId
 }

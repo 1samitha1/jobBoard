@@ -1,10 +1,10 @@
 import axios from 'axios';
 import toast from '../configs/toast';
-
 import {setDisplay} from './general';
 
+export const SET_COMPANY_INTERVIEWS = 'SET_COMPANY_INTERVIEWS';
+
 const createInterview = (data) => {
-    console.log('createInterview : ', data)
     return (dispatch) => {
         axios.post('/interview/create',
         data, {
@@ -22,7 +22,28 @@ const createInterview = (data) => {
     }
 }
 
+const getInterviewsForCompany = (data) => {
+    return (dispatch) => {
+        if(data){
+            axios.post('/interview/get-company',
+            data, {
+                withCredentials: true,
+                credentials: "same-origin",
+            }).then((res) => {
+                if(res.data && res.data.success){
+                    dispatch({
+                        type : SET_COMPANY_INTERVIEWS,
+                        interviews : res.data.data
+                    })
+                }
+            }); 
+        }
+        
+    }
+}
+
 
 export  {
-    createInterview
+    createInterview,
+    getInterviewsForCompany
 }

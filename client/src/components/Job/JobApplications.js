@@ -38,8 +38,6 @@ class JobApplications extends Component {
     }
 
     acceptJobApplication(item){
-        console.log('vvvv acceptJobApplication : ', item)
-        
         let data = {
             jobTitle : item.jobTitle,
             name : item.name,
@@ -50,11 +48,8 @@ class JobApplications extends Component {
 
         }
 
-        console.log('vvvv acceptJobApplication data : ', data)
-
         this.props.acceptJobApplication(data);
         this.props.setDisplay('create_schedules')
-
     }
 
     
@@ -63,6 +58,7 @@ class JobApplications extends Component {
     let jobApplications = [];
     console.log(this.props.receivedJobAppications)
     this.props.receivedJobAppications.map((item, i) => {
+        if(!item.accepted){
         jobApplications.push(
             <div key={0} className="jobDiv">
                 <Row >
@@ -94,6 +90,7 @@ class JobApplications extends Component {
                 </Row>
              </div>
             )
+        }
     });
     return jobApplications;
 }

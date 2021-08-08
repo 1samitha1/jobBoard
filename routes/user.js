@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const multer = require('multer');
+const fs = require('fs');
 const {registerNewUser, uploadUserImage, updateExistingUser, updateAdmin, 
     authenticateUserToken, completeAdmin, getUserById, getAdmins, getSeekersAndProviders,
-    searchSeekersAndProviders, uploadResume, addBookmark, getBookmarksForUser} = require('../controllers/user')
+    searchSeekersAndProviders, uploadResume, addBookmark, getBookmarksForUser, saveJobOffer,
+    getJobOffers, deleteUserById, notifyToUser} = require('../controllers/user')
 const JWT = require('jsonwebtoken');
 const {sendEmail} = require('../controllers/email');
 const {imageStorage, resumeStorage} = require('../configs/multer-config.js')
@@ -73,23 +75,22 @@ router.post('/admin-login', (req, res, next) => {
 router.post('/invite-admin',  (req, res, next) => {
     return registerNewUser(req.body)
     .then((result) => {
-        console.log('admin adding : ', result.data)
-        let link = `<a href="http://localhost:3000/admin-complete?id=${result.data._id}>click here</a>`
-        let content = `
-        <h4>Smart Job Board Admin Invitation</h4>
-        <p>Hello, ${result.data.firstName}</p>
-        <p>We are glad to inform you that, one of our admin invite you to join our
-            Smart Job Board system as an admin</p>
-        <p>To continue the registration please ${link}</p>    
-        `
-
-       sendEmail([result.data.email], content, "Register as an admin")
-       .then((result) => {
-            res.send(result)
-       })
-        
+        if(result.data && result.data._id){
+            console.log('admin adding : ', result.data)
+            let link = `click this link - http://localhost:3000/admin-complete?id=${result.data._id}`
+            let content = `
+            <h4>Smart Job Board - Admin Invitation</h4>
+            <p>Hello, ${result.data.firstName}</p>
+            <p>We are glad to inform you that, one of our admin invite you to join our
+                Smart Job Board system as an administrator</p>
+            <p>To continue the registration please ${link}</p>    
+            `
+            sendEmail([result.data.email], content, "Register as an admin")
+        }
+        res.send(result)
+    }).catch((err) => {
+        console.log('error while inviting admin : ',err)
     })
-
 });
 
  router.post('/logout', (req, res) => {
@@ -117,7 +118,6 @@ router.post('/resume-upload', resumeUpload.single('resume'), (req, res) => {
         userType : req.body.userType,
         id : req.body.id
     }
-    console.log('vvv userData : ', userData)
    return uploadResume(userData)
    .then((result) => {
        res.send(result)
@@ -209,6 +209,64 @@ router.post('/get-bookmarks', (req, res) => {
         })
     }
 });
+
+router.get('/file-download', (req, res) => {
+    const path = `./uploads/cv/1627814793650_converteddoc.pdf`; 
+    const filePath = fs.createWriteStream(path);
+    console.log('vvvvv filePath : ', filePath)
+    res.pipe(filePath);
+    filePath.on('finish',() => {
+        filePath.close();
+        console.log('Download Completed'); 
+    })
+
+    // res.pipe(fs.createWriteStream(path))
+    //  .on('close', function () {
+    //    console.log('File written!');
+    //  });
+
+    // res.download(path.join('./uploads/cv/1627814793650_converteddoc.pdf'), function (err) {
+    //     console.log(err);
+    // })
+});
+
+router.post('/send-offer', (req,res) => {
+    return saveJobOffer(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log('error while saving Job offer : ', err)
+        })
+});
+
+router.post('/get-offers', (req,res) => {
+    return getJobOffers(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log('error while saving Job offer : ', err)
+        })
+});
+
+router.post('/delete', (req,res) => {
+    return deleteUserById(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log('error while deleting user : ', err)
+        })
+});
+
+router.post('/notify', (req,res) => {
+    return notifyToUser(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log('error while deleting user : ', err)
+        })
+});
+
+
 
 
 module.exports = router;

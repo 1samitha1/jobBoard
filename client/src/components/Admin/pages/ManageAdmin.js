@@ -19,7 +19,7 @@ class ManageAdmin extends Component {
            firstName: "",
            lastName: "",
            email: "",
-           userType : "admin"
+           userType : "administrator"
        }
     }
 

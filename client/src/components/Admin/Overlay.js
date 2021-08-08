@@ -66,7 +66,7 @@ class Overlay extends Component {
     }
 }
 
-const propTypes = {
+Overlay.propTypes = {
     page : PropTypes.string.isRequired
     
 };

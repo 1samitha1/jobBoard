@@ -9,6 +9,7 @@ import {Container, Row, Col} from 'react-bootstrap';
 import {setDisplay} from '../../actions/general';
 import {createReminder} from '../../actions/reminder';
 import {createInterview} from '../../actions/interview';
+import {getNotificationsByUser} from '../../actions/notifications';
 
 import closeIcon from '../../img/icons/close-icon-white.png';
 import defaultSeeker from '../../img/defaults/defaultUser.png';
@@ -48,43 +49,52 @@ class CreateScheduler extends Component {
         const {acceptedJobAppication, createReminder, createInterview} = this.props;
         let date = new Date(this.state.dateAndTime);
         let timestamp = date.getTime();
-       
-        createInterview({
-            title : this.state.title,
-            date : this.state.dateAndTime,
-            timestamp : timestamp,
-            content : this.state.content,
-            canidateName : acceptedJobAppication.name,
-            jobId : acceptedJobAppication.jobId,
-            jobTitle : acceptedJobAppication.jobTitle,
-            candidateId : acceptedJobAppication.candidateId,
-            companyId: acceptedJobAppication.companyId,
-            applicationId : acceptedJobAppication.applicationId
-        });
-
-        createReminder([
-            {
-                title : "Interview with " + acceptedJobAppication.name,
-                type: "company",
+        
+       if(this.state.title !== '' || this.state.dateAndTime !== '' ||  this.state.content !== ''){
+           if(acceptedJobAppication.jobId !== ''){
+            createInterview({
+                title : this.state.title,
+                date : this.state.dateAndTime,
                 timestamp : timestamp,
-                content : `You have schedue an Interview with ${acceptedJobAppication.name} for the job
-                        "${ acceptedJobAppication.jobTitle}"`,
-                companyId : acceptedJobAppication.companyId,
-                jobId : acceptedJobAppication.jobId,         
-            },
-
-            {
-                title : "Interview for " + acceptedJobAppication.jobTitle,
-                type: "candidate",
-                timestamp : timestamp,
-                content : `You have an Interview for the job you have applied - "${acceptedJobAppication.jobTitle}"`,
+                content : this.state.content,
+                canidateName : acceptedJobAppication.name,
+                jobId : acceptedJobAppication.jobId,
+                jobTitle : acceptedJobAppication.jobTitle,
                 candidateId : acceptedJobAppication.candidateId,
-                jobId : acceptedJobAppication.jobId,         
-            }
-    ])
+                companyId: acceptedJobAppication.companyId,
+                applicationId : acceptedJobAppication.applicationId,
+                companyEmail : authUser.email
+            });
+    
+            createReminder([
+                {
+                    title : "Interview with " + acceptedJobAppication.name,
+                    type: "company",
+                    timestamp : timestamp,
+                    content : `You have schedue an Interview with ${acceptedJobAppication.name} for the job
+                            "${ acceptedJobAppication.jobTitle}"`,
+                    companyId : acceptedJobAppication.companyId,
+                    jobId : acceptedJobAppication.jobId,         
+                },
+    
+                {
+                    title : "Interview for " + acceptedJobAppication.jobTitle,
+                    type: "candidate",
+                    timestamp : timestamp,
+                    content : `You have an Interview for the job you have applied - "${acceptedJobAppication.jobTitle}"`,
+                    candidateId : acceptedJobAppication.candidateId,
+                    jobId : acceptedJobAppication.jobId,         
+                }
+            ]);
 
+            this.props.getNotificationsByUser({userId : authUser._id});
 
+           }
 
+       }else{
+           
+       }
+        
     }
 
 
@@ -182,6 +192,10 @@ const dispatchToProps = (dispatch) => ({
 
     createInterview : (data) => {
         dispatch(createInterview(data))
+    },
+
+    getNotificationsByUser : (data) => {
+        dispatch(getNotificationsByUser(data))
     }
 
     

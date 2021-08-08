@@ -8,6 +8,8 @@ import general from './general';
 import seeker from './seeker';
 import tests from './tests';
 import admin from './admin';
+import reminders from './reminders';
+import interviews from './interviews';
 
 export default combineReducers({
     user: userReducer,
@@ -18,5 +20,7 @@ export default combineReducers({
     general : general,
     seeker : seeker,
     tests : tests,
-    admin : admin
+    admin : admin,
+    reminders : reminders,
+    interviews : interviews
 })

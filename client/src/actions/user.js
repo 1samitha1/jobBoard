@@ -2,10 +2,12 @@ import axios from 'axios';
 import toast from '../configs/toast';
 import {getAdminByToken, setToken} from '../helpers/jwtHandler';
 import {setAdminData} from './admin';
+import {setDisplay} from './general';
 
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const SET_SEEKERS_AND_PROVIDERS = 'SET_SEEKERS_AND_PROVIDERS';
 export const SET_SEEKER_BOOKMARKS = 'SET_SEEKERS_BOOKMARKS';
+export const SET_JOB_OFFERS = 'SET_JOB_OFFERS';
 
 export const setCurrentUser = (user) => {
     return{
@@ -134,7 +136,6 @@ export const getBookmarksForUser = (data) => {
             }).then((res) => {
                
                 if(res && res.data.success){
-                    console.log('vvvv ', res.data.data)
                     dispatch(setBookmarksToUser(res.data.data));
     
                 }else{
@@ -158,4 +159,82 @@ export const setBookmarksToUser = (data) => {
      }
 
 }
+
+export const sendJobOffer = (data) => {
+    return (dispatch) => {
+        axios.post('/user/send-offer',
+        data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+            if(res && res.data.success){
+                toast.success('Job Offer Sent Successfuly!',
+                {autoClose:2500, hideProgressBar: true});
+
+                dispatch(setDisplay("home"));
+
+            }else{
+                toast.error(res.data.message,
+                {autoClose:2500, hideProgressBar: true});
+            }
+          
+        });
+    }
+}
+
+export const getJobOffers = (data) => {
+    return (dispatch) => {
+        axios.post('/user/get-offers',
+        data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+            if(res && res.data.success){
+                dispatch({
+                    type : SET_JOB_OFFERS,
+                    data : res.data.data
+                })
+
+            }
+          
+        });
+    }
+}
+
+export const removeUserById = (data) => {
+    return (dispatch) => {
+        axios.post('/user/delete',
+        data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+            if(res && res.data.success){
+                dispatch(getUsers("administrator"));
+
+                toast.success('User deleted Successfuly!',
+                {autoClose:2500, hideProgressBar: true});
+
+            }
+          
+        });
+    }
+}
+
+export const notifyToUser = (data) => {
+    return (dispatch) => {
+        axios.post('/user/notify',
+        data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+            if(res && res.data.success){
+                toast.success('Notification sent to the user!',
+                {autoClose:2500, hideProgressBar: true});
+
+            }
+          
+        });
+    }
+}
+
 

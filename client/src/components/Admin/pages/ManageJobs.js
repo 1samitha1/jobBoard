@@ -8,34 +8,80 @@ import {Row, Col} from 'react-bootstrap';
 import Popup from '../../Popup/Popup';
 import {openPopup, closePopup} from '../../../actions/notifications';
 import {setDisplayPage, displayOverlay} from '../../../actions/admin';
+import {searchJobs, deleteJobByJobId} from '../../../actions/jobs';
+
 import {industries} from '../../../constants/industries';
+import {locations} from '../../../constants/locations';
+import {salaries} from '../../../constants/salaries';
+
 const closeIcon = require('../../../img/icons/close-icon-white.png');
-let user = require('../../../img/defaults/defaultUser.png')
+const deleteIcon = require('../../../img/icons/delete-icon-white.png');
+let companyImg = require('../../../img/defaults/defaultCompany.png')
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 
 toast.configure();
-let popupContent = "Are you sure you want to remove this user?"
+let popupContent = "Are you sure you want to remove this job?"
 class ManageJobs extends Component {
 
     constructor(props) {
     super(props);
        this.state = {
-           
+        jobType : "",
+        industry: "",
+        salary : "",
+        location: ""
        }
     }
 
+    componentDidMount(){
+        this.props.searchJobs({});
+    }
+
     closeOverlay(){
-        this.props.setDisplayPage("dashboard");
+        // this.props.setDisplayPage("dashboard");
         this.props.displayOverlay();
     }
 
-    openPopup(){
-        this.props.openPopup()
+    openPopup(jobId){
+        this.setState({
+            jobId : jobId
+        })
+        this.props.openPopup();
     }
 
-    removeUser(){
-        console.log("remove User Clicks")
+    deleteJob(){
+        this.props.deleteJobByJobId({jobId : this.state.jobId});
+        this.props.closePopup();
 
+    }
+
+    setSearchCriteria(evt){ 
+        this.setState({
+            [evt.target.id] : evt.target.value,
+        })
+    }
+
+    searchJobs(){
+        let criteria = {};
+        
+        if(this.state.jobType !== ''){
+            criteria.type = this.state.jobType
+        }
+
+        if(this.state.industry !== ''){
+            criteria.industry = this.state.industry
+        }
+
+        if(this.state.salary !== ''){
+            criteria.salary = this.state.salary
+        }
+
+        if(this.state.location !== ''){
+            criteria.location = this.state.location
+        }
+
+
+        this.props.searchJobs(criteria);
     }
 
     generateIndustries(){
@@ -45,8 +91,56 @@ class ManageJobs extends Component {
                 industryList.push(<option value={ind.value}>{ind.name}</option>)
             });
             return industryList;
+        } 
+    }
+
+    generateLocations(){
+        if(locations){
+            let locationList = [];
+             locations.map((val, i) => {
+                locationList.push(<option value={val.value}>{val.value}</option>)
+            });
+            return locationList;
         }
-       
+    }
+
+    generateSalaries(){
+        if(salaries){
+            let salaryList = [];
+            salaries.map((val, i) => {
+                salaryList.push(<option value={val.value}>{val.value}</option>)
+            });
+            return salaryList;
+        }
+    }
+
+    generateJobs(){
+        let jobs = [];
+        this.props.jobArray.map((job, i) => {
+           let image = job.companyImg;
+           if(image === ""){
+               image = companyImg;
+           }
+            jobs.push(
+                <div className="jobResultItem">
+                    <Col className="jobResultItemCol" md={3}>
+                        <img className="jobResImg" src={image} />
+                    </Col>
+
+                    <Col  md={8}>
+                        <p className="jobResultTitle">{job.title}</p>
+                        <p className="jobResultCompanyName">{job.companyName}</p>
+                        <p className="jobResultDesc">{job.description}</p>
+                    </Col>
+
+                    <Col md={1}>
+                        <img onClick={() => this.openPopup(job._id)} className="deleteJobRes" src={deleteIcon} />
+                    </Col>
+                                                      
+                </div>
+            )
+        });
+        return jobs;
     }
 
     
@@ -57,7 +151,7 @@ class ManageJobs extends Component {
         return (
             <div className="overLapMainDiv">
                 {displayPopup &&
-                    <Popup content={popupContent} btn1Func={this.removeUser.bind(this)}/>
+                    <Popup content={popupContent} btn1Func={this.deleteJob.bind(this)}/>
                 }
             
             <div id="manageUsersWrapper">
@@ -71,85 +165,68 @@ class ManageJobs extends Component {
                 <div className="manageUsersBody">
                     <Col md={7} xs={12} className="sides leftSide" >
                             <Row className="jobFilterPanel">
-                                <Col md={4} xs={4} >
-                                    <select className="j_filters">
-                                        <option>Job type</option>
-                                        <option value="fullTime">Full time</option>
-                                        <option value="partTime">Part time</option>
-                                    </select>    
-                                </Col>
-
-                                <Col md={4} xs={4} >
-                                    <select className="j_filters">
-                                        <option>Select industry</option>
-                                        {this.generateIndustries()} 
-                                    </select>    
-                                </Col>
-                                <Col md={4} xs={4}><button className="jobFilterSearchBtn">Search</button></Col>
+                                <p id="jobTitleHeading">Job results</p>
                             </Row>  
 
                             <Row>
                                 <Col md={12}>
                                     <Row>
-                                        <Col md={6}><p className="resultCount">Searched jobs : 1</p></Col>
-                                        <Col md={6}><p className="resultCount">Total jobs : 5</p></Col>
+                                        <Col md={12}><p className="resultCount">Total jobs : {this.props.jobArray.length}</p></Col>
                                     </Row>
                                     <Row>
                                         <Col md={12}>
                                             <div id="jobResultDiv">
-
+                                               
+                                                {this.generateJobs()}
                                             </div>
                                         </Col>
                                     </Row>
-
                                 </Col>
-                                
-
                             </Row>
                         
 
-                        {/* <div id="resultDiv">
-
-                            <div className="resultItem">
-                                <Col md={3} className="itemPart borderLeft d-none d-lg-block">
-                                    <div className="imageWrapper">
-                                        <img src={user}></img>
-                                    </div> 
-                                </Col>
-                                <Col md={6} xs={6} className="itemPart borderLeft">
-                                    <div>
-                                        <p className="name_user">Samitha Mihiranga</p>
-                                        <p className="email_user">email@test.com</p>
-                                        <p className="type_user">User type: Provider</p>
-                                    </div>
-                                </Col>
-                                <Col md={3} xs={6} className="itemPart">
-                                    <button className="userActionsBtns">Notify</button>
-                                    <button onClick={this.openPopup.bind(this)} className="userActionsBtns">Remove</button>
-                                </Col>
-                            </div>
-
-                        </div> */}
                     </Col>
 
                     <Col md={5} xs={12} className="sides">
                         <div className="searchFilters">
                              <Row>
                                 <Col md={12} xs={12}>
-                                    <p className="filterHeading">Latests Jobs</p>
-                                    <p className="filterSemiHeading" >Approve or reject latest job vacancies by clicking the buttons.</p>
+                                    <p className="filterHeading"> Job Filters</p>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col md={12} xs={12}>
-                                    <div className="latestJobs">
-                                        <Row>
-                                            <Col md={12} xs={12}>
-                                                <div>
+                                    <div className="filterOptions">
+                                        <select id="jobType" onChange={this.setSearchCriteria.bind(this)} className="j_filters">
+                                            <option value="">All job types</option>
+                                            <option value="Full time">Full time</option>
+                                            <option value="Part time">Part time</option>
+                                        </select>
+                                    </div>
+                                      
+                                    <div className="filterOptions">
+                                        <select id="industry" onChange={this.setSearchCriteria.bind(this)} className="j_filters">
+                                            <option value="">All industry</option>
+                                            {this.generateIndustries()} 
+                                        </select>
+                                    </div>
 
-                                                </div>
-                                            </Col>
-                                        </Row>
+                                    <div className="filterOptions">
+                                        <select id="salary" onChange={this.setSearchCriteria.bind(this)} className="j_filters">
+                                            <option value="">All salaries</option>
+                                            {this.generateSalaries()} 
+                                        </select>
+                                    </div>
+
+                                    <div className="filterOptions">
+                                        <select id="location" onChange={this.setSearchCriteria.bind(this)} className="j_filters">
+                                            <option value="">All locations</option>
+                                            {this.generateLocations()} 
+                                        </select>
+                                    </div>
+                                    
+                                    <div className="filterOptions">
+                                        <button onClick={this.searchJobs.bind(this)} className="jobFilterSearchBtn">Search</button>
                                     </div>
                                 </Col>
                             </Row>
@@ -165,17 +242,20 @@ class ManageJobs extends Component {
     }
 }
 
-const propTypes = {
+ManageJobs.propTypes = {
     displayPopup : PropTypes.bool.isRequired,
     openPoup : PropTypes.func.isRequired,
     closePopup: PropTypes.func.isRequired,
     setDisplayPage: PropTypes.func.isRequired,
-    displayOverlay: PropTypes.func.isRequired
+    displayOverlay: PropTypes.func.isRequired,
+    searchJobs: PropTypes.func.isRequired,
+    jobArray: PropTypes.array.isRequired
     
 };
 
 const mapStateToProps = (state) => ({
-    displayPopup : state.notification.displayPopup
+    displayPopup : state.notification.displayPopup,
+    jobArray: state.jobs.jobArray
 
 });
 
@@ -194,11 +274,16 @@ const dispatchToProps = (dispatch) => ({
 
     displayOverlay: () => {
         dispatch(displayOverlay())
+    },
+
+    searchJobs: (data) => {
+        dispatch(searchJobs(data))
+    },
+
+    deleteJobByJobId: (data) => {
+        dispatch(deleteJobByJobId(data))
     }
-
-    
-
-    
+  
 });
 
 export default connect(

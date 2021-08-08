@@ -25,6 +25,7 @@ const searchJobs = (criteria) => {
       criteria.textIndex = {"$regex": criteria.textIndex, "$options": "i"}
     }
 
+    console.log('searchJobs : ', criteria)
     Job.find(criteria, (err, result) => {
       if (err) {
         reject({success: false, error: err})
@@ -65,6 +66,17 @@ const deleteJob = (data) => {
   })
 }
 
+const deleteJobByJobId = (data) => {
+  return new Promise((resolve, reject) => {
+    Job.deleteOne({ _id: data.jobId }, ((err, res) => {
+      if(err) reject({success: false, error: err})
+      else{
+        resolve({success: true})
+      }
+    }))
+    })
+}
+
 const applyJob = (application) => {
   return new Promise((resolve, reject) => {
     JobApplication.find({jobId : application.jobId, appliedBy : application.appliedBy}, (err, res) => {
@@ -103,10 +115,8 @@ const saveApplicationAttachment = (attachmentData) => {
       if(err){
         reject({success : false, error : err});
       }else{
-        console.log("job saveApplicationAttachment sucess 1 : ")
         updateJobApplicationStatus({jobId : doc.jobId, count : 1})
         .then((res) => {
-          console.log('vvvv res : ', res)
           if(res.success && res.data._id){
             resolve({success: true, result : doc});
           }else{
@@ -187,7 +197,7 @@ const rejectJobApplication = (data) => {
 
 const updateJobApplication = (data) => {
   return new Promise((resolve, reject) => {
-    JobApplication.findOneAndUpdate({_id : ObjectId(data.jobId)}, {$set : {applied : true}}, {new: true}, ((err, result) => {
+    JobApplication.findOneAndUpdate({_id : ObjectId(data.applicationId)}, {$set : {accepted : true}}, {new: true}, ((err, result) => {
       if(err){
        reject({success : false, error : err})
       }else{
@@ -196,6 +206,20 @@ const updateJobApplication = (data) => {
     }))
   })
 }
+
+const deleteJobApplication = (data) => {
+  return new Promise((resolve, reject) => {
+    JobApplication.deleteOne({_id : ObjectId(data.applicationId)}, ((err, result) => {
+      if(err){
+       reject({success : false, error : err})
+      }else{
+        resolve({success : true, data : result})
+      }
+    }))
+  })
+}
+
+
 
 
 module.exports = {
@@ -208,6 +232,8 @@ module.exports = {
     getAppliedJobs,
     getJobApplicationsByUser,
     rejectJobApplication,
-    updateJobApplication
+    updateJobApplication,
+    deleteJobApplication,
+    deleteJobByJobId
     
 };

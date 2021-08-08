@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 import defaultCompany from '../../img/defaults/defaultCompany.png';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {getJobs, getAppliedJobs} from '../../actions/jobs';
+import {getJobs, getAppliedJobs, deleteAppication} from '../../actions/jobs';
 import {Container, Row, Col} from 'react-bootstrap';
 import {setDisplay} from '../../actions/general';
 const editIcon = require('../../img/icons/edit-icon-white.png')
@@ -60,9 +60,7 @@ class AppliedJobs extends Component {
                 </Row>
 
                 <Row>
-                        {/* <button className="JobAppliedBtns">Open</button> */}
-                        <button className="JobAppliedBtns">Delete</button>
-                        {/* <p>Attachments</p> */}
+                    <button onClick={() => this.deleteAppication(jobItem._id)} className="JobAppliedBtns">Delete</button> 
                 </Row>
             
             </Col>
@@ -73,9 +71,9 @@ class AppliedJobs extends Component {
         return jobsArray;
     }
 
-    // openJobPost(jobData){
-    //     this.props.openJobPost(jobData)
-    // }
+    deleteAppication(id){
+        this.props.deleteAppication({applicationId: id, userId: authUser._id})
+    }
 
 
     render() {
@@ -85,7 +83,7 @@ class AppliedJobs extends Component {
                     <Col className="heading" md={12}><h3>Jobs you applied</h3></Col>
                 </Row>
                 <Row>
-                    <Col className="noOfJobs" md={12}><p>No of results : 1</p></Col>
+                    <Col className="noOfJobs" md={12}><p>No of results : {this.props.appliedJobs.length}</p></Col>
                 </Row>
                 <Row className="jobButtons">
                     
@@ -104,7 +102,8 @@ class AppliedJobs extends Component {
 
 AppliedJobs.propTypes = {
     setDisplay: PropTypes.func.isRequired,
-    getAppliedJobs: PropTypes.func.isRequired
+    getAppliedJobs: PropTypes.func.isRequired,
+    deleteAppication: PropTypes.func.isRequired
     
 };
 
@@ -120,10 +119,11 @@ const dispatchToProps = (dispatch) => ({
 
     getAppliedJobs: (data) => {
         dispatch(getAppliedJobs(data))
-    }
+    },
 
-    
-
+    deleteAppication: (data) => {
+        dispatch(deleteAppication(data))
+    },
     
 });
 

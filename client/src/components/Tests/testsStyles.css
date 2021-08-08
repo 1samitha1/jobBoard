@@ -405,6 +405,20 @@ input::placeholder {
     box-shadow: none;
 }
 
+#createTestBackBtn{
+    margin-left: 4%;
+    margin-right: auto;
+    width: 19%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border-radius: 9px;
+    color: #fff;
+    background: #42a1ce45;
+    border: 1px solid;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
 /* send tests */
 
 #sendTestsWrapper{
@@ -438,8 +452,8 @@ input::placeholder {
 }
 
 #testSendHeading{
-    margin-top: 35px;
-    margin-bottom: 35px;
+    margin-top: 16px;
+    margin-bottom: 10px;
 }
 
 #testSendButton{
@@ -663,4 +677,17 @@ input::placeholder {
     padding: 1%;
     margin-top: 5px;
     margin-bottom: 11px;
+}
+
+.testActionBtnsBack{
+    margin-bottom: 12px;
+    width: 90px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-radius: 9px;
+    color: #fff;
+    background: #42a1ce45;
+    border: 1px solid;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }

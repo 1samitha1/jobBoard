@@ -14,13 +14,13 @@
 
 #regDiv{
     width: 57%;
-    height: 84%;
+    height: 571px;
     margin-left: auto;
     margin-right: auto;
     border: 1px solid #ffffff;
     background-color: #00000052;
     border-radius: 9px;
-    margin-top: 4%;
+    margin-top: 3%;
 }
 
 #regDiv h2{
@@ -129,6 +129,22 @@
     background-color: #c37b0057;
     border: 1px solid #eae1e1;
 }
+
+
+.filedError{
+    margin-bottom: 0px;
+    text-align: center;
+    color: #f92a2ae6;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+
+
+
 
 /* #registerWrapper{
     width: 80%;

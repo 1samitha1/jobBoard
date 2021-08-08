@@ -288,7 +288,7 @@ Row{
 }
 
 .resultCount{
-    margin-bottom: 6%;
+    margin-bottom: 4%;
     margin-right: 5%;
     color: #ffffff;
     /* float: right; */
@@ -433,23 +433,83 @@ Row{
     color:#ffffff;
 }
 
+#notifyWrapper{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #1f1d1db3;
+    z-index: 11;
+    color: #ffffff;
+    text-align: center;
+}
+
+#notifyUserDiv{
+    width: 40%;
+    height: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+    margin-bottom: 80px;
+    border: 1px solid #ffffff;
+    border-radius: 9px; 
+    background-color: #000000a8;
+}
+
+#sendNotifyTitle{
+    font-size: 21px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#sendNotifyContent{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+    margin-top: 25px;
+}
+
+.sendNotifyButton{
+    width: 100px;
+    margin-right: 5%;
+    margin-top: 31px;
+    margin-bottom: 20px;
+    width: 100px;
+    padding: 0.5%;
+    border-radius: 7px;
+    background: #42a1ce45;
+    color: #ffffff;
+    /* margin-left: 17px; */
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid;
+}
+
+#notifyBtnsDiv{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
 /* Manage Jobs */
 
 .jobFilterPanel{
     width: 100%;
-    height: 60px;
+    height: 45px;
     border-bottom: 1px solid #ffffff;
     margin-left: auto !important;
     margin-right: auto !important;
 }
 
 .j_filters {
-    width: 100%;
-    padding: 4%;
+    width: 75%;
+    padding: 2%;
     border-radius: 7px;
     margin-top: 5%;
     margin-right: 3%;
-    min-width: 80%;
+    min-width: 75%;
 }
 
 .jobFilterSearchBtn{
@@ -467,7 +527,7 @@ Row{
 
 #jobResultDiv{
     width:98%;
-    height: 25vw;
+    height: 28vw;
     margin-left: auto;
     margin-right: auto;
     margin-top: 3%;
@@ -475,7 +535,8 @@ Row{
     margin-bottom: 2%;
     border: 1px solid #e6e6e6;
     border-radius: 10px;
-    background-color: #00000052
+    background-color: #00000052;
+    text-align: center;
 }
 
 .latestJobs{
@@ -489,6 +550,50 @@ Row{
     border: 1px solid #e6e6e6;
     border-radius: 10px;
     background-color: #00000052
+}
+
+.jobResultItem{
+    width: 95%;
+    display: inline-flex;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    margin-top: 14px;
+    margin-bottom: 14px;
+}
+
+.jobResultItemCol{
+    border-right: 1px solid
+}
+
+.jobResultTitle{
+    font-size: 19px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.jobResultCompanyName{
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.jobResultDesc{
+    height: auto;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.jobResImg{
+    width: 100%;
+    height: 127px;
+}
+
+.deleteJobRes{
+    width: 20px;
+    margin-top: 15px;
+    cursor: pointer;
 }
 
 
@@ -896,4 +1001,13 @@ Row{
 
 .adminRegComBtn{
     margin-top: 30px;
+}
+
+#jobTitleHeading{
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2px;
+    color: #ffffff;
+    margin-top: 5px;
+    font-size: 21px;
 }

@@ -42,7 +42,7 @@
 }
 
 #schedulerBody{
-    width: 80%;
+    width: 60%;
     margin-left: auto;
     margin-right: auto;
     height: 380px;
@@ -50,6 +50,7 @@
     margin-top: 15px;
     margin-bottom: 20px;
     overflow-y: scroll;
+    text-align: center;
 }
 
 #createSchedule{
@@ -139,5 +140,36 @@
 
 .reminderFormDiv button:hover{
     background-color: #42a1cebf;
+}
+
+.interviewItem{
+    width:80%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ffffff;
+    border-radius: 6px;
+}
+
+.interviewItemTitie{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.interviewItemContent{
+    margin-top: 2px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.interviewItemDateAndTime{
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 

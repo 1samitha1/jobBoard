@@ -29,6 +29,8 @@ import AppliedJobs from '../Job/appliedJobs';
 import JobApplications from '../Job/JobApplications';
 import Jobs from '../Job/jobPost';
 import CreatedJobs from '../Job/createdJobs';
+import SendOffers from '../Job/SendOffers';
+import JobOffers from '../Job/JobOffers'
 
 import ResumeCentre from '../Resume/ResumeCenter';
 
@@ -446,6 +448,20 @@ class Home extends Component {
                                         this.props.displayElm === "skill_tests_results" &&
                                         <div>
                                            <TestResults />
+                                        </div>
+                                    }
+
+                                    {
+                                        this.props.displayElm === "send_offers" &&
+                                        <div>
+                                           <SendOffers />
+                                        </div>
+                                    }
+
+                                    {
+                                        this.props.displayElm === "job_offers" &&
+                                        <div>
+                                           <JobOffers />
                                         </div>
                                     }
 

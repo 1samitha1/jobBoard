@@ -5,6 +5,7 @@ import {Container, Row, Col} from 'react-bootstrap';
 import './testsStyles.css';
 import {getTestResultsByUser, clearTestResult} from '../../actions/tests';
 import toast from '../../configs/toast'; 
+import {setDisplay} from '../../actions/general';
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 
 
@@ -58,6 +59,10 @@ class TestResults extends Component {
         return results;
     }
 
+    setDisplay(page){
+        this.props.setDisplay(page)
+    }
+
     clearResult(id){
         this.props.clearTestResult({
             id: id,
@@ -71,6 +76,7 @@ class TestResults extends Component {
             <Row id="testResultsWrapper">
                 <Col md={12} sm={12}>
                     <h3 id="testSendHeading">Test Results</h3>
+                    <button onClick={() => this.setDisplay("tests_portal")} className="testActionBtnsBack">Back</button>
                     <div id="testResultWrapper">
                        {this.generateResultBlock()}
                     </div>
@@ -84,9 +90,9 @@ TestResults.propTypes = {
     tests : PropTypes.array.isRequired,
     testResults : PropTypes.array.isRequired,
     clearTestResult: PropTypes.func.isRequired,
-    getTestResultsByUser: PropTypes.func.isRequired
-    
-   
+    getTestResultsByUser: PropTypes.func.isRequired,
+    setDisplay: PropTypes.func.isRequired,
+      
 };
 
 const mapStateToProps = (state) => ({
@@ -101,6 +107,10 @@ const mapDispatchToProps = (dispatch) => ({
 
     clearTestResult : (data) => {
         dispatch(clearTestResult(data))
+    },
+
+    setDisplay : (page) => {
+        dispatch(setDisplay(page))
     }
 
 });

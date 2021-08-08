@@ -1,7 +1,10 @@
 const ObjectId = require('mongodb').ObjectID;
 const Interview = require("../schemas/interview");
-const JobApplication = require ('../controllers/job');
+const {updateJobApplication} = require ('../controllers/job.js');
 const {createNotification} = require('../controllers/notification');
+const {getUserById} = require("./user");
+const {sendEmail} = require("./email");
+const {createDateAndTime} = require("./helpers/dateCreator");
 
 const createInterview = (data) => {
     return new Promise((resolve, reject) => {
@@ -29,7 +32,7 @@ const createInterview = (data) => {
                 timestamp : new Date().getTime(),
                 read : false,
                 userId : data.companyId,
-                category: "job_interview"
+                category: "scheduler"
               },
               {
                 title : `You have a new Job Interview!`,
@@ -37,21 +40,47 @@ const createInterview = (data) => {
                 timestamp : new Date().getTime(),
                 read : false,
                 userId : data.candidateId,
-                category: "job_interview"
+                category: "scheduler"
               }];
 
             notifications.forEach((item) => {
               createNotification(item);
             })
 
-            JobApplication.updateJobApplication({jobId : data.jobId})
-              .then((res) => {
-                  console.log('crated interview : ', result)
-                  resolve({success: true, data: result})
-              });  
+            let createDate = createDateAndTime(data.timestamp);
+            let date = createDate.date;
+            let time = createDate.time;
+
+            // email for company
+            let content = `
+            <h4>Smart Job Board - New Job Interview</h4>
+            <p>Interview for : ${data.jobTitle}</p>
+            <p>You have scheduled an interview with "${data.canidateName}" on ${date} at ${time}</p>`
+
+           sendEmail([data.companyEmail], content, "New Job Interview");
+
+           getUserById(data.candidateId)
+              .then((user) => {
+                  // email for condidate
+                  let content = `
+                  <h4>Smart Job Board - New Job Interview</h4>
+                  <p>The Job you applied,  ${data.jobTitle} has schedulr an interview</p>
+                  <p>Date : ${date}</p>
+                  <p>Time : ${time}</p>`
+
+                  sendEmail([user.result.email], content, "New Job Interview")
+
+                  
+              });
             }
+            console.log('updating job : ', data.jobId)
+            updateJobApplication({applicationId : data.applicationId})
+              .then((res) => {
+                console.log('crated interview : ', res)
+                  resolve({success: true, data: res})
+            }); 
           }
-        })
+        });
     });
 }
 
@@ -64,17 +93,20 @@ const getInterviewsByUser = (data) => {
             query = {candidateId : data.userId, timestamp : { $gte : data.timestamp }};
         }
 
+        console.log('vvvvv query ', query)
+
        Interview.find(query, ((err, res) => {
            if(err){
             reject({success : false, error : err})
            }else{
-            if(result){
+            if(res){
               resolve({success: true, data: res})
             }
           }
        }));
     });
 }
+
 
 
 

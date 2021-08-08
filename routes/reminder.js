@@ -11,14 +11,14 @@ router.post('/create', (req, res) => {
         })
 });
 
-// router.post('/get', (req, res) => {
-//     Interview.getRe(req.body)
-//         .then((result) => {
-//             res.send(result);
-//         }).catch((err) => {
-//             res.send({success: fasle, error: errr})
-//         })
-// });
+router.post('/get-company', (req, res) => {
+    Reminder.getReminderForCompany(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            res.send({success: fasle, error: errr})
+        })
+});
 
 
 module.exports = router;

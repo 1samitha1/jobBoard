@@ -53,7 +53,7 @@ class JobPost extends Component {
                 <Col md={12}>
                     <p className="job_title">{jobItem.title}</p>
                     <div>
-                        <img titile="edit" className="editJobPost" src={editIcon} />
+                        {/* <img titile="edit" className="editJobPost" src={editIcon} /> */}
                         <img onClick={() => this.deleteJobPost({jobId: jobItem._id, createdBy : jobItem.createdBy})} titile="delete" className="deleteJobPost" src={deleteIcon} />
                     </div>
                 </Col>

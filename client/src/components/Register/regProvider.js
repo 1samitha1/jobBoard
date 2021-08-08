@@ -8,7 +8,7 @@ import {locations} from '../../constants/locations';
 import toast from '../../configs/toast';
 
 import './regStyles.css';
-
+// let errorValues = [];
 class RegProvider extends Component {
 
     constructor(props) {
@@ -22,46 +22,116 @@ class RegProvider extends Component {
             passwordConf : "",
             primaryIndustry: "",
             companyPhone: "",
-            location: ""
+            location: "",
+            errorValues: [],
+            showFieldError: false,
+            websiteError : false,
+            emailError : false,
+            PhoneError: false
 
         }
     }
 
     handleFieldChange(evt){
         if(evt && evt.target.id) {
-            //this.validateData(evt.target);
+           
             this.setState({ [evt.target.id]: evt.target.value });
         }
     }
 
     validateData(data){
-        if(data.id === "email"){
-            let emailRegex = "/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i"
-            if(data.value){
-                if(data.value.match(emailRegex)){
-                    
-                }
+        if(data.field === "email"){
+            if(data.value !== "" && !data.value.match(/[\S]+(\@)[\S]+(\.)[\S]+/)){
+                toast.error('Email needs to be in valid format (user@test.com)!',
+                   {autoClose:2500, hideProgressBar: true});
+
+                    this.setState({
+                        emailError: true
+                    }); 
+                }else{
+                    this.setState({
+                        emailError: false
+                    });
             }
-        } 
+            
+        }else if(data.field === 'website') {
+            if(data.value !== "" && !data.value.match(/(www\.)+[\S]+(\.)?[\S]/)){
+                toast.error('Website needs to be in valid format (www.example.com)!',
+                    {autoClose:2500, hideProgressBar: true});
+
+                this.setState({
+                    websiteError: true
+                });
+
+              }else{
+                this.setState({
+                    websiteError: false
+                });
+            }
+        }else if(data.field === 'phone'){
+            if(data.value !== "" && data.value.length < 10){
+                toast.error('Phone number needs to be in valid format (10 digits)!',
+                    {autoClose:2500, hideProgressBar: true});
+
+                this.setState({
+                    PhoneError: true
+                });
+
+              }else{
+                this.setState({
+                    PhoneError: false
+                });
+            }
+        }
     }
 
     registerNewUser(data) {
         if(data){
             data.userType = "provider";
-            if(data.companyName !=="" || data.companyEmail !==""){
+            let valueArray = [];
+           
+            for (const [key, value] of Object.entries(data)) {
+                if(value === ""){
+                    valueArray.push(" " + key.toString());
+                }
+              }
+              
+              if(data.password !== "" && data.passwordConf !== " " && data.password !== data.passwordConf){
+                toast.error('Password confirmation should match!',
+                {autoClose:2500, hideProgressBar: true})
+              }
+
+              // validating inputs
+              this.validateData({field : "email", value : data.email});
+              this.validateData({field : "website", value : data.website});
+              this.validateData({field : "phone", value : data.phone});
+          
+     
+              if(valueArray.length > 0){
+                this.setState({
+                    errorValues : valueArray,
+                    showFieldError  : true,
+                });
+              } else{
+                this.setState({
+                    errorValues : [],
+                    showFieldError  : false,
+                });
+
                 if(data.password === data.passwordConf){
-                    data.textIndex = data.companyName + " " + data.email + " " + data.website;
-                    data.photo = "";
-                    this.props.registerNewUser(data)
-                }else{
-                    toast.error('Password confirmation should match!',
-                    {autoClose:2500, hideProgressBar: true})
+                    if(!this.state.emailError && !this.state.websiteError){
+                        data.phone = data.phone.toString();
+                        data.textIndex = data.companyName + " " + data.email + " " + data.website;
+                        data.photo = "";
+
+                        this.props.registerNewUser(data);
+                    }else{
+                        toast.error('Fix all the fields before register!',
+                        {autoClose:2500, hideProgressBar: true});
+                    }
                 }
                 
-            }else{
-                toast.error('Company name and Company email is required!',
-                {autoClose:2500, hideProgressBar: true})
-            }
+              }
         }
     }
 
@@ -86,13 +156,16 @@ class RegProvider extends Component {
        
     }
 
-    render() {
-
+    render() {       
         return (
             <div id="regWrapper">
                 <div id="regDiv">
                     <h2>Register as a Job Provider</h2>
-                <form>   
+                    {
+                        this.state.showFieldError &&
+                        <p className="filedError"><strong>These fields cannot be empty</strong> : {this.state.errorValues.toString()}</p>
+                    }
+                    
                     <div className="regFormRow">
                         <input id="companyName" type="text"
                             onChange={this.handleFieldChange.bind(this)}
@@ -130,7 +203,7 @@ class RegProvider extends Component {
                     </div>
 
                     <div className="regFormRow">
-                        <input id="companyPhone" type="text"
+                        <input id="companyPhone" type="number"
                             onChange={this.handleFieldChange.bind(this)}
                             value={this.state.companyPhone}
                             placeholder="Company Phone" required/>
@@ -174,7 +247,6 @@ class RegProvider extends Component {
 
                         
                     </div>
-                </form> 
                 </div>
             </div>
         );

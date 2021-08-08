@@ -43,7 +43,7 @@ class CandidatePost extends Component {
                          <div className="candidateButtons">
                              <button onClick={() => this.setDisplay("seeker_miniprofile", candidate)} 
                              className="viewCandidateProfile candidateButton">View profile</button>
-                             <button className="sendOfferToCandidate candidateButton">Send offers</button>
+                             <button onClick={() => this.setDisplay("send_offers", candidate)} className="sendOfferToCandidate candidateButton">Send offers</button>
                          </div>
                      </div>
                      <p className="candidateDescription"> </p>
@@ -64,6 +64,10 @@ class CandidatePost extends Component {
     setDisplay(page, candidate){
         this.props.setDisplay(page)
         this.props.setCandidateToMiniProfile(candidate)
+    }
+
+    setDisplayPage(page){
+        this.props.setDisplay(page)
     }
 
     render() {

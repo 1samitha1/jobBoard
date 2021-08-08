@@ -9,7 +9,8 @@ import {Link} from 'react-router-dom';
 import {salaries} from '../../constants/salaries';
 import {locations} from '../../constants/locations';
 import {Container, Row, Col} from 'react-bootstrap';
-const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
+import toast from '../../configs/toast';
+const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 
 
 class CreateJobs extends Component {
@@ -58,22 +59,31 @@ class CreateJobs extends Component {
       textIndex : data.jobTitle + " " + data.jobPosition + " " + data.jobIndustry + " " + authUser.companyName,
       createdBy : authUser._id
     };
+
+    if(job){
+      if(job.title !== "" && job.description !== "" && job.industry !== "" && job.type !== "" && job.location !== ""){
+        this.props.createJob(job);
+        this.setState({
+          jobTitle: "",
+          jobPosition: "",
+          salary: "",
+          location: "",
+          jobDescription: "",
+          jobIndustry: "",
+          startDate : "",
+          expireDate :"",
+          expireTimestamp : "",
+          applicants : 0,
+          companyName : "",
+          companyImg : ""
+        });
+      }else{
+        toast.error("You must fill all the fields to create a new job post",
+          {autoClose:3500, hideProgressBar: true})
+      }
+    }
    
-    this.props.createJob(job);
-    this.setState({
-      jobTitle: "",
-      jobPosition: "",
-      salary: "",
-      location: "",
-      jobDescription: "",
-      jobIndustry: "",
-      startDate : "",
-      expireDate :"",
-      expireTimestamp : "",
-      applicants : 0,
-      companyName : "",
-      companyImg : ""
-    });
+    
   }
 
   generateIndustries(){

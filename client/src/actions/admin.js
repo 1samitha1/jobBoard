@@ -41,16 +41,14 @@ const sendAdminInvitation = (data) => {
         if(res && res.data){
             if(res.data.success){
                 toast.success(res.data.msg,
-                    {autoClose:3000, hideProgressBar: true})
+                    {autoClose:3000, hideProgressBar: true});
             }else{
                 toast.error(res.data.msg,
-                {autoClose:3000, hideProgressBar: true})
+                {autoClose:3000, hideProgressBar: true});
             }
-            
         }   
         })
     }
-    
 };
 
 const completeAdminRegistration = (data) => {

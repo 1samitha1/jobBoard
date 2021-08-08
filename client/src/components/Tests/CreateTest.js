@@ -42,6 +42,10 @@ class CreateTest extends Component {
         this.props.setDisplay("create_test") 
     }
 
+    setDisplay(page){
+        this.props.setDisplay(page) 
+    }
+
     inputOnChange(evt, name, item){
         let testContentUpdated = this.state.testContent;
         if(name === "testName"){
@@ -432,6 +436,7 @@ class CreateTest extends Component {
 
                             <div id="buttonWrapper">
                                 <button id="createTestBtn" onClick={this.createTest.bind(this)}>Create Test</button>
+                                <button id="createTestBackBtn" onClick={() => this.setDisplay("tests_portal")}>Back</button>
                             </div>
 
                         </Col>
@@ -447,8 +452,8 @@ class CreateTest extends Component {
 const propTypes = {
     createTest : PropTypes.func.isRequired,
     currentUser : PropTypes.object.isRequired,
+    setDisplay : PropTypes.func.isRequired
    
-    
 };
 
 const mapStateToProps = (state) => ({
@@ -459,7 +464,11 @@ const mapStateToProps = (state) => ({
 const dispatchToProps = (dispatch) => ({
     createTest : (data) => {
         dispatch(createTest(data))
-    }  
+    },
+    
+    setDisplay : (page) => {
+        dispatch(setDisplay(page))
+    }
 });
 
 export default connect(

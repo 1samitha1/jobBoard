@@ -11,7 +11,7 @@ import {openPopup, closePopup} from '../../../actions/notifications';
 import {setDisplayPage, displayOverlay} from '../../../actions/admin';
 import {industries} from '../../../constants/industries';
 import {locations} from '../../../constants/locations';
-import {getUsers, searchUsers} from '../../../actions/user';
+import {getUsers, searchUsers, removeUserById, notifyToUser} from '../../../actions/user';
 const closeIcon = require('../../../img/icons/close-icon-white.png');
 let userImg = require('../../../img/defaults/defaultUser.png')
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
@@ -26,25 +26,32 @@ class ManageUsers extends Component {
           userType: "",
           type : "",
           industry: "",
-          location : "" 
+          location : "",
+          userId : "",
+          notifyUser : false,
+          notifierContent : ""
        }
     }
 
     componentDidMount(){
-        this.props.getUsers("admin")
+        this.props.getUsers("administrator")
     }
 
     closeOverlay(){
-        this.props.setDisplayPage("dashboard");
+        // this.props.setDisplayPage("dashboard");
         this.props.displayOverlay();
     }
 
-    openPopup(){
+    openPopup(id){
+        this.setState({
+            userId : id
+        })
         this.props.openPopup()
     }
 
     removeUser(){
-        console.log("remove User Clicks")
+        this.props.removeUserById({id : this.state.userId});
+        this.props.closePopup()
 
     }
 
@@ -108,6 +115,39 @@ class ManageUsers extends Component {
         this.props.getUsers("admin")
     }
 
+    showNotifier(id){
+        this.setState({
+            userId : id,
+            notifyUser :  true
+        })
+    }
+
+    notifyToUser(){
+        let data= {
+            user : this.state.userId,
+            content : this.state.notifierContent
+        }
+
+        this.props.notifyToUser(data)
+        this.setState({
+            notifyUser : false
+        })
+    }
+
+    closeNotifier(){
+        this.setState({
+            notifyUser : false
+        })
+    }
+
+    storeNotifierContent(evt){
+        this.setState({
+            notifierContent : evt.target.value
+        })
+
+        console.log('notifierContent : ', this.state.notifierContent)
+    }
+
     renderUsers(){
         let users = [];
         if(this.props.users.length > 0){
@@ -129,8 +169,8 @@ class ManageUsers extends Component {
                     </div>
                 </Col>
                 <Col md={3} xs={6} className="itemPart">
-                    <button className="userActionsBtns">Notify</button>
-                    <button onClick={this.openPopup.bind(this)} className="userActionsBtns">Remove</button>
+                    <button onClick={() => this.showNotifier(user._id)} className="userActionsBtns">Notify</button>
+                    <button onClick={() => this.openPopup(user._id)} className="userActionsBtns">Remove</button>
                 </Col>
             </div>
             )
@@ -151,6 +191,25 @@ class ManageUsers extends Component {
             <div id="mangeUsersMain">
                 {displayPopup &&
                     <Popup content={popupContent} btn1Func={this.removeUser.bind(this)}/>
+                }
+
+                {this.state.notifyUser &&
+                    <div id="notifyWrapper">
+                        <div id="notifyUserDiv">
+                            <p id="sendNotifyTitle">Send a notification to user</p>
+                            <textarea onChange={this.storeNotifierContent.bind(this)} 
+                                id="sendNotifyContent" rows="8"
+                                value={this.state.notifierContent}
+                                type="text" />
+                            <div id="notifyBtnsDiv">
+                                <button onClick={this.notifyToUser.bind(this)} className="sendNotifyButton">Send</button>
+                                <button onClick={this.closeNotifier.bind(this)} className="sendNotifyButton">Cancel</button>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+
                 }
             
             <div id="manageUsersWrapper">
@@ -190,6 +249,7 @@ class ManageUsers extends Component {
                                             <option value="">User type</option>
                                             <option value="provider">Provider</option>
                                             <option value="seeker">Seeker</option>
+                                            <option value="administrator">administrator</option>
                                     </select>    
                                 </Col>
 
@@ -242,14 +302,16 @@ class ManageUsers extends Component {
     }
 }
 
-const propTypes = {
+ManageUsers.propTypes = {
     displayPopup : PropTypes.bool.isRequired,
     openPoup : PropTypes.func.isRequired,
     closePopup: PropTypes.func.isRequired,
     setDisplayPage: PropTypes.func.isRequired,
     displayOverlay: PropTypes.func.isRequired,
     getUsers: PropTypes.func.isRequired,
-    users: PropTypes.array.isRequired
+    users: PropTypes.array.isRequired,
+    removeUserById: PropTypes.func.isRequired,
+    notifyToUser: PropTypes.func.isRequired
     
 };
 
@@ -282,7 +344,15 @@ const dispatchToProps = (dispatch) => ({
 
     searchUsers: (criteria) => {
         dispatch(searchUsers(criteria))
-    }
+    },
+
+    removeUserById: (data) => {
+        dispatch(removeUserById(data))
+    },
+
+    notifyToUser: (data) => {
+        dispatch(notifyToUser(data))
+    },
    
 });
 

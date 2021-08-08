@@ -38,6 +38,14 @@ router.post('/delete', (req, res) => {
     
 });
 
+router.post('/delete-by-jobId', (req, res) => {
+    Job.deleteJobByJobId(req.body)
+        .then((result) => {
+            res.send(result);
+        })
+    
+});
+
 router.post('/apply', (req,res) => {
     Job.applyJob(req.body)
         .then((result) => {
@@ -96,5 +104,13 @@ router.post('/update-application', (req,res) => {
         })
 });
 
+router.post('/delete-application', (req,res) => {
+    Job.deleteJobApplication(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log('error while deleting Job Application : ', err)
+        })
+});
 
 module.exports = router;

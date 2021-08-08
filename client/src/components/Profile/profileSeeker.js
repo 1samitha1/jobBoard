@@ -315,15 +315,15 @@ class profileSeeker extends Component {
                         </div>
 
                         <div >
-                            {
-                                this.props.user.resume && this.props.user.resume !== "" ?
+                            {/* {
+                                this.props.user.resume && this.props.user.resume !== "" &&
                                 <img className="resumeIconDiv"  src={cvIcon}/>
-                                :
+                            } */}
                                 <div>
                                     <input className="uploadInput" type="file" accept="pdf/*" name="cv" onChange={this.handleResumeSelect.bind(this)} />
-                                    <button className="uploadiButtonProfile updateCV" value="upload" onClick={this.uploadResume.bind(this)}>Upload</button>
+                                    <button className="uploadiButtonProfile updateCV" value="upload" onClick={this.uploadResume.bind(this)}>{this.props.user.resume !== "" ? "Re-upload" : "Upload" }</button>
                                 </div>
-                            }
+                            
                         </div>
 
                         <div>

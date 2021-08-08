@@ -1,14 +1,16 @@
 import {
     SET_CURRENT_USER,
     SET_SEEKERS_AND_PROVIDERS,
-    SET_SEEKER_BOOKMARKS
+    SET_SEEKER_BOOKMARKS,
+    SET_JOB_OFFERS
 
 } from '../actions/user';
 
 const user = ( state = {
     currentUser : {},
     users : [],
-    seekerBookmarks : []
+    seekerBookmarks : [],
+    jobOffers : []
 
 }, action) => {
     switch (action.type) {
@@ -26,7 +28,13 @@ const user = ( state = {
             return {
                 ...state,
                 seekerBookmarks : action.bookmarks
-            }      
+            }     
+            
+        case SET_JOB_OFFERS : 
+            return { 
+                ...state,
+                jobOffers : action.data
+            }    
 
         default:
             return state;

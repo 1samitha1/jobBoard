@@ -105,7 +105,7 @@ class RunTests extends Component {
                                 :
                                <button className="testBtnsDisabled" disabled>submit</button>
                             }
-                                <button className="testBtns">cancel</button>
+                                <button onClick={() => this.setDisplay("home")} className="testBtns">cancel</button>
                         </div>
                     </div>
                     :
