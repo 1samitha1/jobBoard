@@ -28,7 +28,6 @@ const createJob = (jobData) => {
 };
 
 const openJobPost = (jobData) => {
-    console.log('vvvv openJobPost : ', jobData)
     return {
         type: OPEN_JOB_POST,
         jobPost: jobData
@@ -37,7 +36,6 @@ const openJobPost = (jobData) => {
 
 const searchJobs = (criteria) => {
     return (dispatch) => {
-        console.log('searchJobs : ',criteria)
         axios.post('/job/search',
             criteria, {
             withCredentials: true,
@@ -113,12 +111,6 @@ const deleteJobByJobId = (data) => {
             if(res.data && res.data.success){
                 dispatch(searchJobs({}));
             }
-        //    dispatch({
-        //        type: CREATED_JOBS,
-        //        createdJobs : res.data.data
-        //    });
-        //    toast.success('Job deleted successfully!',
-        //     {autoClose:2500, hideProgressBar: true})
         });
     }
     
@@ -173,7 +165,6 @@ const saveJobAttachment = (attachmentData) => {
                 'Content-Type': 'multipart/form-data',
               })
               .then((res) => {
-                  console.log('apply res : ', res)
                   if(res.data && res.data.result){
                     toast.success('Applied to the job successfully!',
                     {autoClose:2500, hideProgressBar: true})

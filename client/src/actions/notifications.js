@@ -26,7 +26,6 @@ const closePopup = () => {
 }
 
 const openPopup = () => {
-    console.log('openPopup')
     return{
         type: HANDLE_POPUP_VISIBILITY,
         visibility: true
@@ -34,7 +33,6 @@ const openPopup = () => {
 }
 
 const getNotificationsByUser = (data) => {
-    console.log('SET_USER_NOTIFICATIONS 1 : ',data)
     return (dispatch) => {
         axios.post('/notification/get',
         data, {
@@ -42,7 +40,6 @@ const getNotificationsByUser = (data) => {
             credentials: "same-origin",
         }).then((res) => {
             if(res.data.success){
-                console.log('SET_USER_NOTIFICATIONS 2 : ', res.data.data)
                 dispatch({
                     type : SET_USER_NOTIFICATIONS,
                     notifications : res.data.data

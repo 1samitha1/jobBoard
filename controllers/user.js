@@ -422,9 +422,19 @@ const notifyToUser = (data) => {
     .then((res) => {
       resolve({success: true})
     })
-    
-
   })
+}
+
+const removeBookmarkFromUser = (data) => {
+  return new Promise((resolve, reject) => {
+    User.updateOne({_id : ObjectId(data.userId)}, { $pullAll: {bookmarks: [data.jobId] } }, (err, res) => {
+      if(err){
+        reject({success: false, error: err});
+      }else{
+        resolve({success: true, data: res});
+      }
+    })
+  });
 }
 
 module.exports = {
@@ -444,5 +454,6 @@ module.exports = {
   saveJobOffer,
   getJobOffers,
   deleteUserById,
-  notifyToUser
+  notifyToUser,
+  removeBookmarkFromUser
 };

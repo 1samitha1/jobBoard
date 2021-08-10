@@ -93,8 +93,6 @@ const getInterviewsByUser = (data) => {
             query = {candidateId : data.userId, timestamp : { $gte : data.timestamp }};
         }
 
-        console.log('vvvvv query ', query)
-
        Interview.find(query, ((err, res) => {
            if(err){
             reject({success : false, error : err})

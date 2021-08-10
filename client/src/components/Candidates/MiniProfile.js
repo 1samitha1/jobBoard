@@ -26,7 +26,11 @@ class MiniProfile extends Component {
     }
 
     downloadCv(){
-        this.props.downloadFile()
+        const {miniprofileCandidate} = this.props;
+
+        let url = miniprofileCandidate.resume;
+        let name = miniprofileCandidate.firstName
+        this.props.downloadFile({url : url, name : name})
     }
 
 
@@ -86,8 +90,7 @@ class MiniProfile extends Component {
                                 <label>Resume : </label>
                                 {
                                     miniprofileCandidate.resume ?
-                                     <button onClick={this.downloadCv.bind(this)}>click</button>
-                                    // <Link to="user/file-download" target="_blank" download>Download</Link>
+                                     <button className="miniProfileCv" onClick={this.downloadCv.bind(this)}>Download CV</button>
                                     :
                                     <p>No resume found!</p>
                                 }
@@ -124,8 +127,8 @@ const dispatchToProps = (dispatch) => ({
         dispatch(setDisplay(page))
     },
 
-    downloadFile: () => {
-        dispatch(downloadFile())
+    downloadFile: (data) => {
+        dispatch(downloadFile(data))
     }
     
 });

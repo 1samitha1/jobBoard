@@ -11,6 +11,7 @@ import {getNotificationsByUser} from '../../actions/notifications';
 import {Container, Row, Col} from 'react-bootstrap';
 import {setDisplay} from '../../actions/general';
 import {setCandidateForTest} from '../../actions/tests';
+import {downloadFile} from '../../actions/documents';
 const cvIcon = require('../../img/icons/cv.png')
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 toast.configure();
@@ -52,11 +53,14 @@ class JobApplications extends Component {
         this.props.setDisplay('create_schedules')
     }
 
+    downloadFile(data){
+        this.props.downloadFile(data)
+    }
+
     
     generateJobApplications(){
 
     let jobApplications = [];
-    console.log(this.props.receivedJobAppications)
     this.props.receivedJobAppications.map((item, i) => {
         if(!item.accepted){
         jobApplications.push(
@@ -76,7 +80,9 @@ class JobApplications extends Component {
                         <p className="applicatMsg">
                             {item.message} 
                         </p>
-                        <img className="cvIcon" src={cvIcon}></img>
+                        <button className="jobApplicationResume" 
+                        onClick={() => this.downloadFile({url : item.attachment, name : item.name})}>
+                        Resume</button>
                     </div>
                 </Row>
                 <Row>
@@ -132,7 +138,8 @@ JobApplications.propTypes = {
     receivedJobAppications: PropTypes.array.isRequired,
     rejectJobAppication: PropTypes.func.isRequired,
     acceptJobApplication: PropTypes.func.isRequired,
-    testSkills: PropTypes.func.isRequired
+    testSkills: PropTypes.func.isRequired,
+    downloadFile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -163,6 +170,10 @@ const dispatchToProps = (dispatch) => ({
 
     setCandidateForTest : (id) => {
         dispatch(setCandidateForTest(id))
+    },
+
+    downloadFile : (data) => {
+        dispatch(downloadFile(data))
     }
     
 });

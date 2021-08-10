@@ -5,6 +5,7 @@ import {Container, Row, Col} from 'react-bootstrap';
 import './testsStyles.css';
 import {testSkills, getTestsByUser} from '../../actions/tests';
 import toast from '../../configs/toast'; 
+import {setDisplay} from '../../actions/general';
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 
 
@@ -51,7 +52,6 @@ class SendTest extends Component {
     }
 
     selectTest(evt){
-        console.log('vvv evt.target.dataset : ',  evt.target.getAttribute('name'))
        
         if(evt.target.value){
             this.setState({
@@ -59,6 +59,10 @@ class SendTest extends Component {
                 testName : evt.target.dataset.testName
             });
         }
+    }
+
+    setDisplay(page){
+        this.props.setDisplay(page)
     }
 
     render() {
@@ -79,6 +83,10 @@ class SendTest extends Component {
                         <button  id="testSendButton" onClick={this.testSkills.bind(this)}>
                             Send to candidate
                         </button>
+                        <button  id="testSendButton" onClick={() => this.setDisplay("job_applications")}>
+                           Back
+                        </button>
+                        
                     </div>
                     
                     
@@ -92,7 +100,8 @@ SendTest.propTypes = {
     tests : PropTypes.array.isRequired,
     testSkills: PropTypes.func.isRequired,
     candidateForTest: PropTypes.string.isRequired,
-    setSelectedTest: PropTypes.func.isRequired
+    setSelectedTest: PropTypes.func.isRequired,
+    setDisplay: PropTypes.func.isRequired
    
 };
 
@@ -109,6 +118,10 @@ const mapDispatchToProps = (dispatch) => ({
 
     getTestsByUser : (data) => {
         dispatch(getTestsByUser(data))
+    },
+
+    setDisplay : (page) => {
+        dispatch(setDisplay(page))
     }
 });
 

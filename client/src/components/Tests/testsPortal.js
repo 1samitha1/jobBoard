@@ -39,12 +39,6 @@ class TestsPortal extends Component {
 
         let Tests = [];
         this.props.createdTests.map((item, i) => {
-            console.log('vvvvvvv item.testContent - ',item.testContent)
-            // let content = item.testContent;
-            // if(content.length > 153){
-            //     content = content.substring(0,153)+"...";
-            // }
-
             Tests.push(
                 <Row key={i} className="testsItem">
                     <Col className="testCol1" md={8} xs={12}>
@@ -120,38 +114,6 @@ class TestsPortal extends Component {
                 </Row>
 
                 <div className="testsDiv">
-                {/* <div > */}
-                {/* <Row className="testsItem">
-                    <Col className="testCol1" md={8} xs={12}>
-                                <Row>
-                                    <Col><p className="testName">JavaScript Basics</p></Col>
-                                </Row>
-                                <p>This test will test the basic JavaScript knowledge of the candidate.</p>
-                                <div className="testStats">
-                                    <p>Questions : <span> 10 </span></p>
-                                    <p>Type : <span> MCQ </span></p>
-                                    <p>Status : <span> Active </span></p>
-                                </div>
-
-                                <button className="testActions"> Delete </button>
-                    </Col>
-                    
-                    <Col className="testCol2" md={4} xs={12}>
-                        <div className="testDetails">
-                            <p>Created : <span>20-10-2021</span></p>
-                        </div>
-                        <div className="testDetails">
-                            <p>Duration : <span>30 minutes</span></p>
-                        </div>
-                        <div className="testDetails">
-                            <p>Applicants : <span>10</span></p>
-                        </div>
-                        <div className="testDetails">
-                            <p>Industry : <span>IT Computing</span></p>
-                        </div>
-                    </Col>
-                
-                </Row> */}
                 {this.generateTestDivs()}
             </div>
 
@@ -164,7 +126,7 @@ class TestsPortal extends Component {
 const propTypes = {
     setDisplay: PropTypes.func.isRequired,
     getTestsByUser : PropTypes.func.isRequired,
-    createdTests: PropTypes.func.isRequired,
+    createdTests: PropTypes.array.isRequired,
     deleteSelectedTest: PropTypes.func.isRequired
     
 };

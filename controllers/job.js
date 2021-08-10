@@ -156,9 +156,14 @@ const getAppliedJobs = (data) => {
               if(err){
                 reject({success: false, error : err})
               }
-              item.jobTitle = job.title;
-              item.companyName = job.companyName;
+
+              if(job){
+                item.jobTitle = job.title;
+                item.companyName = job.companyName;
+              }
+
               updatedJobData.push(item)
+              
              
             });
           });

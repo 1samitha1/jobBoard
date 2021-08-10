@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {createJob} from "../../actions/jobs";
+import {getLocations, getIndustries, getSalaries} from '../../actions/general';
 import "./jobStyles.css";
 import {industries} from '../../constants/industries';
 import {Form} from 'react-bootstrap'
@@ -32,6 +33,12 @@ class CreateJobs extends Component {
       jobType : "Full time",
       location: ""
     };
+  }
+
+  componentDidMount(){
+    this.props.getLocations();
+    this.props.getIndustries();
+    this.props.getSalaries();
   }
 
   handleFieldChange(evt) {
@@ -87,9 +94,9 @@ class CreateJobs extends Component {
   }
 
   generateIndustries(){
-    if(industries){
+    if(this.props.industries){
         let industryList = [];
-         industries.map((ind, i) => {
+        this.props.industries.map((ind, i) => {
             industryList.push(<option value={ind.value}>{ind.name}</option>)
         });
         return industryList;
@@ -97,9 +104,9 @@ class CreateJobs extends Component {
   }
 
   generateSalaries(){
-    if(salaries){
+    if(this.props.salaries){
         let salaryList = [];
-        salaries.map((val, i) => {
+        this.props.salaries.map((val, i) => {
             salaryList.push(<option value={val.value}>{val.value}</option>)
         });
         return salaryList;
@@ -107,9 +114,9 @@ class CreateJobs extends Component {
 }
 
   generateLocations(){
-    if(locations){
+    if(this.props.locations){
       let locationList = [];
-       locations.map((val, i) => {
+      this.props.locations.map((val, i) => {
           locationList.push(<option value={val.value}>{val.value}</option>)
       });
       return locationList;
@@ -276,26 +283,6 @@ class CreateJobs extends Component {
                 <Link to="/home"><button className="jobItems">Back</button></Link>
               </Col>
             </Row>
-
-
-            {/* <div className="jobFormRowBtns">
-                <button onClick={() => this.createJob({
-                   jobTitle: this.state.jobTitle,
-                   jobPosition: this.state.jobPosition,
-                   salary: this.state.salary,
-                   jobDescription: this.state.jobDescription,
-                   jobIndustry: this.state.jobIndustry,
-                   startDate : today,
-                   expireDate : expireDate,
-                   expireTimestamp : expireTimestamp,
-                   applicants : 0,
-                   views: 0,
-                   jobType : this.state.jobType
-                })}>Create</button>
-
-                <Link to="/home"><button>Back</button></Link>
-            </div> */}
-
             </Col>
         </Row>
       </div>
@@ -304,16 +291,36 @@ class CreateJobs extends Component {
 }
 
 const propTypes = {
-  createJob : PropTypes.func.isRequired
+  createJob : PropTypes.func.isRequired,
+  getLocations: PropTypes.func.isRequired,
+  getIndustries: PropTypes.func.isRequired,
+  getSalaries: PropTypes.func.isRequired,
+  industries: PropTypes.array.isRequired,
+  locations: PropTypes.array.isRequired,
+  salaries: PropTypes.array.isRequired
 };
 
 const mapStateToProps = (state) => ({
-
+    industries : state.general.industries,
+    locations : state.general.locations,
+    salaries : state.general.salaries
 });
 
 const mapDispatchToProps = (dispatch) => ({
   createJob : (data) => {
     dispatch(createJob(data))
+  },
+
+  getLocations: () => {
+    dispatch(getLocations())
+  },
+
+  getIndustries: () => {
+      dispatch(getIndustries())
+  },
+
+  getSalaries: () => {
+      dispatch(getSalaries())
   }
 });
 

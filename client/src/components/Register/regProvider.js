@@ -119,7 +119,7 @@ class RegProvider extends Component {
                 });
 
                 if(data.password === data.passwordConf){
-                    if(!this.state.emailError && !this.state.websiteError){
+                    if(!this.state.emailError && !this.state.websiteError && !this.state.PhoneError){
                         data.phone = data.phone.toString();
                         data.textIndex = data.companyName + " " + data.email + " " + data.website;
                         data.photo = "";

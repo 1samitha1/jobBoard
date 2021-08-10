@@ -30,7 +30,6 @@ class indexPage extends Component {
     }
 
     searchInputChange(evt){
-        console.log("calll searchInputChange : ", evt.target.value)
         if(evt && evt.target.value){
             this.setState({
                 searchText : evt.target.value

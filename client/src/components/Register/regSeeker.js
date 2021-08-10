@@ -24,8 +24,11 @@ class RegProvider extends Component {
             phone: "",
             jobPosition: "",
             location: "",
-            employeeType: ""
-
+            employeeType: "",
+            errorValues: [],
+            showFieldError: false,
+            emailError : false,
+            PhoneError: false
         }
     }
 
@@ -35,25 +38,103 @@ class RegProvider extends Component {
         }
     }
 
+    validateData(data){
+        if(data.field === "email"){
+            if(data.value !== "" && !data.value.match(/[\S]+(\@)[\S]+(\.)[\S]+/)){
+                toast.error('Email needs to be in valid format (user@test.com)',
+                   {autoClose:2500, hideProgressBar: true});
+
+                    this.setState({
+                        emailError: true
+                    }); 
+                }else{
+                    this.setState({
+                        emailError: false
+                    });
+            }
+            
+        }else if(data.field === 'phone'){
+            if(data.value !== "" && data.value.length < 10){
+                toast.error('Phone number needs to be in valid format (10 digits)',
+                    {autoClose:2500, hideProgressBar: true});
+
+                this.setState({
+                    PhoneError: true
+                });
+
+              }else{
+                this.setState({
+                    PhoneError: false
+                });
+            }
+        }
+    }
+
     registerNewUser(data) {
         if(data){
             data.userType = "seeker";
-            if(data.firstName !=="" && data.userName !=="" && data.email !=="" && data.industry !==""){
-                if(data.password === data.passwordConf){
-                    data.textIndex = `${data.firstName} ${data.lastName} ${data.industry} ${data.email} ${data.phone} ${data.userName}`
-                    data.photo = "";
-                    data.resume = "";
-                    data.offers = [];
-                    this.props.registerNewUser(data)
-                }else{
-                    toast.error('Passowrd confirmation is not matching!',
-                    {autoClose:3000, hideProgressBar: true})
+            let valueArray = [];
+           
+            for (const [key, value] of Object.entries(data)) {
+                if(value === ""){
+                    valueArray.push(" " + key.toString());
                 }
-                
-            }else{
-                    toast.error('Please fill out required fields!(First name, User Name, password, email & industry)',
-                    {autoClose:3500, hideProgressBar: true})
+              }
+              
+              if(data.password !== "" && data.passwordConf !== " " && data.password !== data.passwordConf){
+                toast.error('Password & password confirmation should be equal!',
+                {autoClose:2500, hideProgressBar: true})
+              }
+
+              // validating inputs
+              this.validateData({field : "email", value : data.email});
+              this.validateData({field : "phone", value : data.phone});
+
+              if(valueArray.length > 0){
+                this.setState({
+                    errorValues : valueArray,
+                    showFieldError  : true,
+                });
+              }else{
+                this.setState({
+                    errorValues : [],
+                    showFieldError  : false,
+                });
+
+                if(data.password === data.passwordConf){
+                    if(!this.state.emailError &&  !this.state.PhoneError){
+                        data.textIndex = `${data.firstName} ${data.lastName} ${data.industry} ${data.email} ${data.phone} ${data.userName}`
+                        data.photo = "";
+                        data.phone = data.phone.toString();
+                        data.resume = "";
+                        data.jobPosition = "";
+                        data.offers = [];
+                        this.props.registerNewUser(data);
+                    }else{
+                        toast.error('Fix all the fields before register!',
+                        {autoClose:3000, hideProgressBar: true})
+                    }   
+                }
             }
+
+
+            // if(data.firstName !=="" && data.userName !=="" && data.email !=="" && data.industry !==""){
+            //     if(data.password === data.passwordConf){
+            //         data.textIndex = `${data.firstName} ${data.lastName} ${data.industry} ${data.email} ${data.phone} ${data.userName}`
+            //         data.photo = "";
+            //         data.phone = data.phone.toString()
+            //         data.resume = "";
+            //         data.offers = [];
+            //         this.props.registerNewUser(data)
+            //     }else{
+            //         toast.error('Passowrd confirmation is not matching!',
+            //         {autoClose:3000, hideProgressBar: true})
+            //     }
+                
+            // }else{
+            //         toast.error('Please fill out required fields!(First name, User Name, password, email & industry)',
+            //         {autoClose:3500, hideProgressBar: true})
+            // }
         }
     }
 
@@ -83,7 +164,11 @@ class RegProvider extends Component {
             <div id="regWrapper">
                 <div id="regDiv">
                     <h2>Register as a Job Seeker</h2>
-                 <form> 
+                    {
+                        this.state.showFieldError &&
+                        <p className="filedError"><strong>These fields cannot be empty</strong> : {this.state.errorValues.toString()}</p>
+                    }
+                 
                     <div className="regFormRow">
                         <input id="firstName" type="text"
                             onChange={this.handleFieldChange.bind(this)}
@@ -121,7 +206,7 @@ class RegProvider extends Component {
                     </div>
 
                     <div className="regFormRow">
-                        <input id="phone" type="text"
+                        <input id="phone" type="number"
                             onChange={this.handleFieldChange.bind(this)}
                             value={this.state.phone}
                             placeholder="Phone Number" required/>
@@ -164,7 +249,6 @@ class RegProvider extends Component {
                             email : this.state.email,
                             phone : this.state.phone,
                             industry : this.state.industry,
-                            jobPosition: this.state.jobPosition,
                             location: this.state.location,
                             employeeType: this.state.employeeType,
                             password : this.state.password,
@@ -180,7 +264,7 @@ class RegProvider extends Component {
 
                         
                     </div>
-                </form>  
+                
                 </div>
                 
             </div>

@@ -27,7 +27,6 @@ class AdminDashboard extends Component {
     componentDidMount(){
         let token = getToken();
         let loggedInAdmin = extractToken(token);
-        console.log("loggedInAdmin : ", loggedInAdmin)
         this.setState({
             myAdmin : loggedInAdmin
         });

@@ -101,8 +101,6 @@ class CreateScheduler extends Component {
     render() {
 
         const {acceptedJobAppication} = this.props;
-        console.log('this.state.reminderDate : ', this.state.reminderDate)
-
 
         return (
         <Container>

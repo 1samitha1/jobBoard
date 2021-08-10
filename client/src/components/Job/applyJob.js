@@ -38,9 +38,8 @@ class ApplyJob extends Component {
 
     sendJobApplication(data){
         const {selectedJob, applyJob} = this.props;
-        console.log('sendJobApplication 1 : ', data)
         if(data && data.name !== '' && data.email !== '' && 
-        data.attachment !== ''){
+        data.attachment !== '' && data.message !== ''){
             if(selectedJob._id && selectedJob.createdBy ){
                 let jobApplication = {
                     name : data.name,
@@ -61,6 +60,9 @@ class ApplyJob extends Component {
                 {autoClose:2500, hideProgressBar: true})
             }
            
+        }else{
+            toast.error('You must fill all the fields before apply',
+            {autoClose:2500, hideProgressBar: true})
         }
         
     }

@@ -6,7 +6,8 @@ import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Container, Row, Col} from 'react-bootstrap';
 import {setDisplay} from '../../actions/general';
-import {getBookmarksForUser} from '../../actions/user';
+import {getBookmarksForUser, removeBookmark} from '../../actions/user';
+import {openJobPost } from '../../actions/jobs';
 
 import closeIcon from '../../img/icons/close-icon-white.png';
 import defaultCompany from '../../img/defaults/defaultCompany.png';
@@ -32,21 +33,34 @@ class SeekerBookmark extends Component {
         this.props.setDisplay(val)
     }
 
+    openJobPost(jobData){
+        this.props.openJobPost(jobData)
+    }
+
+    removeBookmark(id){
+        let data = {
+            userId : authUser._id,
+            jobId : id,
+            type : "seeker"
+        }
+
+        this.props.removeBookmark(data)
+    }
+
     generateBookmarks(){
         let seekerBookmarksAry = [];
-        console.log(' this.props.seekerBookmarks : ',  this.props.seekerBookmarks)
         this.props.seekerBookmarks.map((item, key) => {
             seekerBookmarksAry.push(
                 <Row key={key} className="seekerBookmarkItemWrapper">
                     <Col md={12} xs={12}>
                         <div className="seekerBookmarkImgDiv">
                             <img className="bookmarkImg" src={item.companyImg !== "" ? item.companyImg : defaultCompany}/>
-                            <button className="seekerBookmarkJobViewButton">view</button>
+                            <button onClick={() => this.openJobPost(item)} className="seekerBookmarkJobViewButton">view</button>
                         </div>
                         <div className="bookmarkSideDiv">
                             <p className="bookmarkJobTitle">{item.title} </p>
                             <p className="bookmarkJobCompany">{item.companyName}</p>
-                            <img className="bookmarkDelete" src={delIcon} />
+                            <img onClick={() => this.removeBookmark(item._id)} className="bookmarkDelete" src={delIcon} />
                             <div className="bookmarkJobDescription">
                                 {item.description}
                             </div>
@@ -77,10 +91,8 @@ class SeekerBookmark extends Component {
                     <p id="bookmarkHeading">Bookmarks</p>
                     <p id="bookmarkSubHeading">Saved Jobs for future use</p>
                     <div id="providerBookmarkDiv">
-                    {this.generateBookmarks()}
-
+                        {this.generateBookmarks()}
                     </div>
-                   
                 </Col>
             </Row>
         </Container>
@@ -91,7 +103,9 @@ class SeekerBookmark extends Component {
 SeekerBookmark.propTypes = {
     setDisplay: PropTypes.func.isRequired,
     getBookmarksForUser: PropTypes.func.isRequired,
-    seekerBookmarks: PropTypes.func.isRequired
+    seekerBookmarks: PropTypes.array.isRequired,
+    openJobPost: PropTypes.func.isRequired,
+    removeBookmark : PropTypes.func.isRequired,
     
 };
 
@@ -106,6 +120,14 @@ const dispatchToProps = (dispatch) => ({
 
     getBookmarksForUser: (data) => {
         dispatch(getBookmarksForUser(data))
+    },
+
+    openJobPost : (jobData) => {
+        dispatch(openJobPost(jobData));
+    },
+
+    removeBookmark : (data) => {
+        dispatch(removeBookmark(data))
     }
    
 });

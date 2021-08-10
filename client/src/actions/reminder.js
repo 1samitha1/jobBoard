@@ -25,7 +25,6 @@ const getRemindersForCompany = (data) => {
                 withCredentials: true,
                 credentials: "same-origin",
             }).then((res) => {
-                console.log('res.data.data : ', res.data.data)
                 if(res.data && res.data.success){
                     dispatch({
                         type : SET_COMPANY_REMINDERS,

@@ -4,9 +4,11 @@ import {connect } from 'react-redux';
 import './profile.css';
 import {Container, Row, Col} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import {setDisplay} from '../../actions/general';
+import {setDisplay, addNewLocation, addNewIndustry} from '../../actions/general';
 import {uploadImage} from '../../actions/documents';
 import {updateUserInfo} from '../../actions/user';
+import { getTestsByUser } from '../../actions/tests';
+import {getJobs} from '../../actions/jobs';
 import {industries} from '../../constants/industries';
 import {locations} from '../../constants/locations';
 
@@ -24,7 +26,9 @@ class profileProvider extends Component {
         website : "", 
         image : {},
         industry : "",
-        location : ""
+        location : "",
+        newLocation: false,
+        newIndustry: false
     }
    }
 
@@ -38,7 +42,10 @@ class profileProvider extends Component {
         website : this.props.user.website,
         location : this.props.user.location,
         industry : this.props.user.industries[0]
-    })
+    });
+  
+    this.props.getTestsByUser({id : authUser._id});
+    this.props.getJobs({createdBy: authUser._id});
 
    }
 
@@ -60,14 +67,26 @@ class profileProvider extends Component {
 
     OnfieldChange(evt){
         if(evt && evt.target.id) {
-            //this.validateData(evt.target);
+
             this.setState({ [evt.target.id]: evt.target.value });
+
+            if(evt.target.value === 'new-location'){
+                this.setState({
+                    newLocation: true
+                })
+            }else if(evt.target.value === 'new-industry'){
+                this.setState({
+                    newIndustry: true
+                })
+            }
         }
     }
 
     cancelEditing(){
         this.setState({
-            editing: false
+            editing: false,
+            newLocation: false,
+            newIndustry: false
         })
     }
 
@@ -98,6 +117,10 @@ class profileProvider extends Component {
 
         this.props.updateUserInfo(dataObj);
         this.cancelEditing();
+        this.setState({
+            newLocation: false,
+            newIndustry: false
+        })
     }
 
     setDisplayElm(val){
@@ -105,9 +128,9 @@ class profileProvider extends Component {
     }
 
     renderIndustries(){
-        if(industries){
+        if(this.props.industries){
             let industryList = [];
-             industries.map((ind, i) => {
+            this.props.industries.map((ind, i) => {
                 industryList.push(<option value={ind.value}>{ind.name}</option>)
             });
             return industryList;
@@ -115,9 +138,9 @@ class profileProvider extends Component {
     }
 
     renderLocations(){
-        if(locations){
+        if(this.props.locations){
             let locationList = [];
-             locations.map((val, i) => {
+            this.props.locations.map((val, i) => {
                 locationList.push(<option value={val.value}>{val.value}</option>)
             });
             return locationList;
@@ -125,7 +148,28 @@ class profileProvider extends Component {
        
     }
 
+    addNewLocationToList(evt){
+        if(evt.target.value !== ''){
+            this.setState({
+                location : evt.target.value
+            })
+            this.props.addNewLocation({value: evt.target.value})
+        }
+    }
+
+    addNewIndustryToList(evt){
+        if(evt.target.value !== ''){
+            this.setState({
+                industry : evt.target.value
+            })
+            this.props.addNewIndustry({name : evt.target.value, value: evt.target.value})
+        }
+    }
+
+    
+
     render() {
+        console.log('industry state :', this.state.industry)
         return (
             <Container>  
             <div className="profileWrapper">
@@ -141,25 +185,19 @@ class profileProvider extends Component {
                   </Row> 
                   <Row>   
                     <div className="activities">
-                        <Col className="blocks" md={3} xs={6}>
+                        <Col className="blocks" md={4} xs={6}>
                         <div >
-                            <p>Job Posts : 10</p>
+                            <p>Job Posts : {this.props.createdJobs.length}</p>
                         </div>
-                        </Col> 
+                        </Col>  
 
-                        <Col className="blocks" md={3} xs={6}> 
+                        <Col className="blocks" md={4} xs={6}> 
                         <div>
-                            <p>Active jobs : 10</p>
+                            <p>Tests created : {this.props.tests.length}</p>
                         </div>
                         </Col> 
 
-                        <Col className="blocks" md={3} xs={6}> 
-                        <div>
-                            <p>Tests created : 5</p>
-                        </div>
-                        </Col> 
-
-                        <Col className="blocks"  md={3} xs={6}> 
+                        <Col className="blocks"  md={4} xs={6}> 
                         <div>
                             <p>Since : {this.props.user.registered}</p>
                         </div>
@@ -277,10 +315,23 @@ class profileProvider extends Component {
                         <div>
                             {
                                 this.state.editing ? 
-                                <select id="industry" value={this.state.industry} 
-                                    onChange={this.OnfieldChange.bind(this)} >
-                                    {this.renderIndustries()}
-                                </select>
+                                <div>
+                                    {
+                                        this.state.newIndustry ?
+                                        <input type="text" name="industry"
+                                            onChange={this.OnfieldChange.bind(this)} 
+                                            onBlur={this.addNewIndustryToList.bind(this)}
+                                            value={this.state.industry} 
+                                            id="industry" className="editInput" />
+                                        :
+
+                                        <select id="industry" value={this.state.industry} 
+                                            onChange={this.OnfieldChange.bind(this)} >
+                                            {this.renderIndustries()}
+                                        </select>
+                                    }
+                                </div>
+                                
                                 :
                                 <p>{this.props.user.industries[0]}</p>
                             }
@@ -290,10 +341,24 @@ class profileProvider extends Component {
                         <div>
                             {
                                 this.state.editing ? 
-                                <select id="location" value={this.state.location} 
-                                    onChange={this.OnfieldChange.bind(this)} >
-                                    {this.renderLocations()}
-                                </select>
+                                <div>
+                                    {
+                                        this.state.newLocation  ?
+                                        <input type="text" name="location"
+                                            onChange={this.OnfieldChange.bind(this)} 
+                                            onBlur={this.addNewLocationToList.bind(this)}
+                                            value={this.state.location} 
+                                            id="location" className="editInput" />
+                                        :
+
+                                        <select id="location" value={this.state.location} 
+                                            onChange={this.OnfieldChange.bind(this)} >
+                                            {this.renderLocations()}
+                                        </select>
+                                    }
+                                    
+                                </div>
+                                
                                 :
                                 <p>{this.props.user.location ? this.props.user.location : ""}</p>
                             }
@@ -352,11 +417,20 @@ profileProvider.propTypes = {
     user: PropTypes.string.isRequired,
     setDisplay: PropTypes.func.isRequired,
     uploadImage: PropTypes.func.isRequired,
-    updateUserInfo: PropTypes.func.isRequired
+    updateUserInfo: PropTypes.func.isRequired,
+    getTestsByUser: PropTypes.func.isRequired,
+    tests:PropTypes.array.isRequired,
+    getJobs: PropTypes.func.isRequired,
+    createdJobs: PropTypes.array.isRequired,
+    industries: PropTypes.array.isRequired,
+    locations: PropTypes.array.isRequired
 };
 
 const mapStateToProps = (state) => ({
-   
+    tests : state.tests.tests,
+    createdJobs: state.jobs.createdJobs,
+    industries : state.general.industries,
+    locations : state.general.locations
 
 });
 
@@ -371,6 +445,23 @@ const mapDispatchToProps = (dispatch) => ({
 
     updateUserInfo: (data) => {
         dispatch(updateUserInfo(data))
+    },
+
+    getTestsByUser: (data) => {
+        console.log('data : ', data)
+        dispatch(getTestsByUser(data))
+    },
+
+    getJobs : (data) => {
+        dispatch(getJobs(data))
+    },
+
+    addNewLocation : (data) => {
+        dispatch(addNewLocation(data))
+    },
+
+    addNewIndustry : (data) => {
+        dispatch(addNewIndustry(data))
     }
 });
 

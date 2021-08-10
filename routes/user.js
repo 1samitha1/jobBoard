@@ -3,10 +3,11 @@ const router = express.Router();
 const passport = require('passport');
 const multer = require('multer');
 const fs = require('fs');
+const path = require('path');
 const {registerNewUser, uploadUserImage, updateExistingUser, updateAdmin, 
     authenticateUserToken, completeAdmin, getUserById, getAdmins, getSeekersAndProviders,
     searchSeekersAndProviders, uploadResume, addBookmark, getBookmarksForUser, saveJobOffer,
-    getJobOffers, deleteUserById, notifyToUser} = require('../controllers/user')
+    getJobOffers, deleteUserById, notifyToUser, removeBookmarkFromUser} = require('../controllers/user')
 const JWT = require('jsonwebtoken');
 const {sendEmail} = require('../controllers/email');
 const {imageStorage, resumeStorage} = require('../configs/multer-config.js')
@@ -211,23 +212,7 @@ router.post('/get-bookmarks', (req, res) => {
 });
 
 router.get('/file-download', (req, res) => {
-    const path = `./uploads/cv/1627814793650_converteddoc.pdf`; 
-    const filePath = fs.createWriteStream(path);
-    console.log('vvvvv filePath : ', filePath)
-    res.pipe(filePath);
-    filePath.on('finish',() => {
-        filePath.close();
-        console.log('Download Completed'); 
-    })
-
-    // res.pipe(fs.createWriteStream(path))
-    //  .on('close', function () {
-    //    console.log('File written!');
-    //  });
-
-    // res.download(path.join('./uploads/cv/1627814793650_converteddoc.pdf'), function (err) {
-    //     console.log(err);
-    // })
+    res.download( req.query.path); 
 });
 
 router.post('/send-offer', (req,res) => {
@@ -265,6 +250,16 @@ router.post('/notify', (req,res) => {
             console.log('error while deleting user : ', err)
         })
 });
+
+router.post('/remove-bookmark', (req,res) => {
+    return removeBookmarkFromUser(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log('error while deleting user : ', err)
+        })
+});
+
 
 
 

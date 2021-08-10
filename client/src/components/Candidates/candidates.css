@@ -157,3 +157,15 @@
     background: #42a1ce45;
     color: #ffffff;
 }
+
+.miniProfileCv{
+    width: 125px;
+    margin-bottom: 10px;
+    border-radius: 7px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid;
+    padding: 1%;
+    background: #42a1ce45;
+    color: #ffffff;
+}

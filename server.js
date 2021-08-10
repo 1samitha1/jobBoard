@@ -10,6 +10,7 @@ const skillTests = require('./routes/skillTests');
 const notification = require('./routes/notification');
 const interview = require('./routes/interview');
 const reminder = require('./routes/reminder');
+const general = require('./routes/general');
 
 const passport = require('passport');
 const mongoose = require('mongoose');
@@ -79,6 +80,7 @@ app.use('/test', skillTests);
 app.use('/notification', notification);
 app.use('/interview', interview);
 app.use('/reminder', reminder);
+app.use('/general', general);
 
 const port = 5000;
 

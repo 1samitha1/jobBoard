@@ -96,7 +96,7 @@ class JobPost extends Component {
 JobPost.propTypes = {
     jobs: PropTypes.array.isRequired,
     openJobPost: PropTypes.func.isRequired,
-    addBookmark: PropTypes.func.isRequired
+    addBookmark: PropTypes.func.isRequired,
     
 };
 

@@ -145,7 +145,6 @@ class ManageUsers extends Component {
             notifierContent : evt.target.value
         })
 
-        console.log('notifierContent : ', this.state.notifierContent)
     }
 
     renderUsers(){

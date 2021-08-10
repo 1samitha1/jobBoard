@@ -126,6 +126,26 @@ export const addBookmark = (data) => {
     }
 }
 
+export const removeBookmark = (data) => {
+    if(data){
+        return (dispatch) => {
+            axios.post('/user/remove-bookmark',
+            data, {
+                withCredentials: true,
+                credentials: "same-origin",
+            }).then((res) => {
+                if(res && res.data.success){
+                    dispatch(getBookmarksForUser({userId : data.userId, type: data.type}));
+
+                    toast.success("Saved job removed",
+                    {autoClose:3000, hideProgressBar: true});
+
+                }              
+            });
+        }
+    }
+}
+
 export const getBookmarksForUser = (data) => {
     if(data){
         return (dispatch) => {
@@ -153,12 +173,11 @@ export const setBookmarksToUser = (data) => {
         return {
             type : SET_SEEKER_BOOKMARKS,
             bookmarks : data
-        }
-
-       
+        } 
      }
-
 }
+
+
 
 export const sendJobOffer = (data) => {
     return (dispatch) => {
@@ -236,5 +255,6 @@ export const notifyToUser = (data) => {
         });
     }
 }
+
 
 

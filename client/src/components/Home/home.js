@@ -53,6 +53,8 @@ import {industries} from '../../constants/industries';
 import {locations} from '../../constants/locations';
 import {salaries} from '../../constants/salaries';
 
+import {getLocations, getIndustries, getSalaries} from '../../actions/general';
+
 let authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 
 class Home extends Component {
@@ -87,7 +89,10 @@ class Home extends Component {
             }
             
         } 
-       
+
+        this.props.getLocations();
+        this.props.getIndustries();
+        this.props.getSalaries();
     }
 
     logoutUser(){
@@ -103,10 +108,12 @@ class Home extends Component {
     }
 
     generateIndustries(){
-        if(industries){
+        if(this.props.industries){
             let industryList = [];
-             industries.map((ind, i) => {
-                industryList.push(<option value={ind.value}>{ind.name}</option>)
+             this.props.industries.map((ind, i) => {
+                 if(ind.value !== 'other'){
+                    industryList.push(<option value={ind.value}>{ind.name}</option>)
+                 } 
             });
             return industryList;
         }
@@ -114,10 +121,12 @@ class Home extends Component {
     }
 
     generateLocations(){
-        if(locations){
+        if(this.props.locations){
             let locationList = [];
-             locations.map((val, i) => {
-                locationList.push(<option value={val.value}>{val.value}</option>)
+            this.props.locations.map((val, i) => {
+                if(val.value !== 'other'){
+                    locationList.push(<option value={val.value}>{val.value}</option>)
+                }  
             });
             return locationList;
         }
@@ -125,9 +134,9 @@ class Home extends Component {
     }
 
     generateSalaries(){
-        if(salaries){
+        if(this.props.salaries){
             let salaryList = [];
-            salaries.map((val, i) => {
+            this.props.salaries.map((val, i) => {
                 salaryList.push(<option value={val.value}>{val.value}</option>)
             });
             return salaryList;
@@ -157,6 +166,10 @@ class Home extends Component {
                 criteria.industry = this.state.industry
             }
 
+            if(this.state.location !== ''){
+                criteria.location = this.state.location
+            }
+
             if(this.state.salary !== ''){
                 criteria.salary = this.state.salary
             }
@@ -182,12 +195,12 @@ class Home extends Component {
             this.props.searchCandidates(criteria); 
         }
 
-        if(userType === "seeker"){
-            this.props.searchJobs(criteria);
-        }else{
-            console.log("search candidates : ", criteria)
-            this.props.searchCandidates(criteria); 
-        }
+        // if(userType === "seeker"){
+        //     this.props.searchJobs(criteria);
+        // }else{
+        //     console.log("search candidates : ", criteria)
+        //     this.props.searchCandidates(criteria); 
+        // }
    
     }
 
@@ -205,8 +218,6 @@ class Home extends Component {
         if(currentUser.userType){
             authUser = this.props.currentUser;
         } 
-
-        console.log("auth user : ", authUser)
 
          let userImg = defaultUser;
          let curruntTimestamp = new Date();
@@ -535,8 +546,6 @@ class Home extends Component {
                                     </div>
                             }
 
-                                
-    
                         </div>
                     }
  
@@ -561,7 +570,13 @@ const propTypes = {
     displayElm: PropTypes.string.isRequired,
     searchCandidates: PropTypes.func.isRequired,
     candidateCount: PropTypes.number.isRequired,
-    currentUser: PropTypes.object.isRequired
+    currentUser: PropTypes.object.isRequired,
+    getLocations: PropTypes.func.isRequired,
+    getIndustries: PropTypes.func.isRequired,
+    getSalaries: PropTypes.func.isRequired,
+    industries: PropTypes.array.isRequired,
+    locations: PropTypes.array.isRequired,
+    salaries: PropTypes.array.isRequired
     
 };
 
@@ -573,7 +588,10 @@ const mapStateToProps = (state) => ({
     jobToOpen : state.jobs.jobToOpen,
     displayElm: state.general.displayElm,
     candidateCount: state.seeker.candidateCount,
-    currentUser : state.user.currentUser
+    currentUser : state.user.currentUser,
+    industries : state.general.industries,
+    locations : state.general.locations,
+    salaries: state.general.salaries
 
 });
 
@@ -596,7 +614,19 @@ const dispatchToProps = (dispatch) => ({
 
     searchCandidates: (criteria) => {
         dispatch(searchCandidates(criteria))
-    }
+    },
+
+    getLocations: () => {
+        dispatch(getLocations())
+    },
+
+    getIndustries: () => {
+        dispatch(getIndustries())
+    },
+
+    getSalaries: () => {
+        dispatch(getSalaries())
+    },
 });
 
 export default connect(

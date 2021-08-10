@@ -74,7 +74,6 @@ class ManageAdmin extends Component {
 
   
     render() {
-        console.log('cccc ', this.props.admins)
 
         return (
             <Container>

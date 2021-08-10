@@ -77,10 +77,13 @@ class CreateTest extends Component {
     }
 
     generateIndustries(){
-        if(industries){
+        if(this.props.industries){
             let industryList = [];
-             industries.map((ind, i) => {
-                industryList.push(<option value={ind.value}>{ind.name}</option>)
+             this.props.industries.map((ind, i) => {
+                 if(ind.value !== 'other'){
+                    industryList.push(<option value={ind.value}>{ind.name}</option>)
+                 }
+                
             });
             return industryList;
         }
@@ -452,13 +455,15 @@ class CreateTest extends Component {
 const propTypes = {
     createTest : PropTypes.func.isRequired,
     currentUser : PropTypes.object.isRequired,
-    setDisplay : PropTypes.func.isRequired
+    setDisplay : PropTypes.func.isRequired,
+    industries: PropTypes.array.isRequired,
    
 };
 
 const mapStateToProps = (state) => ({
     currentUser : state.user.currentUser,
-    tests : state.tests.tests
+    tests : state.tests.tests,
+    industries : state.general.industries,
 });
 
 const dispatchToProps = (dispatch) => ({
