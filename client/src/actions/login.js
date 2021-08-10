@@ -41,7 +41,7 @@ const adminLogin = (credentialData) => {
         credentials: "same-origin", 
         }).then((res) => {
             if(res.data && res.data.success){
-                console.log('vvvvv adminLogin res ', res.data.userAccessToken)
+                console.log('adminLogin res ', res.data.userAccessToken)
                 setToken(res.data.userAccessToken);
                 window.location.href = "http://localhost:3000/admin-dashboard";
             }else{

@@ -29,14 +29,12 @@ const createTest = (values) => {
 };
 
 const getTestsByUser = (data) => {
-    console.log('vvvvgetTestsByUser : ', data)
     return (dispatch) => {
         axios.post('/test/get_by_user',
         data, {
             withCredentials: true,
             credentials: "same-origin",
         }).then((res) => {
-            console.log('res.data.data : ', res.data.data)
            dispatch({
                 type: STORE_CREATED_TESTS,
                 data : res.data.data
