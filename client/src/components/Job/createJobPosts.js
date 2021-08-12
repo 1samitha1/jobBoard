@@ -9,6 +9,7 @@ import {Form} from 'react-bootstrap'
 import {Link} from 'react-router-dom';
 import {salaries} from '../../constants/salaries';
 import {locations} from '../../constants/locations';
+import {addNewLocation, addNewIndustry} from '../../actions/general';
 import {Container, Row, Col} from 'react-bootstrap';
 import toast from '../../configs/toast';
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
@@ -31,7 +32,8 @@ class CreateJobs extends Component {
       companyName : "",
       companyImg : "",
       jobType : "Full time",
-      location: ""
+      location: "",
+      newLocation: false,
     };
   }
 
@@ -44,6 +46,16 @@ class CreateJobs extends Component {
   handleFieldChange(evt) {
     if(evt && evt.target.id) {
       this.setState({ [evt.target.id]: evt.target.value });
+
+      if(evt.target.value === 'new-location'){
+        this.setState({
+            newLocation: true
+        })
+      }else if(evt.target.value === 'new-industry'){
+          this.setState({
+              newIndustry: true
+          })
+      }
     }
   }
 
@@ -82,8 +94,11 @@ class CreateJobs extends Component {
           expireTimestamp : "",
           applicants : 0,
           companyName : "",
-          companyImg : ""
+          companyImg : "",
+          newLocation: false,
+          newIndustry: false
         });
+
       }else{
         toast.error("You must fill all the fields to create a new job post",
           {autoClose:3500, hideProgressBar: true})
@@ -123,6 +138,26 @@ class CreateJobs extends Component {
     }
   }
 
+  addNewLocationToList(evt){
+    if(evt.target.value !== '' && evt.target.value !== 'new-location'){
+        this.setState({
+            location : evt.target.value,
+            newLocation: false,
+        })
+        this.props.addNewLocation({value: evt.target.value})
+    }
+  }
+  
+  addNewIndustryToList(evt){
+    if(evt.target.value !== '' && evt.target.value !== 'new-industry'){
+        this.setState({
+          jobIndustry : evt.target.value,
+          newIndustry: false,
+        })
+        this.props.addNewIndustry({name : evt.target.value, value: evt.target.value})
+    }
+}
+
   render() {
         let todayTimestamp = new Date().getTime();
         let year = new Date(todayTimestamp).getFullYear();
@@ -148,7 +183,7 @@ class CreateJobs extends Component {
 
          if(exMonth < 10){
           exMonth = "0"+exMonth;
-       } 
+        } 
         let expireDate =  exDate+"-"+exMonth+"-"+exYear;
 
     return (
@@ -201,13 +236,22 @@ class CreateJobs extends Component {
 
               <Col md={6}>
                 <span>Location :</span>
-                  <select id="location" 
-                    onChange={this.handleFieldChange.bind(this)} 
-                    className="jobDropDowns jobItems"
-                    value={this.state.location}>
+                {
+                  !this.state.newLocation ?
+                    <select id="location" 
+                      onChange={this.handleFieldChange.bind(this)} 
+                      className="jobDropDowns jobItems"
+                      value={this.state.location}>
                       <option value="">Select location</option>
                         {this.generateLocations()}                                       
-                  </select>
+                    </select>
+                    :
+                    <input className="jobItems" type="text" id="location"
+                      onBlur={this.addNewLocationToList.bind(this)}
+                      onChange={this.handleFieldChange.bind(this)}
+                      value={this.state.location} />
+                }
+                
               </Col>
             </Row>
 
@@ -230,12 +274,21 @@ class CreateJobs extends Component {
             <Row  className="jobFormRow">
               <Col md={6}>
               <span>Industry :</span>
+              {
+                !this.state.newIndustry ?
                 <select id="jobIndustry" className="jobDropDowns jobItems" type="text"
-                    value={this.state.jobIndustry} required
-                    onChange={this.handleFieldChange.bind(this)}>
-                        <option value=""> Select Industry</option>
-                        {this.generateIndustries()}
-                    </select>
+                  value={this.state.jobIndustry} required
+                  onChange={this.handleFieldChange.bind(this)}>
+                      <option value=""> Select Industry</option>
+                      {this.generateIndustries()}
+                </select>
+                :
+                <input className="jobItems"  id="jobIndustry" type="text"
+                  onBlur={this.addNewIndustryToList.bind(this)}
+                  onChange={this.handleFieldChange.bind(this)}
+                  value={this.state.jobIndustry} />
+              }
+                
               </Col>
 
               <Col md={6}>
@@ -246,6 +299,7 @@ class CreateJobs extends Component {
                         <option value="Full Time"> Full time</option>
                         <option value="Part Time"> Part Time</option>
                   </select>
+                 
               </Col>
             </Row>
 
@@ -321,7 +375,16 @@ const mapDispatchToProps = (dispatch) => ({
 
   getSalaries: () => {
       dispatch(getSalaries())
-  }
+  },
+
+  addNewLocation: (data) => {
+    dispatch(addNewLocation(data))
+  },
+
+  addNewIndustry : (data) => {
+    dispatch(addNewIndustry(data))
+}
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateJobs);

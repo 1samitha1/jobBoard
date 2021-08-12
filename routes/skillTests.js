@@ -58,5 +58,13 @@ router.post('/clear-test-results', (req, res) => {
     });
 });
 
+router.post('/remove-test', (req, res) => {
+    SkillTests.removeTestFromCandidate(req.body)
+    .then((result) => {
+        res.send(result)
+    });
+});
+
+
 
 module.exports = router;

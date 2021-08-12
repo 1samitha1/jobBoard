@@ -7,10 +7,11 @@ const path = require('path');
 const {registerNewUser, uploadUserImage, updateExistingUser, updateAdmin, 
     authenticateUserToken, completeAdmin, getUserById, getAdmins, getSeekersAndProviders,
     searchSeekersAndProviders, uploadResume, addBookmark, getBookmarksForUser, saveJobOffer,
-    getJobOffers, deleteUserById, notifyToUser, removeBookmarkFromUser} = require('../controllers/user')
+    getJobOffers, deleteUserById, notifyToUser, removeBookmarkFromUser, bookmarkCandidate,
+    getCompanyBookmarks} = require('../controllers/user')
 const JWT = require('jsonwebtoken');
 const {sendEmail} = require('../controllers/email');
-const {imageStorage, resumeStorage} = require('../configs/multer-config.js')
+const {imageStorage, resumeStorage} = require('../configs/multer-config.js');
 // const {ensureAuthenticated} = require('../configs/auth');
 
 var upload = multer({ storage: imageStorage });
@@ -259,6 +260,25 @@ router.post('/remove-bookmark', (req,res) => {
             console.log('error while deleting user : ', err)
         })
 });
+
+router.post('/bookmark-candidate', (req,res) => {
+    return bookmarkCandidate(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log('error while bookmarking candidate : ', err)
+        })
+});
+
+router.post('/company-bookmarks', (req,res) => {
+    return getCompanyBookmarks(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log('error while getting company bookmarks : ', err)
+        })
+});
+
 
 
 

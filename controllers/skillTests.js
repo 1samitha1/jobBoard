@@ -141,11 +141,11 @@ const saveTestResults = (data) =>{
                   // email for company
                   let content = `
                   <h4>Smart Job Board - Skill Test results</h4>
-                  <p>The candidate, ${data.candidate} has compltedt the skill test - "${data.testName}"</p>
+                  <p>The candidate, ${data.candidate} has completed the skill test - "${data.testName}"</p>
                   <p>Candidate scores : ${data.marks}</p>
                   <p>Test result : ${data.result}</p>`
 
-                  sendEmail([user.result.email], content, "Skil test result")
+                  sendEmail([user.result.email], content, "Skill test result")
                 }
               });
               resolve({success: true, data: result})
@@ -190,7 +190,42 @@ const clearTestResult = (data) => {
       }
     });
   });
-}
+};
+
+const removeTestFromCandidate = (data) => {
+  return new Promise((resolve, reject) => {
+    deleteCandidateFromTest({testId :data.testId, candidateId : data.candidate})
+    .then((result) => {
+      if(result.success){
+        // notification for company
+         let notification = {
+          title : `Skill test rejected!`,
+          content : `Your Candidate "${data.candidateName}" has rejected the Skill test - "${data.testName}"`,
+          timestamp : new Date().getTime(),
+          read : false,
+          userId : data.company,
+          category: "tests_portal"
+        };
+        createNotification(notification);
+
+        getUserById(data.company)
+          .then((user) => {
+            if(user){
+              // email for company
+              let content = `
+                <h4>Smart Job Board - Skill Test rejected</h4>
+                <p>The candidate, ${data.candidateName} has rejected the skill test - "${data.testName}"</p>
+                <p>You can find other suitable candidates from the system.</p>`
+
+              sendEmail([user.result.email], content, "Skill test rejected");
+
+              resolve({success: true});
+            }
+        });
+      }
+    }) 
+  });
+};
 
   
   module.exports = {
@@ -202,5 +237,6 @@ const clearTestResult = (data) => {
     saveTestResults,
     deleteCandidateFromTest,
     getTestResultsByUser,
-    clearTestResult
+    clearTestResult,
+    removeTestFromCandidate
   };

@@ -152,7 +152,22 @@ const clearTestResult = (data) => {
             credentials: "same-origin",
         }).then((res) => {
             if(res.data.success){
-                getTestResultsByUser({companyId : data.companyId});
+                dispatch(getTestResultsByUser({companyId : data.companyId}));
+            }
+        });
+    }
+}
+
+const removeTest = (data) => {
+    return (dispatch) => {
+        axios.post('/test/remove-test',
+        data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+            if(res.data.success){
+                dispatch(getRecivedTest({id : data.candidateId}))
+                // getTestResultsByUser({companyId : data.companyId});
             }
         });
     }
@@ -169,6 +184,7 @@ export  {
     setSelectedTest,
     saveTestResult,
     getTestResultsByUser,
-    clearTestResult
+    clearTestResult,
+    removeTest
     
 }

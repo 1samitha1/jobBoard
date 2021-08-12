@@ -8,6 +8,7 @@ export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const SET_SEEKERS_AND_PROVIDERS = 'SET_SEEKERS_AND_PROVIDERS';
 export const SET_SEEKER_BOOKMARKS = 'SET_SEEKERS_BOOKMARKS';
 export const SET_JOB_OFFERS = 'SET_JOB_OFFERS';
+export const SET_PROVIDER_BOOKMARKS = 'SET_PROVIDER_BOOKMARKS';
 
 export const setCurrentUser = (user) => {
     return{
@@ -250,6 +251,44 @@ export const notifyToUser = (data) => {
                 toast.success('Notification sent to the user!',
                 {autoClose:2500, hideProgressBar: true});
 
+            }
+          
+        });
+    }
+}
+
+export const bookmarkCandidate = (data) => {
+    return (dispatch) => {
+        axios.post('/user/bookmark-candidate',
+        data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+            if(res && res.data.success){
+                toast.success('Candidate Saved to the bookmarks!',
+                {autoClose:2500, hideProgressBar: true});
+
+            }else{
+                toast.error(res.data.message,
+                {autoClose:2500, hideProgressBar: true});
+            }
+          
+        });
+    }
+}
+
+export const getCompanyBookmarks = (data) => {
+    return (dispatch) => {
+        axios.post('/user/company-bookmarks',
+        data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+            if(res && res.data.success){ 
+                dispatch({
+                    type : SET_PROVIDER_BOOKMARKS,
+                    bookmarks : res.data.data
+                })
             }
           
         });

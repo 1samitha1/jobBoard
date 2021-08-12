@@ -123,6 +123,7 @@ class RegProvider extends Component {
                         data.phone = data.phone.toString();
                         data.textIndex = data.companyName + " " + data.email + " " + data.website;
                         data.photo = "";
+                        data.bookmarks = [];
 
                         this.props.registerNewUser(data);
                     }else{

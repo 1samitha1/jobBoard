@@ -10,6 +10,7 @@ import {setDisplay} from '../../actions/general';
 import closeIcon from '../../img/icons/close-icon-white.png';
 import defaultSeeker from '../../img/defaults/defaultUser.png';
 import delIcon from '../../img/icons/delete-icon-white.png';
+import {getCompanyBookmarks} from '../../actions/user';
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 
 toast.configure();
@@ -25,11 +26,34 @@ class ProviderBookmark extends Component {
     //provider_profile
 
     componentDidMount(){
-        
+         this.props.getCompanyBookmarks({companyId : authUser._id})
     }
 
     setDisplay(val){
         this.props.setDisplay(val)
+    }
+
+    generateBookmarks(){
+        let bookmarksArray = [];
+        let userImg = defaultSeeker;
+        this.props.bookmarks.map((item, i) => {
+            bookmarksArray.push(
+                <Row className="bookmarkItemWrapper">
+                    <Col md={12} xs={12}>
+                        <div className="bookmarkImgDiv">
+                            <img className="bookmarkImg" src={item.photo === "" ? userImg : item.photo}/>
+                        </div>
+                        <div className="bookmarkSideDiv">
+                            <p className="bookmarkSeekerName">{item.firstName} {item.lastName}</p>
+                            <img className="bookmarkDelete" src={delIcon} />
+                            <p className="bookmarkSeekerIndustry">{item.industries[0]}</p>
+                            <button className="sendOfferToBookmark">Send offer</button>
+                        </div>
+                    </Col>
+                </Row>
+            )
+        });
+        return bookmarksArray;
     }
 
     render() {
@@ -44,20 +68,7 @@ class ProviderBookmark extends Component {
                     <p id="bookmarkHeading">Bookmarks</p>
                     <p id="bookmarkSubHeading">Saved Job seekers for future use</p>
                     <div id="providerBookmarkDiv">
-                        <Row className="bookmarkItemWrapper">
-                            <Col md={12} xs={12}>
-                                <div className="bookmarkImgDiv">
-                                    <img className="bookmarkImg" src={userImg}/>
-                                </div>
-                                <div className="bookmarkSideDiv">
-                                    <p className="bookmarkSeekerName">Job seeker Name</p>
-                                    <img className="bookmarkDelete" src={delIcon} />
-                                    <p className="bookmarkSeekerIndustry">Industry</p>
-                                    <p className="bookmarkSeekerNotes">notes : This is a test note about the job seeker</p>
-                                </div>
-                            </Col>
-                        </Row>
-
+                        {this.generateBookmarks()}
                     </div>
                    
                 </Col>
@@ -67,13 +78,15 @@ class ProviderBookmark extends Component {
     }
 }
 
-const propTypes = {
-    setDisplay: PropTypes.func.isRequired
+ProviderBookmark.propTypes = {
+    setDisplay: PropTypes.func.isRequired,
+    getCompanyBookmarks: PropTypes.func.isRequired,
+    bookmarks: PropTypes.array.isRequired
     
 };
 
 const mapStateToProps = (state) => ({
-   
+        bookmarks : state.user.providerBookmarks
 });
 
 const dispatchToProps = (dispatch) => ({
@@ -81,11 +94,10 @@ const dispatchToProps = (dispatch) => ({
         dispatch(setDisplay(page))
     },
 
+    getCompanyBookmarks : (data) => {
+        dispatch(getCompanyBookmarks(data))
+    }
    
-
-    
-
-    
 });
 
 export default connect(

@@ -7,7 +7,8 @@ import defaultUser from '../../img/defaults/defaultUser.png';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {setDisplay} from '../../actions/general';
-import {setCandidateToMiniProfile} from '../../actions/seeker'
+import {setCandidateToMiniProfile} from '../../actions/seeker';
+import {bookmarkCandidate} from '../../actions/user'
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"))
 
 toast.configure();
@@ -43,7 +44,10 @@ class CandidatePost extends Component {
                          <div className="candidateButtons">
                              <button onClick={() => this.setDisplay("seeker_miniprofile", candidate)} 
                              className="viewCandidateProfile candidateButton">View profile</button>
-                             <button onClick={() => this.setDisplay("send_offers", candidate)} className="sendOfferToCandidate candidateButton">Send offers</button>
+                             <button onClick={() => this.setDisplay("send_offers", candidate)} 
+                             className="sendOfferToCandidate candidateButton">Send offers</button>
+                             <button onClick={() => this.saveCandidate(candidate._id)} 
+                             className="viewCandidateProfile candidateButton">Add Bookmark</button>
                          </div>
                      </div>
                      <p className="candidateDescription"> </p>
@@ -70,6 +74,10 @@ class CandidatePost extends Component {
         this.props.setDisplay(page)
     }
 
+    saveCandidate(id){
+        this.props.bookmarkCandidate({candidateId : id, companyId : authUser._id});
+    }
+
     render() {
         return (
             <div id="jobWrapper">
@@ -79,10 +87,11 @@ class CandidatePost extends Component {
     }
 }
 
-const propTypes = {
+CandidatePost.propTypes = {
     candidates: PropTypes.array.isRequired,
     setDisplay: PropTypes.func.isRequired,
-    setCandidateToMiniProfile: PropTypes.func.isRequired
+    setCandidateToMiniProfile: PropTypes.func.isRequired,
+    bookmarkCandidate: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -97,6 +106,10 @@ const dispatchToProps = (dispatch) => ({
 
     setCandidateToMiniProfile: (candidate) => {
         dispatch(setCandidateToMiniProfile(candidate))
+    },
+
+    bookmarkCandidate: (data) => {
+        dispatch(bookmarkCandidate(data))
     }
     
 });

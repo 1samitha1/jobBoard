@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {getJobs} from '../../actions/jobs';
 import {Container, Row, Col} from 'react-bootstrap';
 import {setDisplay} from '../../actions/general';
-import {getRecivedTest, setSelectedTest} from '../../actions/tests';
+import {getRecivedTest, setSelectedTest, removeTest} from '../../actions/tests';
 const editIcon = require('../../img/icons/edit-icon-white.png')
 const deleteIcon = require('../../img/icons/delete-icon-white.png')
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
@@ -34,6 +34,16 @@ class SkillTests extends Component {
     startTest(test){
         this.props.setDisplay("run_test");
         this.props.setSelectedTest(test)
+    }
+
+    rejectTest(test){
+        this.props.removeTest(
+            {   testId : test._id, 
+                candidate : authUser._id,
+                company : test.createdBy,
+                testName : test.testName,
+                candidateName : authUser.firstName
+            });
     }
 
     generateRecivedTests(){
@@ -63,7 +73,7 @@ class SkillTests extends Component {
 
                             <Row>
                                     <button className="testActions" onClick={() => this.startTest(item)}>Start</button>
-                                    <button className="testActions">Reject</button>
+                                    <button className="testActions" onClick={() => this.rejectTest(item)}>Reject</button>
                                     {/* <p>Attachments</p> */}
                             </Row>
                         
@@ -122,6 +132,10 @@ const dispatchToProps = (dispatch) => ({
 
     setDisplay: (page) => {
         dispatch(setDisplay(page))
+    },
+
+    removeTest: (data) => {
+        dispatch(removeTest(data))
     }
 
     

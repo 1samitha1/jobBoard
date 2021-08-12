@@ -437,6 +437,47 @@ const removeBookmarkFromUser = (data) => {
   });
 }
 
+const bookmarkCandidate = (data) => {
+  return new Promise((resolve, reject) => {
+    
+    User.find({_id : ObjectId(data.companyId), bookmarks : data.candidateId}, ((err, res) => {
+      if(err) reject({success : false, error : err});
+      if(res && res.length > 0){
+        resolve({success: false, message : "candidate is already in bookmarks"})
+      }else{
+        User.updateOne({_id : ObjectId(data.companyId)}, { $push: { bookmarks: new ObjectId(data.candidateId)}}, ((err, doc) => {
+          if(err){
+            reject({success: false, error : "something went wrong while saving job"})
+          }else{
+            resolve({success : true, result : doc})
+          }
+
+        }))
+      }
+ 
+    }))
+ });
+
+}
+
+const getCompanyBookmarks = (data) => {
+  return new Promise((resolve, reject) => {
+    User.findOne({_id : ObjectId(data.companyId)}, ((err, res) => {
+      if(err) reject({success : false, error : err});
+      if(res){
+        if(res.bookmarks && res.bookmarks.length > 0){
+          User.find({_id : {$in: res.bookmarks}}, ((err, result) => {
+            if(err) reject({success : false, error : err});
+            if(result){
+              resolve({success : true, data : result});
+            }
+          }));
+        }
+      }
+    }))
+  });
+}
+
 module.exports = {
   registerNewUser,
   uploadUserImage,
@@ -455,5 +496,7 @@ module.exports = {
   getJobOffers,
   deleteUserById,
   notifyToUser,
-  removeBookmarkFromUser
+  removeBookmarkFromUser, 
+  bookmarkCandidate,
+  getCompanyBookmarks
 };

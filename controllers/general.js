@@ -55,7 +55,7 @@ const addNewIndustry = (data) => {
             resolve({success:true})
           }
         }));
-      });
+    });
 }
 
 const addNewLocation = (data) => {

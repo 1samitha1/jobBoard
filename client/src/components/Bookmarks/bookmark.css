@@ -48,8 +48,8 @@
 }
 
 .bookmarkImgDiv{
-    width: 17%;
-    height: 82%;
+    width:85px;
+    height: 84px;
     border: 1px solid #ffffff;
     margin-top: 9px;
     border-radius: 6px;
@@ -183,4 +183,25 @@
     cursor: pointer;
     background-color: #42a1cebf;
     color: #ffffff;
+}
+
+.sendOfferToBookmark{
+    width: 83px;
+    margin-left: 145px;
+    margin-right: auto;
+    background: #42a1ce45;
+    color: #ffffff;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 9px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid;
+    padding: 2px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.sendOfferToBookmark:hover{
+    background-color: #42a1cebf
 }
