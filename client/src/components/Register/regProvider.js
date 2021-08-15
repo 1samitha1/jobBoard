@@ -55,7 +55,7 @@ class RegProvider extends Component {
             }
             
         }else if(data.field === 'website') {
-            if(data.value !== "" && !data.value.match(/(www\.)+[\S]+(\.)?[\S]/)){
+            if(data.value !== "" && !data.value.match(/(www\.)+[-a-zA-Z0-9]+?[\.]+?[-a-zA-Z]+/)){
                 toast.error('Website needs to be in valid format (www.example.com)!',
                     {autoClose:2500, hideProgressBar: true});
 

@@ -23,13 +23,12 @@ class Scheduler extends Component {
        }
     }
 
-
     componentDidMount(){
         this.props.getInterviewsForCompany({
-                userId : authUser._id, 
-                type : "company", 
-                timestamp : new Date().getTime()
-        })
+            userId : authUser._id, 
+            type : "company", 
+            timestamp : new Date().getTime()
+        });
     }
 
     displayPage(page){
@@ -39,7 +38,7 @@ class Scheduler extends Component {
     genarateInterviews(){
         let interviews = [];
         this.props.companyInterviews.map((item, i) => {
-            let newDate = new Date(item.timestamp)
+            let newDate = new Date(item.timestamp);
             let date = newDate.getDate();
             let month = newDate.getMonth()+1;
             let year = newDate.getFullYear();
@@ -72,10 +71,7 @@ class Scheduler extends Component {
     }
 
     render() {
-
         let userImg = defaultSeeker;
-
-
         return (
         <Container>
             <Row id="scheduleWrapper">

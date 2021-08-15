@@ -33,7 +33,7 @@ class JobApplications extends Component {
     }
 
     rejectJobApplication(id){
-        this.props.rejectJobAppication({id : id});
+        this.props.rejectJobAppication({id : id, companyId: authUser._id});
         this.props.getJobApplicationsByUser({id:authUser._id});
         this.props.getNotificationsByUser({userId : authUser._id});
     }

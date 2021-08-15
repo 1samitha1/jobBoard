@@ -12,6 +12,7 @@ import {setDisplayPage, displayOverlay} from '../../../actions/admin';
 import {industries} from '../../../constants/industries';
 import {locations} from '../../../constants/locations';
 import {getUsers, searchUsers, removeUserById, notifyToUser} from '../../../actions/user';
+import {getAdminByToken} from '../../../helpers/jwtHandler';
 const closeIcon = require('../../../img/icons/close-icon-white.png');
 let userImg = require('../../../img/defaults/defaultUser.png')
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
@@ -34,11 +35,10 @@ class ManageUsers extends Component {
     }
 
     componentDidMount(){
-        this.props.getUsers("administrator")
+        this.props.getUsers("administrator");
     }
 
     closeOverlay(){
-        // this.props.setDisplayPage("dashboard");
         this.props.displayOverlay();
     }
 
@@ -116,6 +116,7 @@ class ManageUsers extends Component {
     }
 
     showNotifier(id){
+        console.log('state user id : ', id)
         this.setState({
             userId : id,
             notifyUser :  true
@@ -123,10 +124,12 @@ class ManageUsers extends Component {
     }
 
     notifyToUser(){
-        let data= {
-            user : this.state.userId,
+        let data = {
+            userId : this.state.userId,
             content : this.state.notifierContent
         }
+
+        console.log('state user data : ', data)
 
         this.props.notifyToUser(data)
         this.setState({
@@ -151,28 +154,34 @@ class ManageUsers extends Component {
         let users = [];
         if(this.props.users.length > 0){
         this.props.users.forEach((user, i) => {
-            users.push(
-            <div className="resultItem" key={i}>
-                <Col md={3} className="itemPart borderLeft d-none d-lg-block">
-                    <div className="imageWrapper">
-                        <img src={(user.photo && user.photo !=="") ? user.photo : userImg}></img>
-                    </div> 
-                </Col>
-                <Col md={6} xs={6} className="itemPart borderLeft">
-                    <div>
-                        <p className="name_user">
-                            {user.userType === "provider" ? user.companyName : user.firstName}&nbsp; 
-                            {user.userType === "seeker" ? user.lastName : null}</p>
-                        <p className="email_user">{user.email}</p>
-                        <p className="type_user">User type: {user.userType}</p>
+            if(user._id !== getAdminByToken()._id){
+                users.push(
+                    <div className="resultItem" key={i}>
+                        <Col md={3} className="itemPart borderLeft d-none d-lg-block">
+                            <div className="imageWrapper">
+                                <img src={(user.photo && user.photo !=="") ? user.photo : userImg}></img>
+                            </div> 
+                        </Col>
+                        <Col md={6} xs={6} className="itemPart borderLeft">
+                            <div>
+                                <p className="name_user">
+                                    {user.userType === "provider" ? user.companyName : user.firstName}&nbsp; 
+                                    {user.userType === "seeker" ? user.lastName : null}</p>
+                                <p className="email_user">{user.email}</p>
+                                <p className="type_user">User type: {user.userType}</p>
+                            </div>
+                        </Col>
+                        <Col md={3} xs={6} className="itemPart">
+                            {
+                                user.userType !== 'administrator' &&
+                                <button onClick={() => this.showNotifier(user._id)} className="userActionsBtns">Notify</button>
+                            }
+                            <button onClick={() => this.openPopup(user._id)} className="userActionsBtns">Remove</button>
+                        </Col>
                     </div>
-                </Col>
-                <Col md={3} xs={6} className="itemPart">
-                    <button onClick={() => this.showNotifier(user._id)} className="userActionsBtns">Notify</button>
-                    <button onClick={() => this.openPopup(user._id)} className="userActionsBtns">Remove</button>
-                </Col>
-            </div>
-            )
+                    )
+            }
+            
         });
         }else{
             users.push(<p>No results</p>)

@@ -59,9 +59,9 @@ class TestsPortal extends Component {
                             <div className="testDetails">
                                 <p>Created : <span>{item.createdDate}</span></p>
                             </div>
-                            <div className="testDetails">
+                            {/* <div className="testDetails">
                                 <p>Duration : <span>{item.duration} minutes</span></p>
-                            </div>
+                            </div> */}
                             <div className="testDetails">
                                 <p>Applicants : <span>{item.applicants}</span></p>
                             </div>

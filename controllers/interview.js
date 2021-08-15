@@ -19,7 +19,7 @@ const createInterview = (data) => {
               date = "0"+data;
             }
             let month = dateObj.getMonth()+1;
-            if(date < 10) {
+            if(month < 10) {
               month = "0"+month;
             }
             let year = dateObj.getFullYear();
@@ -64,7 +64,7 @@ const createInterview = (data) => {
                   // email for condidate
                   let content = `
                   <h4>Smart Job Board - New Job Interview</h4>
-                  <p>The Job you applied,  ${data.jobTitle} has schedulr an interview</p>
+                  <p>The Job you applied,  ${data.jobTitle} has schedule an interview</p>
                   <p>Date : ${date}</p>
                   <p>Time : ${time}</p>`
 
@@ -73,10 +73,8 @@ const createInterview = (data) => {
                   
               });
             }
-            console.log('updating job : ', data.jobId)
             updateJobApplication({applicationId : data.applicationId})
               .then((res) => {
-                console.log('crated interview : ', res)
                   resolve({success: true, data: res})
             }); 
           }

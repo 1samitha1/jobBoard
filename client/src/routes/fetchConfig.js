@@ -4,7 +4,7 @@ const fetchObj = {
         fetch(endPoint, options)
         .then(response => response.json())
         .then(json => {
-          console.log('vvvvvv parsed json', json) // access json.body here
+          // access json.body here
         })
             // .then((data) => )
             // // .then((data) => {

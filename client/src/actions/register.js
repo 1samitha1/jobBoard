@@ -31,7 +31,7 @@ const registerNewUser = (userData) => {
                 if(res.data.success){
                     window.location.href = "http://localhost:3000/login";
                 }else{
-                    toast.error(res.data.error.error,
+                    toast.error(res.data.msg,
                     {autoClose:3000, hideProgressBar: true})
                 }
                 

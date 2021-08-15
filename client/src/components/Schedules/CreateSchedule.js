@@ -109,7 +109,7 @@ class CreateScheduler extends Component {
                     <Row>
                         <Col md={12}>
                             <div>
-                                <p id="scheduleHeading">Create interviews & set reminders</p>
+                                <p id="scheduleHeading">Create interviews</p>
                                 <img id="closeSchedule" src={closeIcon} onClick={() => this.displayPage("scheduler")}></img>
                             </div>
                            

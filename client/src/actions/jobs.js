@@ -226,7 +226,8 @@ const rejectJobAppication = (data) => {
             withCredentials: true,
             credentials: "same-origin",
         }).then((res) => {
-            if(res && res.data.sucess){
+            if(res && res.data.success){
+                dispatch(getJobApplicationsByUser({id : data.candidateId}))
                 toast.success('Selected job Application removed!',
                 {autoClose:2500, hideProgressBar: true})
 

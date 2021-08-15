@@ -1,5 +1,6 @@
 import axios from 'axios';
 import toast from '../configs/toast';
+import {getAdminByToken, setToken} from '../helpers/jwtHandler';
 export const DISPLAY_OVERLAY = 'DISPLAY_OVERLAY';
 export const SET_PAGE = 'SET_PAGE';
 export const SET_ADMIN_DATA = 'SET_ADMIN_DATA';
@@ -23,6 +24,7 @@ const setDisplayPage = (page) => {
 };
 
 const setAdminData = (data) => {
+    console.log('nnnnn setAdminData : ', data)
     return (dispatch) => {
         dispatch({
             type : SET_ADMIN_DATA,
@@ -59,7 +61,7 @@ const completeAdminRegistration = (data) => {
         credentials: "same-origin", 
     }).then((res) => {
         if(res && res.data){
-            if(res.data.success){
+            if(res.data.success && res.data.updated){
                 toast.success("Profile Updated Sucessfully.",
                     {autoClose:3000, hideProgressBar: true})
                     setTimeout(() => {
@@ -67,7 +69,7 @@ const completeAdminRegistration = (data) => {
                     },4000)
                    
             }else{
-                toast.error("Something went wrong! Please try again",
+                toast.error(res.data.msg ? res.data.msg : "Something went wrong! Please try again",
                 {autoClose:3000, hideProgressBar: true})
             }
             
@@ -95,6 +97,22 @@ const getAdmins = (id) => {
     }
 }
 
+const getAdminDataById = (data) => {
+        return (dispatch) => {
+            axios.post('/user/admin-by-id',
+            data, {
+            withCredentials: true,
+            credentials: "same-origin", 
+        }).then((res) => {
+            if(res && res.data){
+                // setToken(res.data.token);
+                // let data = getAdminByToken();
+                // dispatch(setAdminData(res.data.result))
+            }   
+        })
+    }
+}
+
 
 
 export  {
@@ -103,6 +121,7 @@ export  {
     sendAdminInvitation,
     completeAdminRegistration,
     setAdminData,
-    getAdmins
+    getAdmins,
+    getAdminDataById
     
 }

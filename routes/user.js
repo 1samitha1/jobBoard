@@ -8,7 +8,7 @@ const {registerNewUser, uploadUserImage, updateExistingUser, updateAdmin,
     authenticateUserToken, completeAdmin, getUserById, getAdmins, getSeekersAndProviders,
     searchSeekersAndProviders, uploadResume, addBookmark, getBookmarksForUser, saveJobOffer,
     getJobOffers, deleteUserById, notifyToUser, removeBookmarkFromUser, bookmarkCandidate,
-    getCompanyBookmarks} = require('../controllers/user')
+    getCompanyBookmarks, deleteCompanyBookmarks, getAdminById} = require('../controllers/user')
 const JWT = require('jsonwebtoken');
 const {sendEmail} = require('../controllers/email');
 const {imageStorage, resumeStorage} = require('../configs/multer-config.js');
@@ -276,6 +276,24 @@ router.post('/company-bookmarks', (req,res) => {
             res.send(result);
         }).catch((err) => {
             console.log('error while getting company bookmarks : ', err)
+        })
+});
+
+router.post('/delete-company-bookmarks', (req,res) => {
+    return deleteCompanyBookmarks(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log('error while deleting company bookmark : ', err)
+        })
+});
+
+router.post('/admin-by-id', (req,res) => {
+    return getAdminById(req.body)
+        .then((result) => {
+            res.send(result);
+        }).catch((err) => {
+            console.log('error while requesting admin data : ', err)
         })
 });
 

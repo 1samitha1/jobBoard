@@ -50,7 +50,8 @@ class TestResults extends Component {
                         </p>
                         <p className="testItemContent">Marks : {item.marks}</p>
                         <p className="testItemContent">Result : {item.result}</p>
-                        <button onClick={() => this.clearResult(item._id)} className="testItemClear">clear</button>
+                        <button onClick={() => this.clearResult(item._id)} className="testItemClear">Clear</button>
+                        <button onClick={() => this.setDisplay("job_applications")} className="testItemClear">Continue</button>
                     </Col>
                  </Row>
             )

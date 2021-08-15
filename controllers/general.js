@@ -60,7 +60,6 @@ const addNewIndustry = (data) => {
 
 const addNewLocation = (data) => {
     return new Promise((resolve, reject) => {
-        console.log('vvvvv addNewLocation : ', data)
         var conditions = {
             'locations.value': { $ne: data.value }
         };
@@ -72,7 +71,6 @@ const addNewLocation = (data) => {
         Location.findOneAndUpdate(conditions, update, ((err, doc) => {
           if(err) reject({success : false, error : err})
           if(doc){
-            console.log('vvvvv addNewLocation doc : ', doc)
             resolve({success:true})
           }
         }));

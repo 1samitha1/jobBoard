@@ -9,7 +9,11 @@ const {sendEmail} = require("./email");
 const registerNewUser = (data) => {
   try {
   return new Promise((resolve, reject) => {
-    User.findOne({ $or: [{ email: data.email }, { userName: data.userName } ], $and: [{userType : "administrator"}] } )
+    let query = { $or: [{ email: data.email }, { userName: data.userName } ] };
+    if(data.userType === 'administrator'){
+      query =  { userName: data.userName } 
+    }
+    User.findOne(query)
     .then((result) => {
         if (result) {
           if(result.email === data.email){
@@ -47,7 +51,7 @@ const uploadUserImage = (userData) => {
        User.findOne({"_id": ObjectId(userData.id) }, (err,result) => {
         delete result.password;
         let token = "";
-       if(result.userType === "admin"){
+       if(result.userType === "administrator"){
           token = JWT.sign(result.toJSON(), process.env.ACCESS_TOKEN_SECRET)
        }
        resolve({success: true, result : result, token: token})
@@ -148,7 +152,7 @@ const updateAdmin = (adminData) => {
           reject({error : err})
       } else {
           let accessToken = JWT.sign(res.toJSON(), process.env.ACCESS_TOKEN_SECRET)
-          resolve({success:true, type:"admin", result:res, userAccessToken : accessToken}) 
+          resolve({success:true, type:"administrator", result:res, userAccessToken : accessToken}) 
       }
     });
 
@@ -182,23 +186,29 @@ const completeAdmin = (user) =>{
   try{
     return new Promise((resolve, reject) => {
     let admin = user;
-
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(admin.password, salt, (err, hash) => {
-        admin.password = hash;
-        let query =  { "$set": { "userName": admin.username, "password": admin.password, "completed" : true } }
-
-        User.findOneAndUpdate({ "_id": ObjectId(admin.id) }, query).exec((err, res) => {
-          if(err) {
-              console.log(err);
-              reject({success:false});
-          } else {
-             resolve({success:true});
-          }
-       });
-        
-      });
-    });
+    User.findOne({userName : admin.username}, ((err,res) => {
+      if(res && res.userName === admin.username){
+        resolve({success:true, updated: false, msg :"User name is already exisits!"});
+      }else{
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(admin.password, salt, (err, hash) => {
+            admin.password = hash;
+            let query =  { "$set": { "userName": admin.username, "password": admin.password, "completed" : true } }
+    
+            User.findOneAndUpdate({ "_id": ObjectId(admin.id) }, query).exec((err, res) => {
+              if(err) {
+                  console.log(err);
+                  reject({success:false});
+              } else {
+                 resolve({success:true, updated: true, msg : "Data updated successfully!"});
+              }
+           });
+            
+          });
+        });
+      }
+    }))
+    
   });
   }catch(err){
     console.log('error while authenticateUserToken : ', err)
@@ -389,8 +399,9 @@ const getJobOffers = (data) => {
             resolve({success : true, data : response});
           }
         }));
+      }else{
+        resolve({success : true, data : []});
       }
-
     }))
   })
 }
@@ -403,7 +414,6 @@ const deleteUserById = (data) => {
         resolve({success : true});
       }
     }))
-
   })
 }
 
@@ -478,6 +488,32 @@ const getCompanyBookmarks = (data) => {
   });
 }
 
+const deleteCompanyBookmarks = (data) => {
+  return new Promise((resolve, reject) => {
+    User.updateOne({_id : ObjectId(data.companyId)}, { $pullAll: {bookmarks: [data.bookmark] } }, (err, res) => {
+      if(err){
+        reject({success: false, error: err});
+      }else{
+        resolve({success: true, data: res});
+      }
+    })
+  });
+}
+
+const getAdminById = (data) => {
+  return new Promise((resolve, reject) => {
+    User.findOne({_id : ObjectId(data.id), userType : "administrator"}, (err, res) => {
+      if(err){
+        reject({success: false, error: err});
+      }else{
+        let accessToken = JWT.sign(res.toJSON(), process.env.ACCESS_TOKEN_SECRET);
+        res.userAccessToken = accessToken;
+        resolve({success: true, data: res});
+      }
+    })
+  });
+}
+
 module.exports = {
   registerNewUser,
   uploadUserImage,
@@ -498,5 +534,7 @@ module.exports = {
   notifyToUser,
   removeBookmarkFromUser, 
   bookmarkCandidate,
-  getCompanyBookmarks
+  getCompanyBookmarks,
+  deleteCompanyBookmarks,
+  getAdminById
 };

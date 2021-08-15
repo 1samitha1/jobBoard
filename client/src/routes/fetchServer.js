@@ -50,7 +50,7 @@ async function login(data) {
             body: JSON.stringify(data)})
     .then(response =>  response.json())
     .then(json => {
-      console.log('vvvvvv parsed json', json) // access json.body here
+     
     })
 }
 

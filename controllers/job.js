@@ -145,7 +145,7 @@ const updateJobApplicationStatus = (data) => {
 
 const getAppliedJobs = (data) => {
   return new Promise((resolve, reject) => {
-    JobApplication.find({appliedBy : data.id}, (err, result) =>{
+    JobApplication.find({appliedBy : data.id, accepted : false}, (err, result) =>{
       if(err){
         reject({success: false, error : err})
       }else{
@@ -171,6 +171,8 @@ const getAppliedJobs = (data) => {
             resolve({sucess : true, result : updatedJobData})
           },100);
           
+        }else{
+          resolve({sucess : true, result : []})
         }
       }
     })

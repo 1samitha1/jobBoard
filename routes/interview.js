@@ -20,14 +20,4 @@ router.post('/get-company', (req, res) => {
         })
 });
 
-// router.post('/get-company', (req, res) => {
-//     Interview.getInterviewsByUser(req.body)
-//         .then((result) => {
-//             res.send(result);
-//         }).catch((err) => {
-//             res.send({success: fasle, error: errr})
-//         })
-// });
-
-
 module.exports = router;

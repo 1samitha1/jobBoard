@@ -27,10 +27,10 @@ export const updateUserInfo = (userData) => {
 
         })
         .then((res) => {
-            if(res.data.type === "admin"){
+            if(res.data.type === "administrator"){
                 setToken(res.data.userAccessToken);
                 let data = getAdminByToken();
-                dispatch(getUserById(data._id, "admin"));
+                dispatch(getUserById(data._id, "administrator"));
             }else{
                 localStorage.setItem('authenticatedUser', JSON.stringify(res.data.result))
                 dispatch(setCurrentUser(res.data.result))
@@ -289,6 +289,23 @@ export const getCompanyBookmarks = (data) => {
                     type : SET_PROVIDER_BOOKMARKS,
                     bookmarks : res.data.data
                 })
+            }
+          
+        });
+    }
+}
+
+export const deleteCompanyBookmarks = (data) => {
+    return (dispatch) => {
+        axios.post('/user/delete-company-bookmarks',
+        data, {
+            withCredentials: true,
+            credentials: "same-origin",
+        }).then((res) => {
+            if(res && res.data.success){ 
+                toast.success('Bookmark deleted successfully!',
+                {autoClose:2500, hideProgressBar: true});
+                dispatch(getCompanyBookmarks({companyId : data.companyId}))
             }
           
         });

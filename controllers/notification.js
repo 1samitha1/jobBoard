@@ -19,7 +19,6 @@ const createNotification = (data) => {
 
 const getNotificationsByUser = (data) => {
     return new Promise((resolve, reject) => {
-        console.log('vvv getNotificationsByUser : ', data)
         Notification.find({userId : data.userId, read : false}, ((err, res) => {
             if(err) reject({success: false, error : err})
             if(res){

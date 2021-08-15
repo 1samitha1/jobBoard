@@ -10,7 +10,7 @@ import {setDisplay} from '../../actions/general';
 import closeIcon from '../../img/icons/close-icon-white.png';
 import defaultSeeker from '../../img/defaults/defaultUser.png';
 import delIcon from '../../img/icons/delete-icon-white.png';
-import {getCompanyBookmarks} from '../../actions/user';
+import {getCompanyBookmarks, deleteCompanyBookmarks} from '../../actions/user';
 const authUser = JSON.parse(localStorage.getItem("authenticatedUser"));
 
 toast.configure();
@@ -22,8 +22,6 @@ class ProviderBookmark extends Component {
            
        }
     }
-
-    //provider_profile
 
     componentDidMount(){
          this.props.getCompanyBookmarks({companyId : authUser._id})
@@ -45,7 +43,7 @@ class ProviderBookmark extends Component {
                         </div>
                         <div className="bookmarkSideDiv">
                             <p className="bookmarkSeekerName">{item.firstName} {item.lastName}</p>
-                            <img className="bookmarkDelete" src={delIcon} />
+                            <img onClick={() => this.deleteBookmark(item._id)} className="bookmarkDelete" src={delIcon} />
                             <p className="bookmarkSeekerIndustry">{item.industries[0]}</p>
                             <button className="sendOfferToBookmark">Send offer</button>
                         </div>
@@ -54,6 +52,10 @@ class ProviderBookmark extends Component {
             )
         });
         return bookmarksArray;
+    }
+
+    deleteBookmark(id){
+        this.props.deleteCompanyBookmarks({companyId : authUser._id, bookmark : id});
     }
 
     render() {
@@ -96,6 +98,10 @@ const dispatchToProps = (dispatch) => ({
 
     getCompanyBookmarks : (data) => {
         dispatch(getCompanyBookmarks(data))
+    },
+
+    deleteCompanyBookmarks: (data) => {
+        dispatch(deleteCompanyBookmarks(data))
     }
    
 });

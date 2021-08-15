@@ -29,7 +29,7 @@ const sendEmail = (receivers, content, subject) =>{
 
             transporter.sendMail(mailOptions, function(error, info){
                 if (error) {
-                    console.log('email Didnt sent')
+                    console.log('email Did not sent')
                     reject({success:false, msg: "Error while sending email"})
                     console.log(error);
                 } else {
